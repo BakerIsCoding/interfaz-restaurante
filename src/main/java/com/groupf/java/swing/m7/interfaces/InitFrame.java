@@ -132,7 +132,9 @@ public class InitFrame extends javax.swing.JFrame {
         textButtonSelectFile.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         textButtonSelectFile.setText("Llicencia");
 
+        buttonSelectFile.setBackground(new java.awt.Color(52, 167, 251));
         buttonSelectFile.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        buttonSelectFile.setForeground(new java.awt.Color(255, 255, 255));
         buttonSelectFile.setText("Selecciona fitxer");
         buttonSelectFile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
