@@ -3,7 +3,6 @@ package com.groupf.java.swing.m7;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
-
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.groupf.java.swing.m7.interfaces.InitFrame;

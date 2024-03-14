@@ -1,6 +1,7 @@
 
 package com.groupf.java.swing.m7.interfaces;
 
+import com.groupf.java.swing.m7.database.DatabaseController;
 import com.groupf.java.swing.m7.messages.MessageBox;
 import java.io.File;
 import javax.swing.JFileChooser;
@@ -28,6 +29,8 @@ public class InitFrame extends javax.swing.JFrame {
         setTitle("Restaurant Can Pedro");
         setSize(760, 560);
         setLocationRelativeTo(null);
+        //DatabaseController db = new DatabaseController();
+        //db.ejecutarConsulta("select * from client");
         
         
         setResizable(false);
