@@ -43,7 +43,7 @@ public class GuiCuiner extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabelCuina.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabelCuina.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabelCuina.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelCuina.setText("Cuina");
 
@@ -230,7 +230,7 @@ public class GuiCuiner extends javax.swing.JFrame {
                 .addGroup(jPanelCuinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPanepostres, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPanePrimers, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(jLabelSegons)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelCuinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
