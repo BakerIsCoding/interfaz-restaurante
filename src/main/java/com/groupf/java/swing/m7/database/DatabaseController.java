@@ -1,4 +1,3 @@
-
 package com.groupf.java.swing.m7.database;
 
 import java.sql.Connection;
@@ -12,10 +11,11 @@ import java.sql.SQLException;
  * @author Baker, Cramcat & Don Eduardo
  */
 public class DatabaseController {
+
     private Connection conn = null;
     private final String url = "jdbc:mysql://localhost:3306/canpedro";
     private final String user = "admin";
-    private final String password = "aB123jndsakj$";
+    private final String password = "f@VxoYbq(/0Qo2b]";
 
     public DatabaseController() {
         try {
@@ -50,6 +50,33 @@ public class DatabaseController {
             System.out.println("Error al ejecutar actualización: " + ex.getMessage());
             return false;
         }
+    }
+
+    // Método para seleccionar todos los datos de la tabla usuario
+    public ResultSet selectAllUsers() {
+        String consulta = "SELECT * FROM usuario"; // Asegúrate de que el nombre de la tabla sea correcto
+        try {
+            PreparedStatement ps = conn.prepareStatement(consulta);
+            return ps.executeQuery();
+        } catch (SQLException ex) {
+            System.out.println("Error al seleccionar los datos de los usuarios: " + ex.getMessage());
+            return null;
+        }
+    }
+    
+    public boolean existeLicencia(String licencia) {
+        String consultaSQL = "SELECT COUNT(*) FROM llicencia WHERE llicencia = ?";
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            ps.setString(1, licencia);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al verificar la existencia de la licencia: " + ex.getMessage());
+        }
+        return false;
     }
 
     // Método para cerrar la conexión

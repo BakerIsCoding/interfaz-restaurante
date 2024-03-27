@@ -4,6 +4,11 @@
  */
 package com.groupf.java.swing.m7.interfaces;
 
+import com.groupf.java.swing.m7.messages.MessageBox;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.ButtonGroup;
+
 /**
  *
  * @author Baker
@@ -13,13 +18,40 @@ public class RegisterFrame extends javax.swing.JFrame {
     /**
      * Creates new form RegisterFrame
      */
-    public RegisterFrame() {
+    private List<String> listaUser;
+    
+    
+    public RegisterFrame(List<String> listaUser) {
+        this.listaUser = listaUser;
+        
         setSize(224, 190);
         initComponents();
         setVisible(true);
         setLocationRelativeTo(null);
         
+        ButtonGroup group = new ButtonGroup();
+        group.add(radioCambrer);
+        group.add(radioCuiner);
         
+        
+    }
+    
+    private void registerSubmit(){
+        MessageBox msg = new MessageBox();
+        Boolean isDone = false;
+        if(radioCambrer.isSelected()){
+            listaUser.add("cambrer");
+            isDone = true;
+        } else if(radioCuiner.isSelected()){
+            listaUser.add("cuiner");
+            isDone = true;
+        } else{
+            msg.errorMessageBox("Error", "Selecciona el teu lloc de treball");
+        }
+        
+        if (isDone){
+            this.dispose();
+        }
     }
 
     /**
@@ -107,44 +139,25 @@ public class RegisterFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void submitButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_submitButtonMouseClicked
-        //Envio los datos y cierro
-        this.dispose();
+        registerSubmit();
     }//GEN-LAST:event_submitButtonMouseClicked
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegisterFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegisterFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegisterFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegisterFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    /* Set the Nimbus look and feel */
+    // ... el código para configurar el Look and Feel ...
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RegisterFrame().setVisible(true);
-            }
-        });
-    }
+    /* Create and display the form */
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            // Crear una lista vacía de Strings para pasar al constructor
+            List<String> listaVacia = new ArrayList<>();
+            new RegisterFrame(listaVacia).setVisible(true); // Pasar la lista al constructor
+        }
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

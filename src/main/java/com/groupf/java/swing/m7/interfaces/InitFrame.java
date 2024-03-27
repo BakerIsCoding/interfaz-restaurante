@@ -1,8 +1,20 @@
-
 package com.groupf.java.swing.m7.interfaces;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.groupf.java.swing.m7.database.DatabaseController;
+import com.groupf.java.swing.m7.database.DatabaseConvertor;
+import com.groupf.java.swing.m7.lang.LangController;
 import com.groupf.java.swing.m7.messages.MessageBox;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.ResultSet;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -10,7 +22,10 @@ import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.SwingUtilities;
+import org.json.JSONObject;
 
 /**
  *
@@ -21,40 +36,72 @@ public class InitFrame extends javax.swing.JFrame {
     /**
      * Creates new form InitFrame
      */
-    
-    
-    public InitFrame(){
+    public InitFrame() {
+        DatabaseController db = new DatabaseController();
+        DatabaseConvertor dbc = new DatabaseConvertor();
         initComponents();
         setTitle("Restaurant Can Pedro");
         setSize(760, 560);
         setLocationRelativeTo(null);
-        
-        
+
+        ResultSet rs = db.selectAllUsers();
+        dbc.showUsers(rs);
+
         setResizable(false);
         setVisible(true);
         MessageBox msg = new MessageBox();
 
         generateTable();
-        
-        
-        /*
+        /*LLICENCIA
+        DISABLE PANELS*/
         allPanels.setEnabledAt(1, false);
         allPanels.setEnabledAt(2, false);
         allPanels.setEnabledAt(3, false);
-         */
+
+        /* USUARI */
+ /* SETTINGS 
+        RADIO BUTTONS */
+        radioButtonClar.setSelected(true);
+        ButtonGroup group = new ButtonGroup();
+        group.add(radioButtonClar);
+        group.add(radioButtonFosc);
+
+        /* COMBO BOX */
+        comboBoxLlengua.removeAllItems();
+        comboBoxLlengua.addItem("Català");
+        comboBoxLlengua.addItem("Castellano");
+        comboBoxLlengua.addItem("English");
+
     }
-    
-    private void registerClicked(){
-        RegisterFrame register = new RegisterFrame();
+
+    private void registerClicked() {
+        MessageBox msg = new MessageBox();
+        String username = textFieldUsuari.getText();
+        String password = textFieldPassword.getText();
+
+        if (username.length() <= 3) {
+            msg.errorMessageBox("Error", "Error, el nombre de usuario debe tener una longitud mínima de 3 caracteres");
+            return;
+        }
+
+        if (password.length() <= 6) {
+            msg.errorMessageBox("Error", "Error, la contraseña debe tener una longitud mínima de 6 caracteres");
+            return;
+        }
+        List<String> listaUser = new ArrayList<>(3);
+        listaUser.add(username);
+        listaUser.add(password);
+
+        RegisterFrame register = new RegisterFrame(listaUser);
         register.setDefaultCloseOperation(RegisterFrame.DISPOSE_ON_CLOSE);
     }
-    
-    private void selectMenuClicked(){
+
+    private void selectMenuClicked() {
         GuiCambrerFrame cambrer = new GuiCambrerFrame();
         cambrer.setDefaultCloseOperation(RegisterFrame.DISPOSE_ON_CLOSE);
     }
-    
-    public void generateTable(){
+
+    public void generateTable() {
         TableModel model = menuTable.getModel(); // Utiliza la instancia correcta de JTable aquí.
         if (model instanceof DefaultTableModel) {
             DefaultTableModel defaultModel = (DefaultTableModel) model;
@@ -80,6 +127,7 @@ public class InitFrame extends javax.swing.JFrame {
             System.out.println("El modelo de la tabla no es una instancia de DefaultTableModel.");
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -95,7 +143,7 @@ public class InitFrame extends javax.swing.JFrame {
         labelUsuari = new javax.swing.JLabel();
         textFieldUsuari = new javax.swing.JTextField();
         labelClau = new javax.swing.JLabel();
-        textFieldUsuari1 = new javax.swing.JTextField();
+        textFieldPassword = new javax.swing.JTextField();
         buttonLogIn = new javax.swing.JButton();
         buttonRegister = new javax.swing.JButton();
         MenuDelDia = new javax.swing.JPanel();
@@ -113,6 +161,7 @@ public class InitFrame extends javax.swing.JFrame {
         radioButtonFosc = new javax.swing.JRadioButton();
         labelLlengua = new javax.swing.JLabel();
         comboBoxLlengua = new javax.swing.JComboBox<>();
+        saveConfigButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -189,10 +238,10 @@ public class InitFrame extends javax.swing.JFrame {
         labelClau.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         labelClau.setText("Clau:");
 
-        textFieldUsuari1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        textFieldUsuari1.addActionListener(new java.awt.event.ActionListener() {
+        textFieldPassword.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        textFieldPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldUsuari1ActionPerformed(evt);
+                textFieldPasswordActionPerformed(evt);
             }
         });
 
@@ -231,7 +280,7 @@ public class InitFrame extends javax.swing.JFrame {
                         .addGap(29, 29, 29))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCredencialsLayout.createSequentialGroup()
                         .addGroup(panelCredencialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(textFieldUsuari1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textFieldPassword, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelCredencialsLayout.createSequentialGroup()
                                 .addComponent(buttonLogIn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -250,7 +299,7 @@ public class InitFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(labelClau)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textFieldUsuari1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(textFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(panelCredencialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonLogIn)
@@ -405,6 +454,11 @@ public class InitFrame extends javax.swing.JFrame {
 
         radioButtonFosc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         radioButtonFosc.setText("Fosc");
+        radioButtonFosc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonFoscActionPerformed(evt);
+            }
+        });
 
         labelLlengua.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         labelLlengua.setText("Llengüa");
@@ -416,6 +470,9 @@ public class InitFrame extends javax.swing.JFrame {
                 comboBoxLlenguaActionPerformed(evt);
             }
         });
+
+        saveConfigButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        saveConfigButton.setText("Desa");
 
         javax.swing.GroupLayout panelConfiguracioLayout = new javax.swing.GroupLayout(panelConfiguracio);
         panelConfiguracio.setLayout(panelConfiguracioLayout);
@@ -433,7 +490,11 @@ public class InitFrame extends javax.swing.JFrame {
                         .addComponent(labelLlengua, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
                         .addComponent(labelTema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(comboBoxLlengua, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(252, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfiguracioLayout.createSequentialGroup()
+                .addContainerGap(165, Short.MAX_VALUE)
+                .addComponent(saveConfigButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(161, 161, 161))
         );
         panelConfiguracioLayout.setVerticalGroup(
             panelConfiguracioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -450,7 +511,9 @@ public class InitFrame extends javax.swing.JFrame {
                 .addComponent(labelLlengua)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(comboBoxLlengua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addComponent(saveConfigButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
 
         javax.swing.GroupLayout ConfiguracioLayout = new javax.swing.GroupLayout(Configuracio);
@@ -487,6 +550,7 @@ public class InitFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonSelectFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonSelectFileMouseClicked
+        MessageBox msg = new MessageBox();
         JFileChooser fileChooser = new JFileChooser();
 
         // Filtrar solo archivos .csv
@@ -500,19 +564,82 @@ public class InitFrame extends javax.swing.JFrame {
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             System.out.println("Archivo seleccionado: " + selectedFile.getAbsolutePath());
-        }
-    }//GEN-LAST:event_buttonSelectFileMouseClicked
 
-    private void textFieldUsuari1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldUsuari1ActionPerformed
+            // Procesar el archivo seleccionado
+            Boolean isValid = procesarArchivoLicencia(selectedFile);
+
+            if (isValid) {
+                allPanels.setSelectedIndex(1);
+                allPanels.setEnabledAt(0, false);
+                allPanels.setEnabledAt(1, true);
+                allPanels.setEnabledAt(2, true);
+                allPanels.setEnabledAt(3, true);
+                msg.successMessageBox("Licencia válida", "Licencia válida");
+            }
+        }
+
+
+    }//GEN-LAST:event_buttonSelectFileMouseClicked
+    private Boolean procesarArchivoLicencia(File archivo) {
+        DatabaseController dbController = new DatabaseController();
+        MessageBox msg = new MessageBox();
+        try ( BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String[] partes = linea.split(",");
+                // Asumiendo que la fecha está en la segunda parte y el formato es correcto
+                if (partes.length > 1) {
+                    String licencia = partes[0];
+                    String fechaStr = partes[1];
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss yyyy-MM-dd");
+                    LocalDateTime fechaLicencia = LocalDateTime.parse(fechaStr, formatter);
+                    LocalDateTime ahora = LocalDateTime.now();
+                    if (fechaLicencia.isAfter(ahora)) {
+                        Boolean isLicenciaExisting = dbController.existeLicencia(licencia);
+                        if (isLicenciaExisting) {
+                            return true;
+                        } else {
+                            msg.errorMessageBox("Error al verificar la licencia", "La licencia no es válida");
+                        }
+
+                    } else {
+                        System.out.println();
+                        msg.errorMessageBox("La licencia ha expirado", "La licencia ha expirado. Fecha de expiración: " + fechaLicencia);
+                        return false;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            msg.errorMessageBox("Error en el archivo", "Ha ocurrido un error al leer el archivo, comprueba que esté en el formato correcto");
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+            return false;
+        }
+        return false;
+    }
+    private void textFieldPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldPasswordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldUsuari1ActionPerformed
+    }//GEN-LAST:event_textFieldPasswordActionPerformed
 
     private void radioButtonClarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonClarActionPerformed
-        // TODO add your handling code here:
+        FlatLaf.setup(new FlatLightLaf());
+        SwingUtilities.updateComponentTreeUI(this);
     }//GEN-LAST:event_radioButtonClarActionPerformed
 
     private void comboBoxLlenguaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxLlenguaActionPerformed
-        // TODO add your handling code here:
+        LangController lang = new LangController();
+        // Obtenim l'index
+        int selectedIndex = comboBoxLlengua.getSelectedIndex();
+        switch (selectedIndex) {
+            case 0: // Català
+                JSONObject langObj = lang.loadLanguage("cat");
+                break;
+            case 1: // Castellano
+                lang.loadLanguage("es");
+                break;
+            case 2: // English
+                lang.loadLanguage("en");
+                break;
+        }
     }//GEN-LAST:event_comboBoxLlenguaActionPerformed
 
     private void menuTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuTableMouseClicked
@@ -520,8 +647,12 @@ public class InitFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_menuTableMouseClicked
 
     private void buttonLogInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonLogInMouseClicked
-        
+
     }//GEN-LAST:event_buttonLogInMouseClicked
+
+    private void loginUser() {
+
+    }
 
     private void buttonRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonRegisterMouseClicked
         registerClicked();
@@ -530,6 +661,11 @@ public class InitFrame extends javax.swing.JFrame {
     private void buttonMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonMenuMouseClicked
         selectMenuClicked();
     }//GEN-LAST:event_buttonMenuMouseClicked
+
+    private void radioButtonFoscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonFoscActionPerformed
+        FlatLaf.setup(new FlatDarkLaf());
+        SwingUtilities.updateComponentTreeUI(this);
+    }//GEN-LAST:event_radioButtonFoscActionPerformed
 
     /**
      * @param args the command line arguments
@@ -590,10 +726,11 @@ public class InitFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panelMenuButton;
     private javax.swing.JRadioButton radioButtonClar;
     private javax.swing.JRadioButton radioButtonFosc;
+    private javax.swing.JButton saveConfigButton;
     private javax.swing.JScrollPane scrollTable;
     private javax.swing.JLabel textButtonSelectFile;
+    private javax.swing.JTextField textFieldPassword;
     private javax.swing.JTextField textFieldUsuari;
-    private javax.swing.JTextField textFieldUsuari1;
     private javax.swing.JLabel titleConfig;
     private javax.swing.JLabel titleUsuari;
     // End of variables declaration//GEN-END:variables
