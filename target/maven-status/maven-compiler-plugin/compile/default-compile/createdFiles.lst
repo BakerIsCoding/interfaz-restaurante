@@ -5,16 +5,22 @@ com\groupf\java\swing\m7\interfaces\GuiCambrerFrame.class
 com\groupf\java\swing\m7\interfaces\InitFrame$6.class
 com\groupf\java\swing\m7\interfaces\GuiCuiner$3.class
 com\groupf\java\swing\m7\interfaces\GuiCuiner$1.class
+com\groupf\java\swing\m7\interfaces\GuiCambrerFrame$3.class
 com\groupf\java\swing\m7\interfaces\InitFrame$1.class
+com\groupf\java\swing\m7\interfaces\GuiCambrerFrame$6.class
 com\groupf\java\swing\m7\interfaces\InitFrame$4.class
 com\groupf\java\swing\m7\interfaces\GuiTaula.class
 com\groupf\java\swing\m7\interfaces\InitFrame$9.class
+com\groupf\java\swing\m7\interfaces\InitFrame$11.class
 com\groupf\java\swing\m7\messages\MessageBox.class
+com\groupf\java\swing\m7\interfaces\GuiCambrerFrame$5.class
 com\groupf\java\swing\m7\interfaces\InitFrame$3.class
+com\groupf\java\swing\m7\interfaces\InitFrame$12.class
 com\groupf\java\swing\m7\interfaces\InitFrame$8.class
 com\groupf\java\swing\m7\database\DatabaseController.class
 com\groupf\java\swing\m7\interfaces\GuiTaula$4.class
 com\groupf\java\swing\m7\interfaces\RegisterFrame$1.class
+com\groupf\java\swing\m7\interfaces\GuiCambrerFrame$2.class
 com\groupf\java\swing\m7\interfaces\GuiCuiner.class
 com\groupf\java\swing\m7\interfaces\GuiTaula$8.class
 com\groupf\java\swing\m7\interfaces\InitFrame.class
@@ -33,3 +39,4 @@ com\groupf\java\swing\m7\interfaces\InitFrame$10.class
 com\groupf\java\swing\m7\interfaces\GuiCuiner$4.class
 com\groupf\java\swing\m7\interfaces\GuiTaula$3.class
 com\groupf\java\swing\m7\interfaces\InitFrame$7.class
+com\groupf\java\swing\m7\interfaces\GuiCambrerFrame$4.class

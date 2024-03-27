@@ -25,6 +25,7 @@ import javax.swing.table.TableModel;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingUtilities;
+import javax.swing.table.TableColumnModel;
 import org.json.JSONObject;
 
 /**
@@ -36,9 +37,14 @@ public class InitFrame extends javax.swing.JFrame {
     /**
      * Creates new form InitFrame
      */
+    public static JSONObject langObject = new JSONObject();
+    public static JSONObject translationsObject = new JSONObject();
+
     public InitFrame() {
         DatabaseController db = new DatabaseController();
         DatabaseConvertor dbc = new DatabaseConvertor();
+        LangController langController = new LangController();
+        MessageBox msg = new MessageBox();
         initComponents();
         setTitle("Restaurant Can Pedro");
         setSize(760, 560);
@@ -49,7 +55,6 @@ public class InitFrame extends javax.swing.JFrame {
 
         setResizable(false);
         setVisible(true);
-        MessageBox msg = new MessageBox();
 
         generateTable();
         /*LLICENCIA
@@ -72,6 +77,55 @@ public class InitFrame extends javax.swing.JFrame {
         comboBoxLlengua.addItem("Castellano");
         comboBoxLlengua.addItem("English");
 
+        /* Load lengua */
+        Boolean isDoneLoading = langController.loadLanguage("es");
+        if (isDoneLoading) {
+            //translationsObject = langObject.getJSONObject("translations");
+            doTranslations();
+        } else {
+            msg.errorMessageBox("Error al cargar traduccioens", "Error al cargar traduccioens");
+        }
+
+    }
+
+    private void doTranslations() {
+        //Panels
+        allPanels.setTitleAt(0, translationsObject.getString("license"));
+        allPanels.setTitleAt(1, translationsObject.getString("user"));
+        allPanels.setTitleAt(2, translationsObject.getString("menu"));
+        allPanels.setTitleAt(3, translationsObject.getString("config"));
+        
+        //Llicencia
+        textButtonSelectFile.setText(translationsObject.getString("license"));
+        buttonSelectFile.setText(translationsObject.getString("license_button"));
+        
+        //Usuari
+        titleUsuari.setText(translationsObject.getString("user_credentials"));
+        labelUsuari.setText(translationsObject.getString("user_username"));
+        labelClau.setText(translationsObject.getString("user_password"));
+        buttonRegister.setText(translationsObject.getString("user_register_button"));
+        buttonLogIn.setText(translationsObject.getString("user_login_button"));
+        
+        //Menú diari
+        labelTitleMenu.setText(translationsObject.getString("menu"));
+        buttonMenu.setText(translationsObject.getString("menu_select"));
+        TableColumnModel columnModel = menuTable.getColumnModel();
+        columnModel.getColumn(0).setHeaderValue(translationsObject.getString("menu_table_name"));
+        columnModel.getColumn(1).setHeaderValue(translationsObject.getString("menu_table_order"));
+        columnModel.getColumn(2).setHeaderValue(translationsObject.getString("menu_table_allergens"));
+        columnModel.getColumn(3).setHeaderValue(translationsObject.getString("menu_table_price"));
+        menuTable.repaint();
+        
+        //Config
+        titleConfig.setText(translationsObject.getString("config"));
+        labelTema.setText(translationsObject.getString("config_theme"));
+        radioButtonClar.setText(translationsObject.getString("config_theme_light"));
+        radioButtonFosc.setText(translationsObject.getString("config_theme_dark"));
+        labelLlengua.setText(translationsObject.getString("config_language"));
+        saveConfigButton.setText(translationsObject.getString("config_button_save"));
+        
+        
+        
     }
 
     private void registerClicked() {
@@ -80,12 +134,12 @@ public class InitFrame extends javax.swing.JFrame {
         String password = textFieldPassword.getText();
 
         if (username.length() <= 3) {
-            msg.errorMessageBox("Error", "Error, el nombre de usuario debe tener una longitud mínima de 3 caracteres");
+            msg.errorMessageBox(translationsObject.getString("user_register_error_title"), translationsObject.getString("user_register_error_length_text"));
             return;
         }
 
         if (password.length() <= 6) {
-            msg.errorMessageBox("Error", "Error, la contraseña debe tener una longitud mínima de 6 caracteres");
+            msg.errorMessageBox(translationsObject.getString("user_register_error_title"), translationsObject.getString("user_register_error_password_text"));
             return;
         }
         List<String> listaUser = new ArrayList<>(3);
@@ -105,7 +159,6 @@ public class InitFrame extends javax.swing.JFrame {
         TableModel model = menuTable.getModel(); // Utiliza la instancia correcta de JTable aquí.
         if (model instanceof DefaultTableModel) {
             DefaultTableModel defaultModel = (DefaultTableModel) model;
-
             // Ahora puedes añadir una fila al modelo
             defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
             defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
@@ -337,19 +390,12 @@ public class InitFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nom", "Ordre", "Alergens", "Preu"
+                "null", "null", "null", "null"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class
-            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -371,6 +417,11 @@ public class InitFrame extends javax.swing.JFrame {
         buttonMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonMenuMouseClicked(evt);
+            }
+        });
+        buttonMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonMenuActionPerformed(evt);
             }
         });
 
@@ -473,6 +524,16 @@ public class InitFrame extends javax.swing.JFrame {
 
         saveConfigButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         saveConfigButton.setText("Desa");
+        saveConfigButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                saveConfigButtonMouseClicked(evt);
+            }
+        });
+        saveConfigButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                saveConfigButtonKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelConfiguracioLayout = new javax.swing.GroupLayout(panelConfiguracio);
         panelConfiguracio.setLayout(panelConfiguracioLayout);
@@ -556,7 +617,7 @@ public class InitFrame extends javax.swing.JFrame {
         // Filtrar solo archivos .csv
         FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv");
         fileChooser.setFileFilter(filter);
-        fileChooser.setDialogTitle("Selecciona el archivo de licencia");
+        fileChooser.setDialogTitle(translationsObject.getString("license_button_dialog_text"));
 
         // Mostrar el diálogo para abrir archivo
         int seleccion = fileChooser.showOpenDialog(null);
@@ -574,7 +635,7 @@ public class InitFrame extends javax.swing.JFrame {
                 allPanels.setEnabledAt(1, true);
                 allPanels.setEnabledAt(2, true);
                 allPanels.setEnabledAt(3, true);
-                msg.successMessageBox("Licencia válida", "Licencia válida");
+                msg.successMessageBox(translationsObject.getString("license_success_title"), translationsObject.getString("license_success_text"));
             }
         }
 
@@ -599,18 +660,18 @@ public class InitFrame extends javax.swing.JFrame {
                         if (isLicenciaExisting) {
                             return true;
                         } else {
-                            msg.errorMessageBox("Error al verificar la licencia", "La licencia no es válida");
+                            msg.errorMessageBox(translationsObject.getString("license_error_verification_text"), translationsObject.getString("license_error_verification_text"));
                         }
 
                     } else {
                         System.out.println();
-                        msg.errorMessageBox("La licencia ha expirado", "La licencia ha expirado. Fecha de expiración: " + fechaLicencia);
+                        msg.errorMessageBox(translationsObject.getString("license_error_title"), translationsObject.getString("license_error_expired_text") + fechaLicencia);
                         return false;
                     }
                 }
             }
         } catch (IOException e) {
-            msg.errorMessageBox("Error en el archivo", "Ha ocurrido un error al leer el archivo, comprueba que esté en el formato correcto");
+            msg.errorMessageBox(translationsObject.getString("license_error_reading_file_title"), translationsObject.getString("license_error_reading_file_text"));
             System.err.println("Error al leer el archivo: " + e.getMessage());
             return false;
         }
@@ -629,15 +690,25 @@ public class InitFrame extends javax.swing.JFrame {
         LangController lang = new LangController();
         // Obtenim l'index
         int selectedIndex = comboBoxLlengua.getSelectedIndex();
+        Boolean isLangLoaded = false;
         switch (selectedIndex) {
             case 0: // Català
-                JSONObject langObj = lang.loadLanguage("cat");
+                isLangLoaded = lang.loadLanguage("cat");
+                if (isLangLoaded) {
+                    doTranslations();
+                }
                 break;
             case 1: // Castellano
-                lang.loadLanguage("es");
+                isLangLoaded = lang.loadLanguage("es");
+                if (isLangLoaded) {
+                    doTranslations();
+                }
                 break;
             case 2: // English
-                lang.loadLanguage("en");
+                isLangLoaded = lang.loadLanguage("en");
+                if (isLangLoaded) {
+                    doTranslations();
+                }
                 break;
         }
     }//GEN-LAST:event_comboBoxLlenguaActionPerformed
@@ -666,6 +737,53 @@ public class InitFrame extends javax.swing.JFrame {
         FlatLaf.setup(new FlatDarkLaf());
         SwingUtilities.updateComponentTreeUI(this);
     }//GEN-LAST:event_radioButtonFoscActionPerformed
+
+    private void buttonMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMenuActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonMenuActionPerformed
+
+    private void saveConfigButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saveConfigButtonKeyPressed
+
+    }//GEN-LAST:event_saveConfigButtonKeyPressed
+
+    private void saveConfigButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveConfigButtonMouseClicked
+        DatabaseController db = new DatabaseController();
+        MessageBox msg = new MessageBox();
+        Boolean configExisting = db.existsConfig("1");
+        Integer theme = 0;
+        String lang = "cat";
+        Boolean isQuerySuccessful = false;
+
+        if (radioButtonClar.isSelected()) {
+            theme = 0;
+        } else if (radioButtonFosc.isSelected()) {
+            theme = 1;
+        }
+        int selectedIndex = comboBoxLlengua.getSelectedIndex();
+        switch (selectedIndex) {
+            case 0: // Català
+                lang = "cat";
+                break;
+            case 1: // Castellano
+                lang = "es";
+                break;
+            case 2: // English
+                lang = "en";
+                break;
+        }
+
+        if (configExisting) {
+            isQuerySuccessful = db.updateConfig("1", theme, lang);
+        } else {
+            isQuerySuccessful = db.saveConfig("1", theme, lang);
+        }
+
+        if (isQuerySuccessful) {
+            msg.successMessageBox(translationsObject.getString("config_button_save_success_title"), translationsObject.getString("config_button_save_success_text"));
+        } else {
+            msg.errorMessageBox(translationsObject.getString("config_button_save_error_title"), translationsObject.getString("config_button_save_error_text"));
+        }
+    }//GEN-LAST:event_saveConfigButtonMouseClicked
 
     /**
      * @param args the command line arguments

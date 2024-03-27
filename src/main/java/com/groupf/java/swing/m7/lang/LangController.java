@@ -4,11 +4,12 @@
  */
 package com.groupf.java.swing.m7.lang;
 
+import com.groupf.java.swing.m7.interfaces.InitFrame;
+import static com.groupf.java.swing.m7.interfaces.InitFrame.langObject;
+import static com.groupf.java.swing.m7.interfaces.InitFrame.translationsObject;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.json.JSONObject;
-
-
 
 /**
  *
@@ -16,7 +17,7 @@ import org.json.JSONObject;
  */
 public class LangController {
 
-    public JSONObject loadLanguage(String language) {
+    public Boolean loadLanguage(String language) {
         try {
             String langPath = "./lang/";
             switch (language) {
@@ -29,18 +30,20 @@ public class LangController {
                 case "en": // English
                     langPath += "en.json";
                     break;
-                    
+
                 default:
-                    return null;
+                    return false;
             }
-            
+
             String content = new String(Files.readAllBytes(Paths.get(langPath)));
-            
+
             JSONObject jsonObjectLang = new JSONObject(content);
-            
-            return jsonObjectLang;
+            InitFrame.langObject = jsonObjectLang;
+            InitFrame.translationsObject = InitFrame.langObject.getJSONObject("translations");
+
+            return true;
         } catch (Exception e) {
-            return null;
+            return false;
         }
     }
 }

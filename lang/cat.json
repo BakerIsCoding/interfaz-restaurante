@@ -1,0 +1,43 @@
+{
+    "language": "cat",
+    "translations": {
+        "license": "Llicenciaa",
+        "license_button": "Selecciona fitxerr",
+        "license_button_dialog_text": "Selecciona fitxer de llicència",
+        "license_success_title": "Llicencia válida",
+        "license_success_text": "La llicència és vàlida",
+        "license_error_title": "Llicencia no vàlida",
+        "license_error_verification_text": "La llicencia no és vàlida",
+        "license_error_expired_text": "La llicència ha expirat, data de expiració: ",
+        "license_error_reading_file_title": "Error llegint fitxer",
+        "license_error_reading_file_text": "Error llegint fitxer de llicència, comprova que el fitxer és correcte",
+        
+        "user": "Usuari",
+        "user_credentials": "Credencials",
+        "user_username": "Usuari:",
+        "user_password": "Clau:",
+        "user_register_button": "Registrarse",
+        "user_login_button": "Iniciar sessió",
+        "user_register_error_title": "Error",
+        "user_register_error_length_text": "El nom d'usuari ha de tenir com a mínim 3 caràcters",
+        "user_register_error_password_text": "La clau ha de tenir com a mínim 6 caràcters",
+
+        "menu": "Menú del dia",
+        "menu_select": "Seleccionar menú",
+        "menu_table_name": "Nom",
+        "menu_table_order": "Comanda",
+        "menu_table_allergens": "Al·lèrgens",
+        "menu_table_price": "Preu",
+
+        "config": "Configuració",
+        "config_theme": "Tema",
+        "config_theme_light": "Clar",
+        "config_theme_dark": "Fosc",
+        "config_language": "Llengüa",
+        "config_button_save": "Desa",
+        "config_button_save_success_title": "Configuració desada",
+        "config_button_save_success_text": "La configuració s'ha desat correctament",
+        "config_button_save_error_title": "Error",
+        "config_button_save_error_text": "Error desant la configuració"
+    }
+}

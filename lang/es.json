@@ -1,0 +1,43 @@
+{
+    "language": "es",
+    "translations": {
+        "license": "Licencia",
+        "license_button": "Seleccionar archivo",
+        "license_button_dialog_text": "Selecciona archivo de licencia",
+        "license_success_title": "Licencia válida",
+        "license_success_text": "La licencia es válida",
+        "license_error_title": "Licencia no válida",
+        "license_error_verification_text": "La licencia no es válida",
+        "license_error_expired_text": "La licencia ha expirado, fecha de expiración: ",
+        "license_error_reading_file_title": "Error leyendo archivo",
+        "license_error_reading_file_text": "Error leyendo archivo de licencia, comprueba que el archivo es correcto",
+        
+        "user": "Usuario",
+        "user_credentials": "Credenciales",
+        "user_username": "Usuario:",
+        "user_password": "Clave:",
+        "user_register_button": "Registrarse",
+        "user_login_button": "Iniciar sesión",
+        "user_register_error_title": "Error",
+        "user_register_error_length_text": "El nombre de usuario debe tener al menos 3 caracteres",
+        "user_register_error_password_text": "La clave debe tener al menos 6 caracteres",
+
+        "menu": "Menú del día",
+        "menu_select": "Seleccionar menú",
+        "menu_table_name": "Nombre",
+        "menu_table_order": "Pedido",
+        "menu_table_allergens": "Alérgenos",
+        "menu_table_price": "Precio",
+
+        "config": "Configuración",
+        "config_theme": "Tema",
+        "config_theme_light": "Claro",
+        "config_theme_dark": "Oscuro",
+        "config_language": "Idioma",
+        "config_button_save": "Guardar",
+        "config_button_save_success_title": "Configuración guardada",
+        "config_button_save_success_text": "La configuración se ha guardado correctamente",
+        "config_button_save_error_title": "Error",
+        "config_button_save_error_text": "Error guardando la configuración"
+    }
+}
