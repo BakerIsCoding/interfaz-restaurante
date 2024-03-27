@@ -6,10 +6,15 @@ package com.groupf.java.swing.m7.interfaces;
  * @author Marc Baker Eduardo
  */
 public class GuiTaula extends javax.swing.JFrame {
-
+    private String numTaula;
 
     public GuiTaula() {
         initComponents();
+    }
+    
+    public void setNumTaula(String numeroMesa) {
+        this.numTaula = numeroMesa; //Asigna el valor de numeroMesa a la variable numMesa de la clase.
+        jLabel1.setText("Taula " + numTaula);
     }
 
     @SuppressWarnings("unchecked")
@@ -17,7 +22,7 @@ public class GuiTaula extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanelTaula = new javax.swing.JPanel();
-        jLabelTaula = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPaneComanda = new javax.swing.JScrollPane();
         jTableComanda = new javax.swing.JTable();
         jButtonTornar = new javax.swing.JButton();
@@ -38,9 +43,9 @@ public class GuiTaula extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabelTaula.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabelTaula.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelTaula.setText("Taula ¿numero taula?");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Taula " + numTaula);
 
         jTableComanda.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTableComanda.setModel(new javax.swing.table.DefaultTableModel(
@@ -89,7 +94,7 @@ public class GuiTaula extends javax.swing.JFrame {
             }
         });
 
-        jButtonPagar.setBackground(new java.awt.Color(255, 0, 0));
+        jButtonPagar.setBackground(new java.awt.Color(52, 167, 251));
         jButtonPagar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButtonPagar.setForeground(new java.awt.Color(255, 255, 255));
         jButtonPagar.setText("Pagar ");
@@ -99,8 +104,9 @@ public class GuiTaula extends javax.swing.JFrame {
             }
         });
 
-        jButtonEnviar.setBackground(new java.awt.Color(51, 255, 51));
+        jButtonEnviar.setBackground(new java.awt.Color(52, 167, 251));
         jButtonEnviar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jButtonEnviar.setForeground(new java.awt.Color(255, 255, 255));
         jButtonEnviar.setText("Enviar");
         jButtonEnviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,7 +246,7 @@ public class GuiTaula extends javax.swing.JFrame {
         jPanelTaula.setLayout(jPanelTaulaLayout);
         jPanelTaulaLayout.setHorizontalGroup(
             jPanelTaulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabelTaula, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanelTaulaLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(jPanelTaulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -260,7 +266,7 @@ public class GuiTaula extends javax.swing.JFrame {
             jPanelTaulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelTaulaLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabelTaula)
+                .addComponent(jLabel1)
                 .addGap(25, 25, 25)
                 .addGroup(jPanelTaulaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelTaulaLayout.createSequentialGroup()
@@ -333,7 +339,7 @@ public class GuiTaula extends javax.swing.JFrame {
     private javax.swing.JButton jButtonPrimers;
     private javax.swing.JButton jButtonSegons;
     private javax.swing.JButton jButtonTornar;
-    private javax.swing.JLabel jLabelTaula;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanelPlats;
     private javax.swing.JPanel jPanelTaula;
     private javax.swing.JScrollPane jScrollPaneComanda;

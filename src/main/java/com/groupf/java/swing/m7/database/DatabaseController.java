@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Baker, Cramcat & Don Eduardo
+ * @author Baker
  */
 public class DatabaseController {
 

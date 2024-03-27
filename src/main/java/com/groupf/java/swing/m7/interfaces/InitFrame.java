@@ -29,7 +29,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author Baker, Cramcat & Don Eduardo
+ * @author Baker
  */
 public class InitFrame extends javax.swing.JFrame {
 

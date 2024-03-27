@@ -26,29 +26,28 @@ public class GuiCuiner extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanelCuina = new javax.swing.JPanel();
-        jLabelCuina = new javax.swing.JLabel();
-        jScrollPanepostres = new javax.swing.JScrollPane();
-        jTablePostres = new javax.swing.JTable();
-        jScrollPanePrimers = new javax.swing.JScrollPane();
-        jTablePrimers = new javax.swing.JTable();
-        jScrollPaneSegons = new javax.swing.JScrollPane();
-        jTableSegons = new javax.swing.JTable();
-        jLabelSegons = new javax.swing.JLabel();
-        jLabelPrimers = new javax.swing.JLabel();
-        jLabelPostres = new javax.swing.JLabel();
-        jButtonPreparar = new javax.swing.JButton();
-        jButtonSortir = new javax.swing.JButton();
-        jButtonFet = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabelCuina.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        jLabelCuina.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelCuina.setText("Cuina");
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Cuina");
 
-        jTablePostres.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTablePostres.setModel(new javax.swing.table.DefaultTableModel(
+        jTable2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -77,18 +76,18 @@ public class GuiCuiner extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTablePostres.setColumnSelectionAllowed(true);
-        jTablePostres.getTableHeader().setReorderingAllowed(false);
-        jScrollPanepostres.setViewportView(jTablePostres);
-        jTablePostres.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (jTablePostres.getColumnModel().getColumnCount() > 0) {
-            jTablePostres.getColumnModel().getColumn(0).setPreferredWidth(1);
-            jTablePostres.getColumnModel().getColumn(2).setPreferredWidth(15);
-            jTablePostres.getColumnModel().getColumn(3).setPreferredWidth(30);
+        jTable2.setColumnSelectionAllowed(true);
+        jTable2.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(jTable2);
+        jTable2.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setPreferredWidth(1);
+            jTable2.getColumnModel().getColumn(2).setPreferredWidth(15);
+            jTable2.getColumnModel().getColumn(3).setPreferredWidth(30);
         }
 
-        jTablePrimers.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTablePrimers.setModel(new javax.swing.table.DefaultTableModel(
+        jTable3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -117,17 +116,17 @@ public class GuiCuiner extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTablePrimers.getTableHeader().setReorderingAllowed(false);
-        jScrollPanePrimers.setViewportView(jTablePrimers);
-        jTablePrimers.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (jTablePrimers.getColumnModel().getColumnCount() > 0) {
-            jTablePrimers.getColumnModel().getColumn(0).setPreferredWidth(1);
-            jTablePrimers.getColumnModel().getColumn(2).setPreferredWidth(15);
-            jTablePrimers.getColumnModel().getColumn(3).setPreferredWidth(30);
+        jTable3.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(jTable3);
+        jTable3.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTable3.getColumnModel().getColumnCount() > 0) {
+            jTable3.getColumnModel().getColumn(0).setPreferredWidth(1);
+            jTable3.getColumnModel().getColumn(2).setPreferredWidth(15);
+            jTable3.getColumnModel().getColumn(3).setPreferredWidth(30);
         }
 
-        jTableSegons.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTableSegons.setModel(new javax.swing.table.DefaultTableModel(
+        jTable4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -156,91 +155,86 @@ public class GuiCuiner extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTableSegons.getTableHeader().setReorderingAllowed(false);
-        jScrollPaneSegons.setViewportView(jTableSegons);
-        jTableSegons.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        if (jTableSegons.getColumnModel().getColumnCount() > 0) {
-            jTableSegons.getColumnModel().getColumn(0).setPreferredWidth(1);
-            jTableSegons.getColumnModel().getColumn(2).setPreferredWidth(15);
-            jTableSegons.getColumnModel().getColumn(3).setPreferredWidth(30);
+        jTable4.getTableHeader().setReorderingAllowed(false);
+        jScrollPane4.setViewportView(jTable4);
+        jTable4.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (jTable4.getColumnModel().getColumnCount() > 0) {
+            jTable4.getColumnModel().getColumn(0).setPreferredWidth(1);
+            jTable4.getColumnModel().getColumn(2).setPreferredWidth(15);
+            jTable4.getColumnModel().getColumn(3).setPreferredWidth(30);
         }
 
-        jLabelSegons.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabelSegons.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelSegons.setText("Segons");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Segons");
 
-        jLabelPrimers.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabelPrimers.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelPrimers.setText("Primers");
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Primers");
 
-        jLabelPostres.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabelPostres.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelPostres.setText("Postres");
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Postres");
 
-        jButtonPreparar.setBackground(new java.awt.Color(255, 255, 51));
-        jButtonPreparar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButtonPreparar.setText("Preparar");
+        jButton1.setText("jButton1");
 
-        jButtonSortir.setBackground(new java.awt.Color(52, 167, 251));
-        jButtonSortir.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButtonSortir.setForeground(new java.awt.Color(255, 255, 255));
-        jButtonSortir.setText("Sortir");
+        jButton2.setText("jButton2");
 
-        jButtonFet.setBackground(new java.awt.Color(51, 255, 51));
-        jButtonFet.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButtonFet.setText("Fet");
-
-        javax.swing.GroupLayout jPanelCuinaLayout = new javax.swing.GroupLayout(jPanelCuina);
-        jPanelCuina.setLayout(jPanelCuinaLayout);
-        jPanelCuinaLayout.setHorizontalGroup(
-            jPanelCuinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabelCuina, javax.swing.GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCuinaLayout.createSequentialGroup()
-                .addGroup(jPanelCuinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelCuinaLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 873, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addGroup(jPanelCuinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPaneSegons, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPanePrimers, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanelCuinaLayout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanelCuinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabelSegons, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelPrimers, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanelCuinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCuinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabelPostres, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                        .addComponent(jScrollPanepostres, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                        .addComponent(jButtonPreparar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jButtonFet, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonSortir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21))
-        );
-        jPanelCuinaLayout.setVerticalGroup(
-            jPanelCuinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCuinaLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabelCuina)
-                .addGap(22, 22, 22)
-                .addGroup(jPanelCuinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabelPostres)
-                    .addComponent(jLabelPrimers))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelCuinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPanepostres, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPanePrimers, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(jLabelSegons)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelCuinaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanelCuinaLayout.createSequentialGroup()
-                        .addComponent(jButtonPreparar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25)
-                        .addComponent(jButtonFet, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonSortir, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPaneSegons, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(153, 153, 153)
+                        .addComponent(jButton1)
+                        .addGap(84, 84, 84)
+                        .addComponent(jButton2)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel1)
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))))
                 .addGap(20, 20, 20))
         );
 
@@ -249,12 +243,12 @@ public class GuiCuiner extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanelCuina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelCuina, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -296,19 +290,18 @@ public class GuiCuiner extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonFet;
-    private javax.swing.JButton jButtonPreparar;
-    private javax.swing.JButton jButtonSortir;
-    private javax.swing.JLabel jLabelCuina;
-    private javax.swing.JLabel jLabelPostres;
-    private javax.swing.JLabel jLabelPrimers;
-    private javax.swing.JLabel jLabelSegons;
-    private javax.swing.JPanel jPanelCuina;
-    private javax.swing.JScrollPane jScrollPanePrimers;
-    private javax.swing.JScrollPane jScrollPaneSegons;
-    private javax.swing.JScrollPane jScrollPanepostres;
-    private javax.swing.JTable jTablePostres;
-    private javax.swing.JTable jTablePrimers;
-    private javax.swing.JTable jTableSegons;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     // End of variables declaration//GEN-END:variables
 }
