@@ -2,7 +2,7 @@ package com.groupf.java.swing.m7.interfaces;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.groupf.java.swing.m7.database.DatabaseController;
 import com.groupf.java.swing.m7.database.DatabaseConvertor;
 import com.groupf.java.swing.m7.lang.LangController;
@@ -57,15 +57,19 @@ public class InitFrame extends javax.swing.JFrame {
         setVisible(true);
 
         generateTable();
-        /*LLICENCIA
-        DISABLE PANELS*/
+        /*
+         * LLICENCIA
+         * DISABLE PANELS
+         */
         allPanels.setEnabledAt(1, false);
         allPanels.setEnabledAt(2, false);
         allPanels.setEnabledAt(3, false);
 
         /* USUARI */
- /* SETTINGS 
-        RADIO BUTTONS */
+        /*
+         * SETTINGS
+         * RADIO BUTTONS
+         */
         radioButtonClar.setSelected(true);
         ButtonGroup group = new ButtonGroup();
         group.add(radioButtonClar);
@@ -80,7 +84,7 @@ public class InitFrame extends javax.swing.JFrame {
         /* Load lengua */
         Boolean isDoneLoading = langController.loadLanguage("es");
         if (isDoneLoading) {
-            //translationsObject = langObject.getJSONObject("translations");
+            // translationsObject = langObject.getJSONObject("translations");
             doTranslations();
         } else {
             msg.errorMessageBox("Error al cargar traduccioens", "Error al cargar traduccioens");
@@ -89,24 +93,24 @@ public class InitFrame extends javax.swing.JFrame {
     }
 
     private void doTranslations() {
-        //Panels
+        // Panels
         allPanels.setTitleAt(0, translationsObject.getString("license"));
         allPanels.setTitleAt(1, translationsObject.getString("user"));
         allPanels.setTitleAt(2, translationsObject.getString("menu"));
         allPanels.setTitleAt(3, translationsObject.getString("config"));
-        
-        //Llicencia
+
+        // Llicencia
         textButtonSelectFile.setText(translationsObject.getString("license"));
         buttonSelectFile.setText(translationsObject.getString("license_button"));
-        
-        //Usuari
+
+        // Usuari
         titleUsuari.setText(translationsObject.getString("user_credentials"));
         labelUsuari.setText(translationsObject.getString("user_username"));
         labelClau.setText(translationsObject.getString("user_password"));
         buttonRegister.setText(translationsObject.getString("user_register_button"));
         buttonLogIn.setText(translationsObject.getString("user_login_button"));
-        
-        //Menú diari
+
+        // Menú diari
         labelTitleMenu.setText(translationsObject.getString("menu"));
         buttonMenu.setText(translationsObject.getString("menu_select"));
         TableColumnModel columnModel = menuTable.getColumnModel();
@@ -115,31 +119,31 @@ public class InitFrame extends javax.swing.JFrame {
         columnModel.getColumn(2).setHeaderValue(translationsObject.getString("menu_table_allergens"));
         columnModel.getColumn(3).setHeaderValue(translationsObject.getString("menu_table_price"));
         menuTable.repaint();
-        
-        //Config
+
+        // Config
         titleConfig.setText(translationsObject.getString("config"));
         labelTema.setText(translationsObject.getString("config_theme"));
         radioButtonClar.setText(translationsObject.getString("config_theme_light"));
         radioButtonFosc.setText(translationsObject.getString("config_theme_dark"));
         labelLlengua.setText(translationsObject.getString("config_language"));
         saveConfigButton.setText(translationsObject.getString("config_button_save"));
-        
-        
-        
+
     }
 
     private void registerClicked() {
         MessageBox msg = new MessageBox();
         String username = textFieldUsuari.getText();
-        String password = textFieldPassword.getText();
+        String password = jPasswordFieldPass.getText();
 
         if (username.length() <= 3) {
-            msg.errorMessageBox(translationsObject.getString("user_register_error_title"), translationsObject.getString("user_register_error_length_text"));
+            msg.errorMessageBox(translationsObject.getString("user_register_error_title"),
+                    translationsObject.getString("user_register_error_length_text"));
             return;
         }
 
-        if (password.length() <= 6) {
-            msg.errorMessageBox(translationsObject.getString("user_register_error_title"), translationsObject.getString("user_register_error_password_text"));
+        if (password.length() <= 5) {
+            msg.errorMessageBox(translationsObject.getString("user_register_error_title"),
+                    translationsObject.getString("user_register_error_password_text"));
             return;
         }
         List<String> listaUser = new ArrayList<>(3);
@@ -160,21 +164,21 @@ public class InitFrame extends javax.swing.JFrame {
         if (model instanceof DefaultTableModel) {
             DefaultTableModel defaultModel = (DefaultTableModel) model;
             // Ahora puedes añadir una fila al modelo
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
+            defaultModel.addRow(new Object[] { "Dato 1", 3, "Dato 3" });
         } else {
             // Manejar el caso en que el modelo no sea una instancia de DefaultTableModel
             System.out.println("El modelo de la tabla no es una instancia de DefaultTableModel.");
@@ -182,7 +186,8 @@ public class InitFrame extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         allPanels = new javax.swing.JTabbedPane();
@@ -196,9 +201,9 @@ public class InitFrame extends javax.swing.JFrame {
         labelUsuari = new javax.swing.JLabel();
         textFieldUsuari = new javax.swing.JTextField();
         labelClau = new javax.swing.JLabel();
-        textFieldPassword = new javax.swing.JTextField();
         buttonLogIn = new javax.swing.JButton();
         buttonRegister = new javax.swing.JButton();
+        jPasswordFieldPass = new javax.swing.JPasswordField();
         MenuDelDia = new javax.swing.JPanel();
         panelMenu = new javax.swing.JPanel();
         labelTitleMenu = new javax.swing.JLabel();
@@ -238,42 +243,41 @@ public class InitFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout panelLlicenciaLayout = new javax.swing.GroupLayout(panelLlicencia);
         panelLlicencia.setLayout(panelLlicenciaLayout);
         panelLlicenciaLayout.setHorizontalGroup(
-            panelLlicenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLlicenciaLayout.createSequentialGroup()
-                .addGap(52, 52, 52)
-                .addComponent(textButtonSelectFile)
-                .addContainerGap(58, Short.MAX_VALUE))
-            .addGroup(panelLlicenciaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(buttonSelectFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+                panelLlicenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelLlicenciaLayout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addComponent(textButtonSelectFile)
+                                .addContainerGap(58, Short.MAX_VALUE))
+                        .addGroup(panelLlicenciaLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(buttonSelectFile, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap()));
         panelLlicenciaLayout.setVerticalGroup(
-            panelLlicenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLlicenciaLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(textButtonSelectFile)
-                .addGap(18, 18, 18)
-                .addComponent(buttonSelectFile)
-                .addContainerGap(25, Short.MAX_VALUE))
-        );
+                panelLlicenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelLlicenciaLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(textButtonSelectFile)
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonSelectFile)
+                                .addContainerGap(25, Short.MAX_VALUE)));
 
         javax.swing.GroupLayout LlicenciaLayout = new javax.swing.GroupLayout(Llicencia);
         Llicencia.setLayout(LlicenciaLayout);
         LlicenciaLayout.setHorizontalGroup(
-            LlicenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(LlicenciaLayout.createSequentialGroup()
-                .addGap(256, 256, 256)
-                .addComponent(panelLlicencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(256, 256, 256))
-        );
+                LlicenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(LlicenciaLayout.createSequentialGroup()
+                                .addGap(256, 256, 256)
+                                .addComponent(panelLlicencia, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(256, 256, 256)));
         LlicenciaLayout.setVerticalGroup(
-            LlicenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(LlicenciaLayout.createSequentialGroup()
-                .addGap(169, 169, 169)
-                .addComponent(panelLlicencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(170, 170, 170))
-        );
+                LlicenciaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(LlicenciaLayout.createSequentialGroup()
+                                .addGap(169, 169, 169)
+                                .addComponent(panelLlicencia, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(170, 170, 170)));
 
         allPanels.addTab("Llicencia", Llicencia);
 
@@ -287,16 +291,14 @@ public class InitFrame extends javax.swing.JFrame {
         labelUsuari.setText("Usuari:");
 
         textFieldUsuari.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        textFieldUsuari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldUsuariActionPerformed(evt);
+            }
+        });
 
         labelClau.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         labelClau.setText("Clau:");
-
-        textFieldPassword.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        textFieldPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldPasswordActionPerformed(evt);
-            }
-        });
 
         buttonLogIn.setBackground(new java.awt.Color(52, 167, 251));
         buttonLogIn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -317,65 +319,82 @@ public class InitFrame extends javax.swing.JFrame {
                 buttonRegisterMouseClicked(evt);
             }
         });
+        buttonRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRegisterActionPerformed(evt);
+            }
+        });
+
+        jPasswordFieldPass.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
 
         javax.swing.GroupLayout panelCredencialsLayout = new javax.swing.GroupLayout(panelCredencials);
         panelCredencials.setLayout(panelCredencialsLayout);
         panelCredencialsLayout.setHorizontalGroup(
-            panelCredencialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(titleUsuari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(panelCredencialsLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(panelCredencialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelUsuari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(labelClau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelCredencialsLayout.createSequentialGroup()
-                        .addComponent(textFieldUsuari, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCredencialsLayout.createSequentialGroup()
-                        .addGroup(panelCredencialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(textFieldPassword, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelCredencialsLayout.createSequentialGroup()
-                                .addComponent(buttonLogIn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(buttonRegister)))
-                        .addGap(30, 30, 30))))
-        );
+                panelCredencialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(titleUsuari, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelCredencialsLayout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addGroup(panelCredencialsLayout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(panelCredencialsLayout.createSequentialGroup()
+                                                .addComponent(jPasswordFieldPass)
+                                                .addContainerGap())
+                                        .addComponent(labelUsuari, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(labelClau, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(panelCredencialsLayout.createSequentialGroup()
+                                                .addComponent(textFieldUsuari, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addContainerGap())
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCredencialsLayout
+                                                .createSequentialGroup()
+                                                .addComponent(buttonLogIn)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(buttonRegister)
+                                                .addGap(30, 30, 30)))));
         panelCredencialsLayout.setVerticalGroup(
-            panelCredencialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCredencialsLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(titleUsuari)
-                .addGap(18, 18, 18)
-                .addComponent(labelUsuari)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textFieldUsuari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(labelClau)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addGroup(panelCredencialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonLogIn)
-                    .addComponent(buttonRegister))
-                .addGap(40, 40, 40))
-        );
+                panelCredencialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCredencialsLayout
+                                .createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(titleUsuari)
+                                .addGap(18, 18, 18)
+                                .addComponent(labelUsuari)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textFieldUsuari, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(labelClau)
+                                .addGap(18, 18, 18)
+                                .addComponent(jPasswordFieldPass, javax.swing.GroupLayout.PREFERRED_SIZE, 32,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27,
+                                        Short.MAX_VALUE)
+                                .addGroup(panelCredencialsLayout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(buttonLogIn)
+                                        .addComponent(buttonRegister))
+                                .addGap(40, 40, 40)));
 
         javax.swing.GroupLayout UsuariLayout = new javax.swing.GroupLayout(Usuari);
         Usuari.setLayout(UsuariLayout);
         UsuariLayout.setHorizontalGroup(
-            UsuariLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(UsuariLayout.createSequentialGroup()
-                .addGap(202, 202, 202)
-                .addComponent(panelCredencials, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(203, 203, 203))
-        );
+                UsuariLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(UsuariLayout.createSequentialGroup()
+                                .addGap(202, 202, 202)
+                                .addComponent(panelCredencials, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(203, 203, 203)));
         UsuariLayout.setVerticalGroup(
-            UsuariLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(UsuariLayout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addComponent(panelCredencials, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75))
-        );
+                UsuariLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(UsuariLayout.createSequentialGroup()
+                                .addGap(75, 75, 75)
+                                .addComponent(panelCredencials, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(75, 75, 75)));
 
         allPanels.addTab("Usuari", Usuari);
 
@@ -386,19 +405,18 @@ public class InitFrame extends javax.swing.JFrame {
         labelTitleMenu.setText("Menú del dia");
 
         menuTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][] {
 
-            },
-            new String [] {
-                "null", "null", "null", "null"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                },
+                new String[] {
+                        "null", "null", "null", "null"
+                }) {
+            boolean[] canEdit = new boolean[] {
+                    false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         menuTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -428,61 +446,65 @@ public class InitFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout panelMenuButtonLayout = new javax.swing.GroupLayout(panelMenuButton);
         panelMenuButton.setLayout(panelMenuButtonLayout);
         panelMenuButtonLayout.setHorizontalGroup(
-            panelMenuButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMenuButtonLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(buttonMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                panelMenuButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelMenuButtonLayout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(buttonMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 150,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         panelMenuButtonLayout.setVerticalGroup(
-            panelMenuButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMenuButtonLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(buttonMenu)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                panelMenuButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelMenuButtonLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(buttonMenu)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
         javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
         panelMenu.setLayout(panelMenuLayout);
         panelMenuLayout.setHorizontalGroup(
-            panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(labelTitleMenu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(panelMenuLayout.createSequentialGroup()
-                .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelMenuButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelMenuLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(scrollTable, javax.swing.GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
+                panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(labelTitleMenu, javax.swing.GroupLayout.Alignment.TRAILING,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                Short.MAX_VALUE)
+                        .addGroup(panelMenuLayout.createSequentialGroup()
+                                .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(panelMenuButton, javax.swing.GroupLayout.Alignment.TRAILING,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(panelMenuLayout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(scrollTable, javax.swing.GroupLayout.DEFAULT_SIZE, 628,
+                                                        Short.MAX_VALUE)))
+                                .addContainerGap()));
         panelMenuLayout.setVerticalGroup(
-            panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuLayout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(labelTitleMenu)
-                .addGap(18, 18, 18)
-                .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(panelMenuButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
-        );
+                panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuLayout.createSequentialGroup()
+                                .addContainerGap(18, Short.MAX_VALUE)
+                                .addComponent(labelTitleMenu)
+                                .addGap(18, 18, 18)
+                                .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 249,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(panelMenuButton, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)));
 
         javax.swing.GroupLayout MenuDelDiaLayout = new javax.swing.GroupLayout(MenuDelDia);
         MenuDelDia.setLayout(MenuDelDiaLayout);
         MenuDelDiaLayout.setHorizontalGroup(
-            MenuDelDiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuDelDiaLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
-        );
+                MenuDelDiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(MenuDelDiaLayout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)));
         MenuDelDiaLayout.setVerticalGroup(
-            MenuDelDiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MenuDelDiaLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
-        );
+                MenuDelDiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(MenuDelDiaLayout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)));
 
         allPanels.addTab("Menú del dia", MenuDelDia);
 
@@ -515,7 +537,8 @@ public class InitFrame extends javax.swing.JFrame {
         labelLlengua.setText("Llengüa");
 
         comboBoxLlengua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        comboBoxLlengua.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxLlengua.setModel(
+                new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         comboBoxLlengua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxLlenguaActionPerformed(evt);
@@ -538,79 +561,89 @@ public class InitFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout panelConfiguracioLayout = new javax.swing.GroupLayout(panelConfiguracio);
         panelConfiguracio.setLayout(panelConfiguracioLayout);
         panelConfiguracioLayout.setHorizontalGroup(
-            panelConfiguracioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(titleConfig, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(panelConfiguracioLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(panelConfiguracioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelConfiguracioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                panelConfiguracioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(titleConfig, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(panelConfiguracioLayout.createSequentialGroup()
-                            .addComponent(radioButtonClar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(radioButtonFosc))
-                        .addComponent(labelLlengua, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-                        .addComponent(labelTema, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(comboBoxLlengua, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfiguracioLayout.createSequentialGroup()
-                .addContainerGap(165, Short.MAX_VALUE)
-                .addComponent(saveConfigButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(161, 161, 161))
-        );
+                                .addGap(36, 36, 36)
+                                .addGroup(panelConfiguracioLayout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(panelConfiguracioLayout
+                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addGroup(panelConfiguracioLayout.createSequentialGroup()
+                                                        .addComponent(radioButtonClar,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE, 52,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGap(18, 18, 18)
+                                                        .addComponent(radioButtonFosc))
+                                                .addComponent(labelLlengua, javax.swing.GroupLayout.DEFAULT_SIZE, 157,
+                                                        Short.MAX_VALUE)
+                                                .addComponent(labelTema, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(comboBoxLlengua, javax.swing.GroupLayout.PREFERRED_SIZE, 122,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+                                panelConfiguracioLayout.createSequentialGroup()
+                                        .addContainerGap(165, Short.MAX_VALUE)
+                                        .addComponent(saveConfigButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(161, 161, 161)));
         panelConfiguracioLayout.setVerticalGroup(
-            panelConfiguracioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfiguracioLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(titleConfig)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelTema)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfiguracioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(radioButtonFosc)
-                    .addComponent(radioButtonClar))
-                .addGap(18, 18, 18)
-                .addComponent(labelLlengua)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(comboBoxLlengua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
-                .addComponent(saveConfigButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28))
-        );
+                panelConfiguracioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelConfiguracioLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(titleConfig)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(labelTema)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelConfiguracioLayout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(radioButtonFosc)
+                                        .addComponent(radioButtonClar))
+                                .addGap(18, 18, 18)
+                                .addComponent(labelLlengua)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboBoxLlengua, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46,
+                                        Short.MAX_VALUE)
+                                .addComponent(saveConfigButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)));
 
         javax.swing.GroupLayout ConfiguracioLayout = new javax.swing.GroupLayout(Configuracio);
         Configuracio.setLayout(ConfiguracioLayout);
         ConfiguracioLayout.setHorizontalGroup(
-            ConfiguracioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ConfiguracioLayout.createSequentialGroup()
-                .addGap(137, 137, 137)
-                .addComponent(panelConfiguracio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(138, 138, 138))
-        );
+                ConfiguracioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(ConfiguracioLayout.createSequentialGroup()
+                                .addGap(137, 137, 137)
+                                .addComponent(panelConfiguracio, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(138, 138, 138)));
         ConfiguracioLayout.setVerticalGroup(
-            ConfiguracioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ConfiguracioLayout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addComponent(panelConfiguracio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(83, 83, 83))
-        );
+                ConfiguracioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(ConfiguracioLayout.createSequentialGroup()
+                                .addGap(77, 77, 77)
+                                .addComponent(panelConfiguracio, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(83, 83, 83)));
 
         allPanels.addTab("Configuració", Configuracio);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(allPanels)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(allPanels));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(allPanels)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(allPanels));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonSelectFileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonSelectFileMouseClicked
+    private void buttonSelectFileMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonSelectFileMouseClicked
         MessageBox msg = new MessageBox();
         JFileChooser fileChooser = new JFileChooser();
 
@@ -633,18 +666,17 @@ public class InitFrame extends javax.swing.JFrame {
                 allPanels.setSelectedIndex(1);
                 allPanels.setEnabledAt(0, false);
                 allPanels.setEnabledAt(1, true);
-                allPanels.setEnabledAt(2, true);
-                allPanels.setEnabledAt(3, true);
-                msg.successMessageBox(translationsObject.getString("license_success_title"), translationsObject.getString("license_success_text"));
+
+                msg.successMessageBox("Licencia válida", "Licencia válida");
             }
         }
 
+    }// GEN-LAST:event_buttonSelectFileMouseClicked
 
-    }//GEN-LAST:event_buttonSelectFileMouseClicked
     private Boolean procesarArchivoLicencia(File archivo) {
         DatabaseController dbController = new DatabaseController();
         MessageBox msg = new MessageBox();
-        try ( BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 String[] partes = linea.split(",");
@@ -660,33 +692,33 @@ public class InitFrame extends javax.swing.JFrame {
                         if (isLicenciaExisting) {
                             return true;
                         } else {
-                            msg.errorMessageBox(translationsObject.getString("license_error_verification_text"), translationsObject.getString("license_error_verification_text"));
+                            msg.errorMessageBox(translationsObject.getString("license_error_verification_text"),
+                                    translationsObject.getString("license_error_verification_text"));
                         }
 
                     } else {
                         System.out.println();
-                        msg.errorMessageBox(translationsObject.getString("license_error_title"), translationsObject.getString("license_error_expired_text") + fechaLicencia);
+                        msg.errorMessageBox(translationsObject.getString("license_error_title"),
+                                translationsObject.getString("license_error_expired_text") + fechaLicencia);
                         return false;
                     }
                 }
             }
         } catch (IOException e) {
-            msg.errorMessageBox(translationsObject.getString("license_error_reading_file_title"), translationsObject.getString("license_error_reading_file_text"));
+            msg.errorMessageBox(translationsObject.getString("license_error_reading_file_title"),
+                    translationsObject.getString("license_error_reading_file_text"));
             System.err.println("Error al leer el archivo: " + e.getMessage());
             return false;
         }
         return false;
     }
-    private void textFieldPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldPasswordActionPerformed
 
-    private void radioButtonClarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonClarActionPerformed
-        FlatLaf.setup(new FlatLightLaf());
+    private void radioButtonClarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_radioButtonClarActionPerformed
+        FlatLaf.setup(new FlatMacLightLaf());
         SwingUtilities.updateComponentTreeUI(this);
-    }//GEN-LAST:event_radioButtonClarActionPerformed
+    }// GEN-LAST:event_radioButtonClarActionPerformed
 
-    private void comboBoxLlenguaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxLlenguaActionPerformed
+    private void comboBoxLlenguaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_comboBoxLlenguaActionPerformed
         LangController lang = new LangController();
         // Obtenim l'index
         int selectedIndex = comboBoxLlengua.getSelectedIndex();
@@ -711,42 +743,55 @@ public class InitFrame extends javax.swing.JFrame {
                 }
                 break;
         }
-    }//GEN-LAST:event_comboBoxLlenguaActionPerformed
+    }// GEN-LAST:event_comboBoxLlenguaActionPerformed
 
-    private void menuTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuTableMouseClicked
+    private void menuTableMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_menuTableMouseClicked
 
-    }//GEN-LAST:event_menuTableMouseClicked
+    }// GEN-LAST:event_menuTableMouseClicked
 
-    private void buttonLogInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonLogInMouseClicked
+    private void buttonLogInMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonLogInMouseClicked
+        loginUser();
 
-    }//GEN-LAST:event_buttonLogInMouseClicked
+    }// GEN-LAST:event_buttonLogInMouseClicked
 
     private void loginUser() {
+        DatabaseController db = new DatabaseController();
+        MessageBox msg = new MessageBox();
 
+        String username = textFieldUsuari.getText();
+        String password = jPasswordFieldPass.getText();
+
+        if (db.existeUsuario(username, password)) {
+            allPanels.setEnabledAt(2, true);
+            allPanels.setEnabledAt(3, true);
+            msg.successMessageBox("Login", "Has iniciado session correctamente.");
+        } else {
+            msg.errorMessageBox("ErrorLogin", "Usuario o contraseña incorrectos o inexistentes.");
+        }
     }
 
-    private void buttonRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonRegisterMouseClicked
+    private void buttonRegisterMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonRegisterMouseClicked
         registerClicked();
-    }//GEN-LAST:event_buttonRegisterMouseClicked
+    }// GEN-LAST:event_buttonRegisterMouseClicked
 
-    private void buttonMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonMenuMouseClicked
+    private void buttonMenuMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonMenuMouseClicked
         selectMenuClicked();
-    }//GEN-LAST:event_buttonMenuMouseClicked
+    }// GEN-LAST:event_buttonMenuMouseClicked
 
-    private void radioButtonFoscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonFoscActionPerformed
+    private void radioButtonFoscActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_radioButtonFoscActionPerformed
         FlatLaf.setup(new FlatDarkLaf());
         SwingUtilities.updateComponentTreeUI(this);
-    }//GEN-LAST:event_radioButtonFoscActionPerformed
+    }// GEN-LAST:event_radioButtonFoscActionPerformed
 
-    private void buttonMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMenuActionPerformed
+    private void buttonMenuActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonMenuActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_buttonMenuActionPerformed
+    }// GEN-LAST:event_buttonMenuActionPerformed
 
-    private void saveConfigButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_saveConfigButtonKeyPressed
+    private void saveConfigButtonKeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_saveConfigButtonKeyPressed
 
-    }//GEN-LAST:event_saveConfigButtonKeyPressed
+    }// GEN-LAST:event_saveConfigButtonKeyPressed
 
-    private void saveConfigButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveConfigButtonMouseClicked
+    private void saveConfigButtonMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_saveConfigButtonMouseClicked
         DatabaseController db = new DatabaseController();
         MessageBox msg = new MessageBox();
         Boolean configExisting = db.existsConfig("1");
@@ -779,20 +824,26 @@ public class InitFrame extends javax.swing.JFrame {
         }
 
         if (isQuerySuccessful) {
-            msg.successMessageBox(translationsObject.getString("config_button_save_success_title"), translationsObject.getString("config_button_save_success_text"));
+            msg.successMessageBox(translationsObject.getString("config_button_save_success_title"),
+                    translationsObject.getString("config_button_save_success_text"));
         } else {
-            msg.errorMessageBox(translationsObject.getString("config_button_save_error_title"), translationsObject.getString("config_button_save_error_text"));
+            msg.errorMessageBox(translationsObject.getString("config_button_save_error_title"),
+                    translationsObject.getString("config_button_save_error_text"));
         }
-    }//GEN-LAST:event_saveConfigButtonMouseClicked
+    }// GEN-LAST:event_saveConfigButtonMouseClicked
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+        // (optional) ">
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
+         * look and feel.
+         * For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -810,7 +861,7 @@ public class InitFrame extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(InitFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
+        // </editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -831,6 +882,7 @@ public class InitFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonRegister;
     private javax.swing.JButton buttonSelectFile;
     private javax.swing.JComboBox<String> comboBoxLlengua;
+    private javax.swing.JPasswordField jPasswordFieldPass;
     private javax.swing.JLabel labelClau;
     private javax.swing.JLabel labelLlengua;
     private javax.swing.JLabel labelTema;
@@ -847,7 +899,6 @@ public class InitFrame extends javax.swing.JFrame {
     private javax.swing.JButton saveConfigButton;
     private javax.swing.JScrollPane scrollTable;
     private javax.swing.JLabel textButtonSelectFile;
-    private javax.swing.JTextField textFieldPassword;
     private javax.swing.JTextField textFieldUsuari;
     private javax.swing.JLabel titleConfig;
     private javax.swing.JLabel titleUsuari;

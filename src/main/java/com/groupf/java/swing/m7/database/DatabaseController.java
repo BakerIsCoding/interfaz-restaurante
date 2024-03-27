@@ -78,6 +78,38 @@ public class DatabaseController {
         }
         return false;
     }
+    
+    public boolean existeUsuario(String user, String pass) {
+        String consultaSQL = "SELECT COUNT(*) FROM usuario WHERE usuario = ? AND password = ?";
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            ps.setString(1, user);
+            ps.setString(2, pass);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al verificar usuario o contraseña: " + ex.getMessage());
+        }
+        return false;
+    }
+    
+    public boolean registerUser(String nombre, String contraseña, String tipo) {
+        String consultaSQL = "INSERT INTO usuario (usuario, password, tipus) VALUES (?, ?, ?);";
+        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            ps.setString(1, nombre);
+            ps.setString(2, contraseña);
+            ps.setString(3, tipo);
+
+            int affectedRows = ps.executeUpdate();
+
+            return affectedRows > 0;
+        } catch (SQLException ex) {
+            System.err.println("Error al insertar un registro " + ex.getMessage());
+        }
+        return false;
+    }
 
     public boolean saveConfig(String uid, Integer theme, String lang) {
         String consultaSQL = "INSERT INTO settings (id, tema, lang) VALUES (?, ?, ?);";
