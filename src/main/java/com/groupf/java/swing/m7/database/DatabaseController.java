@@ -1,4 +1,7 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package com.groupf.java.swing.m7.database;
 
 import java.sql.Connection;
@@ -9,13 +12,13 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Baker, Cramcat & Don Eduardo
+ * @author Baker
  */
 public class DatabaseController {
     private Connection conn = null;
-    private final String url = "jdbc:mysql://localhost:3306/canpedro";
-    private final String user = "admin";
-    private final String password = "aB123jndsakj$";
+    private final String url = "jdbc:mysql://localhost:3306/nombreDeTuBaseDeDatos";
+    private final String user = "tuUsuario";
+    private final String password = "tuContraseña";
 
     public DatabaseController() {
         try {
