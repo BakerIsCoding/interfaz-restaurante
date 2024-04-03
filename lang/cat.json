@@ -1,8 +1,8 @@
 {
     "language": "cat",
     "translations": {
-        "license": "Llicenciaa",
-        "license_button": "Selecciona fitxerr",
+        "license": "Llicencia",
+        "license_button": "Selecciona fitxer",
         "license_button_dialog_text": "Selecciona fitxer de llicència",
         "license_success_title": "Llicencia válida",
         "license_success_text": "La llicència és vàlida",
@@ -18,6 +18,10 @@
         "user_password": "Clau:",
         "user_register_button": "Registrarse",
         "user_login_button": "Iniciar sessió",
+        "user_login_successful_title": "Inici de sessió",
+        "user_login_successful_text": "Has iniciat sessió correctament.",
+        "user_login_error_title": "Error en iniciar sessió",
+        "user_login_error_text": "Usuari o contrasenya incorrectes, o inexistents.",
         "user_register_error_title": "Error",
         "user_register_error_length_text": "El nom d'usuari ha de tenir com a mínim 3 caràcters",
         "user_register_error_password_text": "La clau ha de tenir com a mínim 6 caràcters",
@@ -38,6 +42,8 @@
         "config_button_save_success_title": "Configuració desada",
         "config_button_save_success_text": "La configuració s'ha desat correctament",
         "config_button_save_error_title": "Error",
-        "config_button_save_error_text": "Error desant la configuració"
+        "config_button_save_error_text": "Error desant la configuració",
+
+        "gui_waiter_title": "Cambrer"
     }
 }

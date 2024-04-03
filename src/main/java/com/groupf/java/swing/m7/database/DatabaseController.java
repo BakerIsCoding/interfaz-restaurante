@@ -78,10 +78,27 @@ public class DatabaseController {
         }
         return false;
     }
-    
+
+    public Integer getUserId(String user, String pass) {
+        String consultaSQL = "SELECT id FROM usuario WHERE usuario = ? AND password = ?";
+        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            ps.setString(1, user);
+            ps.setString(2, pass);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id"); // Asumiendo que el campo se llama 'id' en tu tabla.
+            } else {
+                System.err.println("No se encontró el usuario con esas credenciales.");
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al verificar usuario o contraseña: " + ex.getMessage());
+        }
+        return null; // O podrías devolver -1 si prefieres trabajar con int y evitar los objetos Integer.
+    }
+
     public boolean existeUsuario(String user, String pass) {
         String consultaSQL = "SELECT COUNT(*) FROM usuario WHERE usuario = ? AND password = ?";
-        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
             ps.setString(1, user);
             ps.setString(2, pass);
             ResultSet rs = ps.executeQuery();
@@ -94,7 +111,7 @@ public class DatabaseController {
         }
         return false;
     }
-    
+
     public boolean registerUser(String nombre, String contraseña, String tipo) {
         String consultaSQL = "INSERT INTO usuario (usuario, password, tipus) VALUES (?, ?, ?);";
         try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
@@ -158,6 +175,42 @@ public class DatabaseController {
             return false;
         }
         return false;
+    }
+
+    public Integer getThemeById(String uid) {
+        String consultaSQL = "SELECT tema FROM settings WHERE id = ?;";
+        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            ps.setString(1, uid);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("tema");
+            } else {
+                System.err.println("No se encontró el tema para el id: " + uid);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al consultar el tema: " + ex.getMessage());
+        }
+        return null;
+    }
+
+    public String getLangById(String uid) {
+        String consultaSQL = "SELECT lang FROM settings WHERE id = ?;";
+        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            ps.setString(1, uid);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("lang");
+            } else {
+                System.err.println("No se encontró el lenguaje para el id: " + uid);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al consultar el lenguaje: " + ex.getMessage());
+        }
+        return null; // O, de nuevo, lanzar una excepción si no se encuentra el id.
     }
 
     // Método para cerrar la conexión
