@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.groupf.java.swing.m7.database;
 
 import java.sql.ResultSet;
@@ -39,5 +36,4 @@ public class DatabaseConvertor {
             System.out.println("No se pudieron recuperar los datos de los usuarios.");
         }
     }
-
 }

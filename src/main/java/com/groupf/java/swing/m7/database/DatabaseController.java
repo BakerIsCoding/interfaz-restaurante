@@ -63,10 +63,10 @@ public class DatabaseController {
             return null;
         }
     }
-    
+
     public boolean existeLicencia(String licencia) {
         String consultaSQL = "SELECT COUNT(*) FROM llicencia WHERE llicencia = ?";
-        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
             ps.setString(1, licencia);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -75,6 +75,87 @@ public class DatabaseController {
             }
         } catch (SQLException ex) {
             System.err.println("Error al verificar la existencia de la licencia: " + ex.getMessage());
+        }
+        return false;
+    }
+    
+    public boolean existeUsuario(String user, String pass) {
+        String consultaSQL = "SELECT COUNT(*) FROM usuario WHERE usuario = ? AND password = ?";
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            ps.setString(1, user);
+            ps.setString(2, pass);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al verificar usuario o contraseña: " + ex.getMessage());
+        }
+        return false;
+    }
+    
+    public boolean registerUser(String nombre, String contraseña, String tipo) {
+        String consultaSQL = "INSERT INTO usuario (usuario, password, tipus) VALUES (?, ?, ?);";
+        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            ps.setString(1, nombre);
+            ps.setString(2, contraseña);
+            ps.setString(3, tipo);
+
+            int affectedRows = ps.executeUpdate();
+
+            return affectedRows > 0;
+        } catch (SQLException ex) {
+            System.err.println("Error al insertar un registro " + ex.getMessage());
+        }
+        return false;
+    }
+
+    public boolean saveConfig(String uid, Integer theme, String lang) {
+        String consultaSQL = "INSERT INTO settings (id, tema, lang) VALUES (?, ?, ?);";
+        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            ps.setString(1, uid);
+            ps.setInt(2, theme);
+            ps.setString(3, lang);
+
+            int affectedRows = ps.executeUpdate();
+
+            return affectedRows > 0;
+        } catch (SQLException ex) {
+            System.err.println("Error al insertar la configuración: " + ex.getMessage());
+        }
+        return false;
+    }
+
+    public boolean updateConfig(String uid, Integer theme, String lang) {
+        String updateSQL = "UPDATE settings SET tema = ?, lang = ? WHERE id = ?;";
+        try ( PreparedStatement ps = conn.prepareStatement(updateSQL)) {
+            ps.setInt(1, theme);
+            ps.setString(2, lang);
+            ps.setString(3, uid);
+
+            int affectedRows = ps.executeUpdate();
+
+            return affectedRows > 0;
+        } catch (SQLException ex) {
+            System.err.println("Error al actualizar la configuración: " + ex.getMessage());
+        }
+        return false;
+    }
+
+    public boolean existsConfig(String uid) {
+        String existsSQL = "SELECT COUNT(*) FROM settings WHERE id = ?;";
+        try ( PreparedStatement ps = conn.prepareStatement(existsSQL)) {
+            ps.setString(1, uid);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al verificar la existencia del registro: " + ex.getMessage());
+            return false;
         }
         return false;
     }

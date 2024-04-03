@@ -1,0 +1,43 @@
+{
+    "language": "en",
+    "translations": {
+        "license": "License",
+        "license_button": "Select File",
+        "license_button_dialog_text": "Select license file",
+        "license_success_title": "Valid License",
+        "license_success_text": "The license is valid",
+        "license_error_title": "Invalid License",
+        "license_error_verification_text": "The license is not valid",
+        "license_error_expired_text": "The license has expired, expiration date: ",
+        "license_error_reading_file_title": "Error Reading File",
+        "license_error_reading_file_text": "Error reading license file, please check that the file is correct",
+        
+        "user": "User",
+        "user_credentials": "Credentials",
+        "user_username": "Username:",
+        "user_password": "Password:",
+        "user_register_button": "Register",
+        "user_login_button": "Login",
+        "user_register_error_title": "Error",
+        "user_register_error_length_text": "The username must be at least 3 characters long",
+        "user_register_error_password_text": "The password must be at least 6 characters long",
+
+        "menu": "Daily Menu",
+        "menu_select": "Select Menu",
+        "menu_table_name": "Name",
+        "menu_table_order": "Order",
+        "menu_table_allergens": "Allergens",
+        "menu_table_price": "Price",
+
+        "config": "Configuration",
+        "config_theme": "Theme",
+        "config_theme_light": "Light",
+        "config_theme_dark": "Dark",
+        "config_language": "Language",
+        "config_button_save": "Save",
+        "config_button_save_success_title": "Configuration Saved",
+        "config_button_save_success_text": "The configuration has been saved successfully",
+        "config_button_save_error_title": "Error",
+        "config_button_save_error_text": "Error saving the configuration"
+    }
+}

@@ -1,10 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.groupf.java.swing.m7.interfaces;
 
 import com.groupf.java.swing.m7.messages.MessageBox;
+import com.groupf.java.swing.m7.database.DatabaseController;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ButtonGroup;
@@ -37,6 +35,7 @@ public class RegisterFrame extends javax.swing.JFrame {
     }
     
     private void registerSubmit(){
+        DatabaseController db = new DatabaseController();
         MessageBox msg = new MessageBox();
         Boolean isDone = false;
         if(radioCambrer.isSelected()){
@@ -50,6 +49,9 @@ public class RegisterFrame extends javax.swing.JFrame {
         }
         
         if (isDone){
+            db.registerUser(listaUser.get(0), listaUser.get(1), listaUser.get(2));
+            msg.successMessageBox("Registrado!", "Usuario registrado correctamente");
+            db.cerrarConexion();
             this.dispose();
         }
     }
