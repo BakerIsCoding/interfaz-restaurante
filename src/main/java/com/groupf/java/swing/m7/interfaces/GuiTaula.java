@@ -1,4 +1,3 @@
-
 package com.groupf.java.swing.m7.interfaces;
 
 import java.util.Arrays;
@@ -10,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Marc Baker Eduardo
  */
 public class GuiTaula extends javax.swing.JFrame {
+
     private String numTaula;
     private List<List<String>> menuCompleto; //Lista de listas para manejar el menú completo dividido por categorías.
 
@@ -17,7 +17,7 @@ public class GuiTaula extends javax.swing.JFrame {
         initComponents();
         setupCategoryButtons();
         setupPlateButtons();
-        
+
         // Menú de prueba
         List<String> primeros = Arrays.asList("Ensalada César", "Sopa de tomate", "Croquetas de jamón", "Gazpacho", "Patatas bravas", "Risotto de setas");
         List<String> segundos = Arrays.asList("Filete de ternera", "Bacalao al pil pil", "Pollo asado", "Lubina a la sal", "Carrilleras de cerdo", "Hamburguesa especial");
@@ -29,13 +29,13 @@ public class GuiTaula extends javax.swing.JFrame {
         // Establecemos el menú completo en nuestra interfaz
         setMenuCompleto(menuCompleto);
     }
-    
+
     private void setupCategoryButtons() {
         jButtonPrimers.addActionListener(evt -> actualizarNombresDePlatos(0)); // Primeros platos
         jButtonSegons.addActionListener(evt -> actualizarNombresDePlatos(1));  // Segundos platos
         jButtonPostres.addActionListener(evt -> actualizarNombresDePlatos(2)); // Postres
     }
-    
+
     private void setupPlateButtons() {
         jButtonPlat1.addActionListener(evt -> agregarPlatoATabla(jButtonPlat1.getText()));
         jButtonPlat2.addActionListener(evt -> agregarPlatoATabla(jButtonPlat2.getText()));
@@ -44,43 +44,66 @@ public class GuiTaula extends javax.swing.JFrame {
         jButtonPlat5.addActionListener(evt -> agregarPlatoATabla(jButtonPlat5.getText()));
         jButtonPlat6.addActionListener(evt -> agregarPlatoATabla(jButtonPlat6.getText()));
     }
-    
-    private void agregarPlatoATabla(String nombrePlato) {
-    DefaultTableModel model = (DefaultTableModel) jTableComanda.getModel();
-    boolean platoEncontrado = false;
 
-    // Busca si el plato ya existe en la tabla
-    for (int i = 0; i < model.getRowCount(); i++) {
-        String plato = model.getValueAt(i, 1).toString(); // Asume que la columna 1 es donde se almacenan los nombres de los platos
-        if (plato.equals(nombrePlato)) {
-            int cantidad = (Integer) model.getValueAt(i, 0); // Asume que la columna 0 es donde se almacenan las cantidades
-            model.setValueAt(cantidad + 1, i, 0); // Incrementa la cantidad
-            platoEncontrado = true;
-            break;
+    private void agregarPlatoATabla(String nombrePlato) {
+        DefaultTableModel model = (DefaultTableModel) jTableComanda.getModel();
+        boolean platoEncontrado = false;
+
+        // Busca si el plato ya existe en la tabla
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String plato = model.getValueAt(i, 1).toString(); // Asume que la columna 1 es donde se almacenan los nombres de los platos
+            if (plato.equals(nombrePlato)) {
+                int cantidad = (Integer) model.getValueAt(i, 0); // Asume que la columna 0 es donde se almacenan las cantidades
+                model.setValueAt(cantidad + 1, i, 0); // Incrementa la cantidad
+                platoEncontrado = true;
+                break;
+            }
+        }
+
+        // Si el plato no está en la tabla, añádelo
+        if (!platoEncontrado) {
+            double precio = calcularPrecioDelPlato(nombrePlato); // Este método debería obtener el precio real del plato
+            model.addRow(new Object[]{1, nombrePlato, precio}); // Añade el plato con cantidad 1
+        }
+        actualizarTotal();
+    }
+
+    private double calcularPrecioDelPlato(String nombrePlato) {
+        //Este es un método de ejemplo, debe ser implementado según los precios de los platos
+        return 10.0; // Precio de ejemplo, ajustar según sea necesario
+    }
+
+    private void actualizarTotal() {
+        DefaultTableModel modelComanda = (DefaultTableModel) jTableComanda.getModel();
+        DefaultTableModel modelTotal = (DefaultTableModel) jTableTotal.getModel();
+
+        double total = 0.0;
+        for (int i = 0; i < modelComanda.getRowCount(); i++) {
+            int cantidad = (Integer) modelComanda.getValueAt(i, 0); // Columna de cantidad
+            double precio = (Double) modelComanda.getValueAt(i, 2); // Columna de precio
+            total += cantidad * precio;
+        }
+
+        //Actualiza el jTableTotal con el nuevo total.
+        if (modelTotal.getRowCount() == 0) {
+            modelTotal.addRow(new Object[]{"En servicio", "", ""}); //Agrega una fila si no existe.
+            modelTotal.setValueAt(total, 0, 2); //Actualiza el total.
+            modelTotal.setValueAt(total/10, 0, 1); //Actualiza el IVA.
+        } else {
+            modelTotal.setValueAt(total, 0, 2); //Actualiza el total.
+            modelTotal.setValueAt(total/10, 0, 1); //Actualiza el IVA.
         }
     }
 
-    // Si el plato no está en la tabla, añádelo
-    if (!platoEncontrado) {
-        double precio = calcularPrecioDelPlato(nombrePlato); // Este método debería obtener el precio real del plato
-        model.addRow(new Object[]{1, nombrePlato, precio}); // Añade el plato con cantidad 1
-    }
-}
-
-    private double calcularPrecioDelPlato(String nombrePlato) {
-        // Este es un método de ejemplo, debe ser implementado según los precios de los platos
-        return 10.0; // Precio de ejemplo, ajustar según sea necesario
-    }
-    
     public void setNumTaula(String numeroMesa) {
         this.numTaula = numeroMesa; //Asigna el valor de numeroMesa a la variable numMesa de la clase.
         jLabel1.setText("Taula " + numTaula);
     }
-    
+
     public void setMenuCompleto(List<List<String>> menuCompleto) {
         this.menuCompleto = menuCompleto; //Asigna el menú completo a la variable de la clase.
     }
-    
+
     //Método para actualizar nombres de botones según la categoría seleccionada.
     public void actualizarNombresDePlatos(int categoria) {
         if (menuCompleto != null && menuCompleto.size() > categoria) {
@@ -193,7 +216,7 @@ public class GuiTaula extends javax.swing.JFrame {
         jTableTotal.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTableTotal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null}
+
             },
             new String [] {
                 "Estat", "10% IVA", "Total"
@@ -391,7 +414,11 @@ public class GuiTaula extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonPagarActionPerformed
 
     private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel modelTotal = (DefaultTableModel) jTableTotal.getModel();
+        if (modelTotal.getRowCount() > 0) {
+            // Asume que el estado está en la primera columna de la primera fila
+            modelTotal.setValueAt("Enviado", 0, 0);
+        }
     }//GEN-LAST:event_jButtonEnviarActionPerformed
     //Método de acción para el botón de segundos.
     private void jButtonSegonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSegonsActionPerformed
