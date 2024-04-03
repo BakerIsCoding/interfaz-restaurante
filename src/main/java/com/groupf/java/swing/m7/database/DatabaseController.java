@@ -96,6 +96,31 @@ public class DatabaseController {
         return null; // O podrías devolver -1 si prefieres trabajar con int y evitar los objetos Integer.
     }
 
+    public boolean insertSettings(Integer id, Integer tema, String lang) {
+        String consultaSQL = "INSERT INTO settings (id, tema, lang) VALUES (?, ?, ?)";
+        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            // Asignar valores a los parámetros del PreparedStatement
+            ps.setInt(1, id);
+            ps.setInt(2, tema);
+            ps.setString(3, lang);
+
+            // Ejecutar la actualización
+            int result = ps.executeUpdate();
+
+            // Si result es 1, la inserción fue exitosa
+            if (result == 1) {
+                System.out.println("Inserción en settings realizada con éxito.");
+                return true; // Retornar verdadero si la inserción fue exitosa
+            } else {
+                System.err.println("La inserción en settings falló.");
+                return false; // Retornar falso si la inserción falló
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al insertar en settings: " + ex.getMessage());
+            return false; // Retornar falso si hubo una excepción SQL
+        }
+    }
+
     public boolean existeUsuario(String user, String pass) {
         String consultaSQL = "SELECT COUNT(*) FROM usuario WHERE usuario = ? AND password = ?";
         try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {

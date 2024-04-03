@@ -32,6 +32,9 @@ public class RegisterFrame extends javax.swing.JFrame {
         group.add(radioCuiner);
         
         
+        
+        
+        
     }
     
     private void registerSubmit(){
@@ -50,6 +53,8 @@ public class RegisterFrame extends javax.swing.JFrame {
         
         if (isDone){
             db.registerUser(listaUser.get(0), listaUser.get(1), listaUser.get(2));
+            Integer uid = db.getUserId(listaUser.get(0), listaUser.get(1));
+            db.insertSettings(uid, 0, "es");
             msg.successMessageBox("Registrado!", "Usuario registrado correctamente");
             db.cerrarConexion();
             this.dispose();
