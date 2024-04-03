@@ -3,6 +3,7 @@ package com.groupf.java.swing.m7.interfaces;
 
 import java.util.Arrays;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,6 +16,7 @@ public class GuiTaula extends javax.swing.JFrame {
     public GuiTaula() {
         initComponents();
         setupCategoryButtons();
+        setupPlateButtons();
         
         // Menú de prueba
         List<String> primeros = Arrays.asList("Ensalada César", "Sopa de tomate", "Croquetas de jamón", "Gazpacho", "Patatas bravas", "Risotto de setas");
@@ -32,6 +34,42 @@ public class GuiTaula extends javax.swing.JFrame {
         jButtonPrimers.addActionListener(evt -> actualizarNombresDePlatos(0)); // Primeros platos
         jButtonSegons.addActionListener(evt -> actualizarNombresDePlatos(1));  // Segundos platos
         jButtonPostres.addActionListener(evt -> actualizarNombresDePlatos(2)); // Postres
+    }
+    
+    private void setupPlateButtons() {
+        jButtonPlat1.addActionListener(evt -> agregarPlatoATabla(jButtonPlat1.getText()));
+        jButtonPlat2.addActionListener(evt -> agregarPlatoATabla(jButtonPlat2.getText()));
+        jButtonPlat3.addActionListener(evt -> agregarPlatoATabla(jButtonPlat3.getText()));
+        jButtonPlat4.addActionListener(evt -> agregarPlatoATabla(jButtonPlat4.getText()));
+        jButtonPlat5.addActionListener(evt -> agregarPlatoATabla(jButtonPlat5.getText()));
+        jButtonPlat6.addActionListener(evt -> agregarPlatoATabla(jButtonPlat6.getText()));
+    }
+    
+    private void agregarPlatoATabla(String nombrePlato) {
+    DefaultTableModel model = (DefaultTableModel) jTableComanda.getModel();
+    boolean platoEncontrado = false;
+
+    // Busca si el plato ya existe en la tabla
+    for (int i = 0; i < model.getRowCount(); i++) {
+        String plato = model.getValueAt(i, 1).toString(); // Asume que la columna 1 es donde se almacenan los nombres de los platos
+        if (plato.equals(nombrePlato)) {
+            int cantidad = (Integer) model.getValueAt(i, 0); // Asume que la columna 0 es donde se almacenan las cantidades
+            model.setValueAt(cantidad + 1, i, 0); // Incrementa la cantidad
+            platoEncontrado = true;
+            break;
+        }
+    }
+
+    // Si el plato no está en la tabla, añádelo
+    if (!platoEncontrado) {
+        double precio = calcularPrecioDelPlato(nombrePlato); // Este método debería obtener el precio real del plato
+        model.addRow(new Object[]{1, nombrePlato, precio}); // Añade el plato con cantidad 1
+    }
+}
+
+    private double calcularPrecioDelPlato(String nombrePlato) {
+        // Este es un método de ejemplo, debe ser implementado según los precios de los platos
+        return 10.0; // Precio de ejemplo, ajustar según sea necesario
     }
     
     public void setNumTaula(String numeroMesa) {
@@ -95,14 +133,7 @@ public class GuiTaula extends javax.swing.JFrame {
         jTableComanda.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTableComanda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Quantitat", "Plat", "Preu"
