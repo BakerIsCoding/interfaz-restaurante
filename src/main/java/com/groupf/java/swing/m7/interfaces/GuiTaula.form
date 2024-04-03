@@ -322,6 +322,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Primers"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonPrimersActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonSegons">
               <Properties>
@@ -347,6 +350,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Postres"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonPostresActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonPlat1">
               <Properties>

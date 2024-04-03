@@ -1,20 +1,65 @@
 
 package com.groupf.java.swing.m7.interfaces;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author Marc Baker Eduardo
  */
 public class GuiTaula extends javax.swing.JFrame {
     private String numTaula;
+    private List<List<String>> menuCompleto; //Lista de listas para manejar el menú completo dividido por categorías.
 
     public GuiTaula() {
         initComponents();
+        setupCategoryButtons();
+        
+        // Menú de prueba
+        List<String> primeros = Arrays.asList("Ensalada César", "Sopa de tomate", "Croquetas de jamón", "Gazpacho", "Patatas bravas", "Risotto de setas");
+        List<String> segundos = Arrays.asList("Filete de ternera", "Bacalao al pil pil", "Pollo asado", "Lubina a la sal", "Carrilleras de cerdo", "Hamburguesa especial");
+        List<String> postres = Arrays.asList("Tarta de queso", "Brownie de chocolate", "Helado de vainilla", "Crema catalana", "Fruta del tiempo", "Flan de huevo");
+
+        // Agrupamos las listas en una lista de listas para el menú completo
+        List<List<String>> menuCompleto = Arrays.asList(primeros, segundos, postres);
+
+        // Establecemos el menú completo en nuestra interfaz
+        setMenuCompleto(menuCompleto);
+    }
+    
+    private void setupCategoryButtons() {
+        jButtonPrimers.addActionListener(evt -> actualizarNombresDePlatos(0)); // Primeros platos
+        jButtonSegons.addActionListener(evt -> actualizarNombresDePlatos(1));  // Segundos platos
+        jButtonPostres.addActionListener(evt -> actualizarNombresDePlatos(2)); // Postres
     }
     
     public void setNumTaula(String numeroMesa) {
         this.numTaula = numeroMesa; //Asigna el valor de numeroMesa a la variable numMesa de la clase.
         jLabel1.setText("Taula " + numTaula);
+    }
+    
+    public void setMenuCompleto(List<List<String>> menuCompleto) {
+        this.menuCompleto = menuCompleto; //Asigna el menú completo a la variable de la clase.
+    }
+    
+    //Método para actualizar nombres de botones según la categoría seleccionada.
+    public void actualizarNombresDePlatos(int categoria) {
+        if (menuCompleto != null && menuCompleto.size() > categoria) {
+            List<String> platos = menuCompleto.get(categoria);
+            if (platos.size() >= 6) {
+                jButtonPlat1.setText(platos.get(0));
+                jButtonPlat2.setText(platos.get(1));
+                jButtonPlat3.setText(platos.get(2));
+                jButtonPlat4.setText(platos.get(3));
+                jButtonPlat5.setText(platos.get(4));
+                jButtonPlat6.setText(platos.get(5));
+            } else {
+                System.out.println("Error: No hay suficientes platos en la categoría seleccionada para actualizar todos los botones.");
+            }
+        } else {
+            System.out.println("Error: Categoría seleccionada no válida o menú completo no establecido.");
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -146,6 +191,11 @@ public class GuiTaula extends javax.swing.JFrame {
         jButtonPrimers.setBackground(new java.awt.Color(255, 255, 153));
         jButtonPrimers.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButtonPrimers.setText("Primers");
+        jButtonPrimers.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPrimersActionPerformed(evt);
+            }
+        });
 
         jButtonSegons.setBackground(new java.awt.Color(153, 255, 153));
         jButtonSegons.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -159,6 +209,11 @@ public class GuiTaula extends javax.swing.JFrame {
         jButtonPostres.setBackground(new java.awt.Color(102, 255, 255));
         jButtonPostres.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButtonPostres.setText("Postres");
+        jButtonPostres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPostresActionPerformed(evt);
+            }
+        });
 
         jButtonPlat1.setBackground(new java.awt.Color(255, 255, 153));
         jButtonPlat1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -307,14 +362,22 @@ public class GuiTaula extends javax.swing.JFrame {
     private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonEnviarActionPerformed
-
+    //Método de acción para el botón de segundos.
     private void jButtonSegonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSegonsActionPerformed
-        // TODO add your handling code here:
+        actualizarNombresDePlatos(1);
     }//GEN-LAST:event_jButtonSegonsActionPerformed
 
     private void jButtonPlat2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlat2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonPlat2ActionPerformed
+    //Método de acción para el botón de primeros.
+    private void jButtonPrimersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrimersActionPerformed
+        actualizarNombresDePlatos(0);
+    }//GEN-LAST:event_jButtonPrimersActionPerformed
+    //Método de acción para el botón de postres.
+    private void jButtonPostresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPostresActionPerformed
+        actualizarNombresDePlatos(2);
+    }//GEN-LAST:event_jButtonPostresActionPerformed
 
     public static void main(String args[]) {
 
