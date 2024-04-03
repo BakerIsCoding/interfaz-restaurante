@@ -4,6 +4,7 @@
  */
 package com.groupf.java.swing.m7.interfaces;
 
+import static com.groupf.java.swing.m7.interfaces.InitFrame.translationsObject;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,7 +38,9 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
         JLabel labelConImagen = new JLabel(new ImageIcon("./images/restaurante800.png"));
         labelConImagen.setBounds(0, 0, 800, 800);
         layeredPane.add(labelConImagen, Integer.valueOf(1));
-
+        
+        labelTitle.setText(translationsObject.getString("gui_waiter_title"));
+        
         //MouseAdapter personalizado para cambiar el color de fondo al pasar el cursor.
         MouseAdapter hoverEffect = new MouseAdapter() {
             Color originalColor = null; //Almacena el color original del botón.
@@ -123,7 +126,7 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
         jButton10 = new javax.swing.JButton("10");
         jButton11 = new javax.swing.JButton("11");
         jButton12 = new javax.swing.JButton("12");
-        jLabel1 = new javax.swing.JLabel();
+        labelTitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -214,9 +217,9 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Cambrer");
+        labelTitle.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        labelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelTitle.setText("Cambrer");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -255,13 +258,13 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(234, 234, 234))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(labelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(120, 120, 120)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -362,6 +365,6 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel labelTitle;
     // End of variables declaration//GEN-END:variables
 }

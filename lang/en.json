@@ -18,6 +18,10 @@
         "user_password": "Password:",
         "user_register_button": "Register",
         "user_login_button": "Login",
+        "user_login_successful_title": "Login",
+        "user_login_successful_text": "You have logged in successfully.",
+        "user_login_error_title": "Login Error",
+        "user_login_error_text": "Incorrect username or password, or they do not exist.",
         "user_register_error_title": "Error",
         "user_register_error_length_text": "The username must be at least 3 characters long",
         "user_register_error_password_text": "The password must be at least 6 characters long",
@@ -38,6 +42,8 @@
         "config_button_save_success_title": "Configuration Saved",
         "config_button_save_success_text": "The configuration has been saved successfully",
         "config_button_save_error_title": "Error",
-        "config_button_save_error_text": "Error saving the configuration"
+        "config_button_save_error_text": "Error saving the configuration",
+
+        "gui_waiter_title": "Waiter"
     }
 }
