@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.ButtonGroup;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingUtilities;
 import javax.swing.table.TableColumnModel;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -59,7 +62,6 @@ public class InitFrame extends javax.swing.JFrame {
         setResizable(false);
         setVisible(true);
 
-        generateTable();
         /*
          * LLICENCIA
          * DISABLE PANELS
@@ -68,9 +70,14 @@ public class InitFrame extends javax.swing.JFrame {
         allPanels.setEnabledAt(2, false);
         comboBoxLlengua.setSelectedIndex(1);
         saveConfigButton.setEnabled(false);
+        jComboBoxMenu.setSelectedIndex(1);
 
-        /* USUARI */
- /*
+        /* MENU */
+ /* COMBO BOX MENU*/
+        jComboBoxMenu.removeAllItems();
+        jComboBoxMenu.addItem("Menú 1");
+        jComboBoxMenu.addItem("Menú 2");
+        /*
          * SETTINGS
          * RADIO BUTTONS
          */
@@ -79,7 +86,7 @@ public class InitFrame extends javax.swing.JFrame {
         group.add(radioButtonClar);
         group.add(radioButtonFosc);
 
-        /* COMBO BOX */
+        /* COMBO BOX Llengüa*/
         comboBoxLlengua.removeAllItems();
         comboBoxLlengua.addItem("Català");
         comboBoxLlengua.addItem("Castellano");
@@ -125,9 +132,9 @@ public class InitFrame extends javax.swing.JFrame {
             buttonMenu.setText(translationsObject.getString("menu_select"));
             TableColumnModel columnModel = menuTable.getColumnModel();
             columnModel.getColumn(0).setHeaderValue(translationsObject.getString("menu_table_name"));
-            columnModel.getColumn(1).setHeaderValue(translationsObject.getString("menu_table_order"));
-            columnModel.getColumn(2).setHeaderValue(translationsObject.getString("menu_table_allergens"));
-            columnModel.getColumn(3).setHeaderValue(translationsObject.getString("menu_table_price"));
+            columnModel.getColumn(1).setHeaderValue(translationsObject.getString("menu_table_price"));
+            columnModel.getColumn(2).setHeaderValue(translationsObject.getString("menu_table_order"));
+            columnModel.getColumn(3).setHeaderValue(translationsObject.getString("menu_table_allergens"));
             menuTable.repaint();
 
             // Config
@@ -147,7 +154,7 @@ public class InitFrame extends javax.swing.JFrame {
         String username = textFieldUsuari.getText();
         String password = jPasswordFieldPass.getText();
 
-        if (username.length() <= 3) {
+        if (username.length() <= 2) {
             msg.errorMessageBox(translationsObject.getString("user_register_error_title"),
                     translationsObject.getString("user_register_error_length_text"));
             return;
@@ -170,32 +177,6 @@ public class InitFrame extends javax.swing.JFrame {
 
         GuiCambrerFrame cambrer = new GuiCambrerFrame();
         cambrer.setDefaultCloseOperation(RegisterFrame.DISPOSE_ON_CLOSE);
-    }
-
-    public void generateTable() {
-        TableModel model = menuTable.getModel(); // Utiliza la instancia correcta de JTable aquí.
-        if (model instanceof DefaultTableModel) {
-            DefaultTableModel defaultModel = (DefaultTableModel) model;
-            // Ahora puedes añadir una fila al modelo
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-            defaultModel.addRow(new Object[]{"Dato 1", 3, "Dato 3"});
-        } else {
-            // Manejar el caso en que el modelo no sea una instancia de DefaultTableModel
-            System.out.println("El modelo de la tabla no es una instancia de DefaultTableModel.");
-        }
     }
 
     private void textFieldUsuariActionPerformed(java.awt.event.ActionEvent evt) {
@@ -232,6 +213,8 @@ public class InitFrame extends javax.swing.JFrame {
         menuTable = new javax.swing.JTable();
         panelMenuButton = new javax.swing.JPanel();
         buttonMenu = new javax.swing.JButton();
+        jComboBoxMenu = new javax.swing.JComboBox<>();
+        jLabelMenu = new javax.swing.JLabel();
         Configuracio = new javax.swing.JPanel();
         panelConfiguracio = new javax.swing.JPanel();
         titleConfig = new javax.swing.JLabel();
@@ -444,7 +427,7 @@ public class InitFrame extends javax.swing.JFrame {
         buttonMenu.setBackground(new java.awt.Color(52, 167, 251));
         buttonMenu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         buttonMenu.setForeground(new java.awt.Color(255, 255, 255));
-        buttonMenu.setText("Seleccionar Menú");
+        buttonMenu.setText("Aceptar");
         buttonMenu.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 buttonMenuMouseClicked(evt);
@@ -456,21 +439,39 @@ public class InitFrame extends javax.swing.JFrame {
             }
         });
 
+        jComboBoxMenu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jComboBoxMenu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxMenuActionPerformed(evt);
+            }
+        });
+
+        jLabelMenu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelMenu.setText("Seleccionar Menú:");
+
         javax.swing.GroupLayout panelMenuButtonLayout = new javax.swing.GroupLayout(panelMenuButton);
         panelMenuButton.setLayout(panelMenuButtonLayout);
         panelMenuButtonLayout.setHorizontalGroup(
             panelMenuButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMenuButtonLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuButtonLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jComboBoxMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addComponent(buttonMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(79, 79, 79))
         );
         panelMenuButtonLayout.setVerticalGroup(
             panelMenuButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMenuButtonLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(buttonMenu)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelMenuButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonMenu)
+                    .addComponent(jComboBoxMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
@@ -495,7 +496,7 @@ public class InitFrame extends javax.swing.JFrame {
                 .addComponent(scrollTable, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(panelMenuButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout MenuDelDiaLayout = new javax.swing.GroupLayout(MenuDelDia);
@@ -641,6 +642,57 @@ public class InitFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jComboBoxMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMenuActionPerformed
+        int selectedIndex = jComboBoxMenu.getSelectedIndex();
+        switch (selectedIndex) {
+            case 0: // menu 1
+                loadMenu(1);
+                break;
+            case 1: // menu 2
+                loadMenu(2);
+                break;
+        }
+    }//GEN-LAST:event_jComboBoxMenuActionPerformed
+    private void loadMenu(int menuNumber) {
+        DatabaseController db = new DatabaseController();
+        TableModel tableModel = menuTable.getModel();
+        // Realiza la consulta para obtener el menú desde la base de datos
+        String consulta = "SELECT json FROM menu WHERE nombre = '" + menuNumber + "'";
+        ResultSet rs = db.ejecutarConsulta(consulta);
+
+        try {
+            if (tableModel instanceof DefaultTableModel) {
+                DefaultTableModel defaultModel = (DefaultTableModel) tableModel;
+
+                // Borra todas las filas existentes en la tabla antes de cargar los datos
+                defaultModel.setRowCount(0);
+
+                // Itera sobre el ResultSet y agrega los datos al modelo de la tabla
+                while (rs.next()) {
+                    String jsonString = rs.getString("json");
+                    JSONArray jsonArray = new JSONArray(jsonString);
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        Object[] fila = {
+                            jsonObject.getString("Plato"),
+                            jsonObject.getDouble("Precio"),
+                            jsonObject.getString("Tipo"),
+                            jsonObject.getString("Alérgenos")
+                        };
+                        defaultModel.addRow(fila);
+                    }
+                }
+            }
+            // Cierra el ResultSet después de usarlo
+            rs.close();
+
+        } catch (SQLException | JSONException e) {
+            // Manejar excepciones
+            e.printStackTrace();
+        }
+    }
+
     private void buttonSelectFileMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonSelectFileMouseClicked
         MessageBox msg = new MessageBox();
         JFileChooser fileChooser = new JFileChooser();
@@ -674,7 +726,7 @@ public class InitFrame extends javax.swing.JFrame {
     private Boolean procesarArchivoLicencia(File archivo) {
         DatabaseController dbController = new DatabaseController();
         MessageBox msg = new MessageBox();
-        try ( BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 try {
@@ -739,6 +791,7 @@ public class InitFrame extends javax.swing.JFrame {
                 break;
             case 2: // English
                 loadEn();
+                break;
         }
     }
 
@@ -753,7 +806,6 @@ public class InitFrame extends javax.swing.JFrame {
             } catch (Exception e) {
                 msg.errorMessageBox("Error al cargar traduccioens", "Error al cargar traduccioens");
             }
-
         }
     }
 
@@ -961,6 +1013,8 @@ public class InitFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonRegister;
     private javax.swing.JButton buttonSelectFile;
     private javax.swing.JComboBox<String> comboBoxLlengua;
+    private javax.swing.JComboBox<String> jComboBoxMenu;
+    private javax.swing.JLabel jLabelMenu;
     private javax.swing.JPasswordField jPasswordFieldPass;
     private javax.swing.JLabel labelClau;
     private javax.swing.JLabel labelLlengua;
