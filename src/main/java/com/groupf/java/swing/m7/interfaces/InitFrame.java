@@ -5,7 +5,6 @@ import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.groupf.java.swing.m7.database.DatabaseController;
-import com.groupf.java.swing.m7.database.DatabaseConvertor;
 import com.groupf.java.swing.m7.lang.LangController;
 import com.groupf.java.swing.m7.messages.MessageBox;
 import java.awt.event.ActionEvent;
@@ -48,16 +47,12 @@ public class InitFrame extends javax.swing.JFrame {
 
     public InitFrame() {
         DatabaseController db = new DatabaseController();
-        DatabaseConvertor dbc = new DatabaseConvertor();
         LangController langController = new LangController();
         MessageBox msg = new MessageBox();
         initComponents();
         setTitle("Restaurant Can Pedro");
         setSize(760, 560);
         setLocationRelativeTo(null);
-
-        ResultSet rs = db.selectAllUsers();
-        dbc.showUsers(rs);
 
         setResizable(false);
         setVisible(true);
@@ -151,6 +146,7 @@ public class InitFrame extends javax.swing.JFrame {
 
     private void registerClicked() {
         MessageBox msg = new MessageBox();
+        DatabaseController db = new DatabaseController();
         String username = textFieldUsuari.getText();
         String password = jPasswordFieldPass.getText();
 
@@ -165,6 +161,12 @@ public class InitFrame extends javax.swing.JFrame {
                     translationsObject.getString("user_register_error_password_text"));
             return;
         }
+        Boolean isUsernameTaken = db.isUsernameTaken(username);
+        if (isUsernameTaken) {
+            msg.errorMessageBox(translationsObject.getString("user_register_error_title"), translationsObject.getString("user_register_error_taken_text"));
+            return;
+        }
+
         List<String> listaUser = new ArrayList<>(3);
         listaUser.add(username);
         listaUser.add(password);

@@ -1,8 +1,10 @@
 package com.groupf.java.swing.m7.interfaces;
 
+import static com.groupf.java.swing.m7.interfaces.InitFrame.translationsObject;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -28,6 +30,33 @@ public class GuiTaula extends javax.swing.JFrame {
 
         // Establecemos el menú completo en nuestra interfaz
         setMenuCompleto(menuCompleto);
+        doTraductions();
+    }
+
+    private void doTraductions() {
+
+        //Table Up
+        TableColumnModel columnModelUp = jTableComanda.getColumnModel();
+        columnModelUp.getColumn(0).setHeaderValue(translationsObject.getString("gui_table_up_quantity"));
+        columnModelUp.getColumn(1).setHeaderValue(translationsObject.getString("gui_table_up_dish"));
+        columnModelUp.getColumn(2).setHeaderValue(translationsObject.getString("gui_table_up_price"));
+        jTableComanda.repaint();
+
+        //Table Down
+        TableColumnModel columnModelDown = jTableTotal.getColumnModel();
+        columnModelDown.getColumn(0).setHeaderValue(translationsObject.getString("gui_table_down_state"));
+        columnModelDown.getColumn(1).setHeaderValue(translationsObject.getString("gui_table_down_iva"));
+        columnModelDown.getColumn(2).setHeaderValue(translationsObject.getString("gui_table_down_total"));
+        jTableComanda.repaint();
+        
+        
+        jButtonTornar.setText(translationsObject.getString("gui_button_go_back"));
+        jButtonEnviar.setText(translationsObject.getString("gui_button_send"));
+        jButtonPagar.setText(translationsObject.getString("gui_button_pay"));
+        
+        jButtonPrimers.setText(translationsObject.getString("gui_button_first"));
+        jButtonSegons.setText(translationsObject.getString("gui_button_second"));
+        jButtonPostres.setText(translationsObject.getString("gui_button_dessert"));
     }
 
     private void setupCategoryButtons() {
@@ -86,18 +115,18 @@ public class GuiTaula extends javax.swing.JFrame {
 
         //Actualiza el jTableTotal con el nuevo total.
         if (modelTotal.getRowCount() == 0) {
-            modelTotal.addRow(new Object[]{"En servicio", "", ""}); //Agrega una fila si no existe.
+            modelTotal.addRow(new Object[]{translationsObject.getString("gui_table_in_service"), "", ""}); //Agrega una fila si no existe.
             modelTotal.setValueAt(total, 0, 2); //Actualiza el total.
-            modelTotal.setValueAt(total/10, 0, 1); //Actualiza el IVA.
+            modelTotal.setValueAt(total / 10, 0, 1); //Actualiza el IVA.
         } else {
             modelTotal.setValueAt(total, 0, 2); //Actualiza el total.
-            modelTotal.setValueAt(total/10, 0, 1); //Actualiza el IVA.
+            modelTotal.setValueAt(total / 10, 0, 1); //Actualiza el IVA.
         }
     }
 
     public void setNumTaula(String numeroMesa) {
         this.numTaula = numeroMesa; //Asigna el valor de numeroMesa a la variable numMesa de la clase.
-        jLabel1.setText("Taula " + numTaula);
+        jLabel1.setText(translationsObject.getString("gui_table_pending") + numTaula);
     }
 
     public void setMenuCompleto(List<List<String>> menuCompleto) {
@@ -116,10 +145,10 @@ public class GuiTaula extends javax.swing.JFrame {
                 jButtonPlat5.setText(platos.get(4));
                 jButtonPlat6.setText(platos.get(5));
             } else {
-                System.out.println("Error: No hay suficientes platos en la categoría seleccionada para actualizar todos los botones.");
+                System.out.println(translationsObject.getString("gui_error_update_dishes_names_1"));
             }
         } else {
-            System.out.println("Error: Categoría seleccionada no válida o menú completo no establecido.");
+            System.out.println(translationsObject.getString("gui_error_update_dishes_names_2"));
         }
     }
 
@@ -417,7 +446,7 @@ public class GuiTaula extends javax.swing.JFrame {
         DefaultTableModel modelTotal = (DefaultTableModel) jTableTotal.getModel();
         if (modelTotal.getRowCount() > 0) {
             // Asume que el estado está en la primera columna de la primera fila
-            modelTotal.setValueAt("Enviado", 0, 0);
+            modelTotal.setValueAt(translationsObject.getString("gui_table_sent"), 0, 0);
         }
     }//GEN-LAST:event_jButtonEnviarActionPerformed
     //Método de acción para el botón de segundos.

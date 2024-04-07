@@ -25,6 +25,8 @@
         "user_register_error_title": "Error",
         "user_register_error_length_text": "The username must be at least 3 characters long",
         "user_register_error_password_text": "The password must be at least 6 characters long",
+        "user_register_error_taken_text": "The username is already in use",
+
 
         "menu": "Daily Menu",
         "menu_select": "Select Menu",
@@ -44,6 +46,27 @@
         "config_button_save_error_title": "Error",
         "config_button_save_error_text": "Error saving the configuration",
 
-        "gui_waiter_title": "Waiter"
+        "gui_waiter_title": "Waiter",
+        "gui_table_up_quantity": "Quantity",
+        "gui_table_up_dish": "Dish",
+        "gui_table_up_price": "Price",
+        "gui_table_down_state": "State",
+        "gui_table_down_iva": "10% VAT",
+        "gui_table_down_total": "Total",
+        "gui_table_in_service": "In Service",
+        "gui_table_pending": "Pending",
+        "gui_table_sent": "Sent",
+
+        "gui_button_go_back": "<-- Go Back",
+        "gui_button_send": "Send",
+        "gui_button_pay": "Pay",
+
+        "gui_button_first": "Starters",
+        "gui_button_second": "Mains",
+        "gui_button_dessert": "Desserts",
+
+        "gui_error_update_dishes_names_1": "Error: Not enough dishes in the selected category to update all buttons.",
+        "gui_error_update_dishes_names_2": "Error: Selected category invalid or full menu not set."
+
     }
 }

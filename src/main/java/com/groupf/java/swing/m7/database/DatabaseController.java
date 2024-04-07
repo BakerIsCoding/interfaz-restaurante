@@ -40,30 +40,6 @@ public class DatabaseController {
         }
     }
 
-    // Método para ejecutar INSERT, UPDATE, DELETE
-    public boolean ejecutarActualizacion(String consulta) {
-        try {
-            PreparedStatement ps = conn.prepareStatement(consulta);
-            int count = ps.executeUpdate();
-            return count > 0;
-        } catch (SQLException ex) {
-            System.out.println("Error al ejecutar actualización: " + ex.getMessage());
-            return false;
-        }
-    }
-
-    // Método para seleccionar todos los datos de la tabla usuario
-    public ResultSet selectAllUsers() {
-        String consulta = "SELECT * FROM usuario"; // Asegúrate de que el nombre de la tabla sea correcto
-        try {
-            PreparedStatement ps = conn.prepareStatement(consulta);
-            return ps.executeQuery();
-        } catch (SQLException ex) {
-            System.out.println("Error al seleccionar los datos de los usuarios: " + ex.getMessage());
-            return null;
-        }
-    }
-
     public boolean existeLicencia(String licencia) {
         String consultaSQL = "SELECT COUNT(*) FROM llicencia WHERE llicencia = ?";
         try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
@@ -119,6 +95,21 @@ public class DatabaseController {
             System.err.println("Error al insertar en settings: " + ex.getMessage());
             return false; // Retornar falso si hubo una excepción SQL
         }
+    }
+    
+    public boolean isUsernameTaken(String user){
+        String consultaSQL = "SELECT COUNT(*) FROM usuario WHERE usuario = ?";
+        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            ps.setString(1, user);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al verificar usuario o contraseña: " + ex.getMessage());
+        }
+        return false;
     }
 
     public boolean existeUsuario(String user, String pass) {

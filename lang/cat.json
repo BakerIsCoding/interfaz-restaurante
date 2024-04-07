@@ -25,6 +25,8 @@
         "user_register_error_title": "Error",
         "user_register_error_length_text": "El nom d'usuari ha de tenir com a mínim 3 caràcters",
         "user_register_error_password_text": "La clau ha de tenir com a mínim 6 caràcters",
+        "user_register_error_taken_text": "El nom d'usuari ja està en ús",
+        
 
         "menu": "Menú del dia",
         "menu_select": "Seleccionar menú",
@@ -44,6 +46,27 @@
         "config_button_save_error_title": "Error",
         "config_button_save_error_text": "Error desant la configuració",
 
-        "gui_waiter_title": "Cambrer"
+        "gui_waiter_title": "Cambrer",
+        "gui_table_up_quantity": "Quantitat",
+        "gui_table_up_dish": "Plat",
+        "gui_table_up_price": "Preu",
+        "gui_table_down_state": "Estat",
+        "gui_table_down_iva": "10% IVA",
+        "gui_table_down_total": "Total",
+        "gui_table_in_service": "En servei",
+        "gui_table_pending": "Pendent",
+        "gui_table_sent": "Enviat",
+
+        "gui_button_go_back": "<-- Tornar",
+        "gui_button_send": "Enviar",
+        "gui_button_pay": "Pagar",
+
+        "gui_button_first": "Primers",
+        "gui_button_second": "Segons",
+        "gui_button_dessert": "Postres",
+
+        "gui_error_update_dishes_names_1": "Error: No hi ha prou plats a la categoria seleccionada per actualitzar tots els botons.",
+        "gui_error_update_dishes_names_2": "Error: Categoria seleccionada no vàlida o menú complet no establert."
+
     }
 }
