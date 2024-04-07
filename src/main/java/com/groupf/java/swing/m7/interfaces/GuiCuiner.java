@@ -49,13 +49,7 @@ public class GuiCuiner extends javax.swing.JFrame {
         jTable2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Taula", "Plat", "Temps", "Estat"
@@ -89,13 +83,7 @@ public class GuiCuiner extends javax.swing.JFrame {
         jTable3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Taula", "Plat", "Temps", "Estat"
@@ -116,6 +104,7 @@ public class GuiCuiner extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable3.setColumnSelectionAllowed(true);
         jTable3.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(jTable3);
         jTable3.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -128,13 +117,7 @@ public class GuiCuiner extends javax.swing.JFrame {
         jTable4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable4.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Taula", "Plat", "Temps", "Estat"
@@ -155,6 +138,7 @@ public class GuiCuiner extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable4.setColumnSelectionAllowed(true);
         jTable4.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(jTable4);
         jTable4.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);

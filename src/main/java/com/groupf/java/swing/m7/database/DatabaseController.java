@@ -127,6 +127,21 @@ public class DatabaseController {
         }
         return false;
     }
+    
+    public String userType(String uid) {
+    String consultaSQL = "SELECT tipus FROM usuario WHERE id = ?";
+    try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+        ps.setString(1, uid);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getString("tipus"); 
+        }
+    } catch (SQLException ex) {
+        System.err.println("Error al verificar usuario o contraseña: " + ex.getMessage());
+    }
+    return null;
+}
+
 
     public boolean registerUser(String nombre, String contraseña, String tipo) {
         String consultaSQL = "INSERT INTO usuario (usuario, password, tipus) VALUES (?, ?, ?);";

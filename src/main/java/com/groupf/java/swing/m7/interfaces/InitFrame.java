@@ -342,19 +342,19 @@ public class InitFrame extends javax.swing.JFrame {
             .addGroup(panelCredencialsLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(panelCredencialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelCredencialsLayout.createSequentialGroup()
-                        .addComponent(jPasswordFieldPass)
-                        .addContainerGap())
                     .addComponent(labelUsuari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelClau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelCredencialsLayout.createSequentialGroup()
-                        .addComponent(textFieldUsuari, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelCredencialsLayout.createSequentialGroup()
-                        .addComponent(buttonLogIn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(buttonRegister)
-                        .addGap(30, 30, 30))))
+                        .addGroup(panelCredencialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPasswordFieldPass, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelCredencialsLayout.createSequentialGroup()
+                                .addComponent(buttonLogIn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                                .addComponent(buttonRegister)))
+                        .addGap(30, 30, 30))
+                    .addGroup(panelCredencialsLayout.createSequentialGroup()
+                        .addComponent(textFieldUsuari, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         panelCredencialsLayout.setVerticalGroup(
             panelCredencialsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -728,7 +728,7 @@ public class InitFrame extends javax.swing.JFrame {
     private Boolean procesarArchivoLicencia(File archivo) {
         DatabaseController dbController = new DatabaseController();
         MessageBox msg = new MessageBox();
-        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+        try ( BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 try {
@@ -856,40 +856,64 @@ public class InitFrame extends javax.swing.JFrame {
         String password = jPasswordFieldPass.getText();
 
         if (db.existeUsuario(username, password)) {
-            allPanels.setEnabledAt(0, false);
-            allPanels.setEnabledAt(1, false);
-            allPanels.setEnabledAt(2, true);
-            allPanels.setEnabledAt(3, true);
-            String uid = String.valueOf(db.getUserId(username, password));
 
-            Integer theme = db.getThemeById(uid);
-            String lang = db.getLangById(uid);
+            uid = String.valueOf(db.getUserId(username, password));
 
-            if (theme == 0) {
-                setWhiteTheme();
-                radioButtonClar.setSelected(true);
+            String userType = db.userType(uid);
+
+            //Cambrer
+            if (userType.equals("cambrer")) {
+                allPanels.setEnabledAt(0, false);
+                allPanels.setEnabledAt(1, false);
+                allPanels.setEnabledAt(2, true);
+                allPanels.setEnabledAt(3, true);
+
+                allPanels.setSelectedIndex(2);
+
+                //Cuiner
             } else {
-                setBlackTheme();
-                radioButtonFosc.setSelected(true);
+                allPanels.setEnabledAt(0, false);
+                allPanels.setEnabledAt(1, false);
+                allPanels.setEnabledAt(2, false);
+                allPanels.setEnabledAt(3, true);
+                GuiCuiner cuiner = new GuiCuiner();
+                cuiner.setVisible(true);
+
+                allPanels.setSelectedIndex(3);
+
             }
 
-            if (lang.equals("cat")) {
-                loadCat();
-                comboBoxLlengua.setSelectedIndex(0);
-            } else if (lang.equals("es")) {
-                loadEs();
-                comboBoxLlengua.setSelectedIndex(1);
-            } else {
-                loadEn();
-                comboBoxLlengua.setSelectedIndex(2);
-            }
-
-            allPanels.setSelectedIndex(2);
             saveConfigButton.setEnabled(true);
-
+            applyConfig();
             msg.successMessageBox(translationsObject.getString("user_login_successful_title"), translationsObject.getString("user_login_successful_text"));
+
         } else {
             msg.errorMessageBox(translationsObject.getString("user_login_error_title"), translationsObject.getString("user_login_error_text"));
+        }
+    }
+
+    private void applyConfig() {
+        DatabaseController db = new DatabaseController();
+        Integer theme = db.getThemeById(uid);
+        String lang = db.getLangById(uid);
+
+        if (theme == 0) {
+            setWhiteTheme();
+            radioButtonClar.setSelected(true);
+        } else {
+            setBlackTheme();
+            radioButtonFosc.setSelected(true);
+        }
+
+        if (lang.equals("cat")) {
+            loadCat();
+            comboBoxLlengua.setSelectedIndex(0);
+        } else if (lang.equals("es")) {
+            loadEs();
+            comboBoxLlengua.setSelectedIndex(1);
+        } else {
+            loadEn();
+            comboBoxLlengua.setSelectedIndex(2);
         }
     }
 
