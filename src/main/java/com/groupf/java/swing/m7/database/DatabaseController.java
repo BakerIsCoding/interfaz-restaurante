@@ -40,9 +40,11 @@ public class DatabaseController {
         }
     }
 
+   
+
     public boolean existeLicencia(String licencia) {
         String consultaSQL = "SELECT COUNT(*) FROM llicencia WHERE llicencia = ?";
-        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
             ps.setString(1, licencia);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -57,7 +59,7 @@ public class DatabaseController {
 
     public Integer getUserId(String user, String pass) {
         String consultaSQL = "SELECT id FROM usuario WHERE usuario = ? AND password = ?";
-        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
             ps.setString(1, user);
             ps.setString(2, pass);
             ResultSet rs = ps.executeQuery();
@@ -74,7 +76,7 @@ public class DatabaseController {
 
     public boolean insertSettings(Integer id, Integer tema, String lang) {
         String consultaSQL = "INSERT INTO settings (id, tema, lang) VALUES (?, ?, ?)";
-        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
             // Asignar valores a los parámetros del PreparedStatement
             ps.setInt(1, id);
             ps.setInt(2, tema);
@@ -96,10 +98,10 @@ public class DatabaseController {
             return false; // Retornar falso si hubo una excepción SQL
         }
     }
-    
-    public boolean isUsernameTaken(String user){
+
+    public boolean isUsernameTaken(String user) {
         String consultaSQL = "SELECT COUNT(*) FROM usuario WHERE usuario = ?";
-        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
             ps.setString(1, user);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -114,7 +116,7 @@ public class DatabaseController {
 
     public boolean existeUsuario(String user, String pass) {
         String consultaSQL = "SELECT COUNT(*) FROM usuario WHERE usuario = ? AND password = ?";
-        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
             ps.setString(1, user);
             ps.setString(2, pass);
             ResultSet rs = ps.executeQuery();
@@ -127,25 +129,24 @@ public class DatabaseController {
         }
         return false;
     }
-    
-    public String userType(String uid) {
-    String consultaSQL = "SELECT tipus FROM usuario WHERE id = ?";
-    try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
-        ps.setString(1, uid);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getString("tipus"); 
-        }
-    } catch (SQLException ex) {
-        System.err.println("Error al verificar usuario o contraseña: " + ex.getMessage());
-    }
-    return null;
-}
 
+    public String userType(String uid) {
+        String consultaSQL = "SELECT tipus FROM usuario WHERE id = ?";
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            ps.setString(1, uid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("tipus");
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al verificar usuario o contraseña: " + ex.getMessage());
+        }
+        return null;
+    }
 
     public boolean registerUser(String nombre, String contraseña, String tipo) {
         String consultaSQL = "INSERT INTO usuario (usuario, password, tipus) VALUES (?, ?, ?);";
-        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
             ps.setString(1, nombre);
             ps.setString(2, contraseña);
             ps.setString(3, tipo);
@@ -161,7 +162,7 @@ public class DatabaseController {
 
     public boolean saveConfig(String uid, Integer theme, String lang) {
         String consultaSQL = "INSERT INTO settings (id, tema, lang) VALUES (?, ?, ?);";
-        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
             ps.setString(1, uid);
             ps.setInt(2, theme);
             ps.setString(3, lang);
@@ -177,7 +178,7 @@ public class DatabaseController {
 
     public boolean updateConfig(String uid, Integer theme, String lang) {
         String updateSQL = "UPDATE settings SET tema = ?, lang = ? WHERE id = ?;";
-        try ( PreparedStatement ps = conn.prepareStatement(updateSQL)) {
+        try (PreparedStatement ps = conn.prepareStatement(updateSQL)) {
             ps.setInt(1, theme);
             ps.setString(2, lang);
             ps.setString(3, uid);
@@ -193,7 +194,7 @@ public class DatabaseController {
 
     public boolean existsConfig(String uid) {
         String existsSQL = "SELECT COUNT(*) FROM settings WHERE id = ?;";
-        try ( PreparedStatement ps = conn.prepareStatement(existsSQL)) {
+        try (PreparedStatement ps = conn.prepareStatement(existsSQL)) {
             ps.setString(1, uid);
 
             ResultSet rs = ps.executeQuery();
@@ -210,7 +211,7 @@ public class DatabaseController {
 
     public Integer getThemeById(String uid) {
         String consultaSQL = "SELECT tema FROM settings WHERE id = ?;";
-        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
             ps.setString(1, uid);
 
             ResultSet rs = ps.executeQuery();
@@ -228,7 +229,7 @@ public class DatabaseController {
 
     public String getLangById(String uid) {
         String consultaSQL = "SELECT lang FROM settings WHERE id = ?;";
-        try ( PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
             ps.setString(1, uid);
 
             ResultSet rs = ps.executeQuery();

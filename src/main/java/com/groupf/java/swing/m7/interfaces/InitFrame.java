@@ -419,6 +419,7 @@ public class InitFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        menuTable.getTableHeader().setReorderingAllowed(false);
         menuTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuTableMouseClicked(evt);

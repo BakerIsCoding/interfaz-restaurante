@@ -25,7 +25,7 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
     /**
      * Creates new form GuiCambrerFrame
      */
-    public GuiCambrerFrame() {
+    public GuiCambrerFrame(int menu) {
         initComponents();
         setTitle("Can Pedro");
         setVisible(true);
@@ -347,7 +347,7 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GuiCambrerFrame().setVisible(true);
+                new GuiCambrerFrame(1).setVisible(true);
             }
         });
     }
