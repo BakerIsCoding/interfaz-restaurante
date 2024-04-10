@@ -1,11 +1,15 @@
 package com.groupf.java.swing.m7.interfaces;
 
+import static com.groupf.java.swing.m7.interfaces.InitFrame.translationsObject;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JTable;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,7 +27,7 @@ public class GuiCuiner extends javax.swing.JFrame {
             "{\"items\": [{\"Quantitat\": 1, \"Plat\": \"Gazpacho\", \"Tipo\": \"primero\"}, {\"Quantitat\": 1, \"Plat\": \"Patatas bravas\", \"Tipo\": \"primero\"}, {\"Quantitat\": 1, \"Plat\": \"Ensalada César\", \"Tipo\": \"segundo\"}, {\"Quantitat\": 1, \"Plat\": \"Sopa de tomate\", \"Tipo\": \"primero\"}]}");
     private Timer timer;
 
-    public GuiCuiner() {
+    public GuiCuiner() throws Exception {
         initComponents();
         startTimer();
         printTableByType(menu);
@@ -151,7 +155,7 @@ public class GuiCuiner extends javax.swing.JFrame {
             TableColumnModel columnModelPostres = tablePostres.getColumnModel();
             columnModelPostres.getColumn(0).setHeaderValue(translationsObject.getString("gui_cuina_postres_taula"));
             columnModelPostres.getColumn(1).setHeaderValue(translationsObject.getString("gui_cuina_postres_plat"));
-            columnModelPostres.getColumn(2).setHeaderValue(translationsObject.getString("gui_cuina_postres _temps"));
+            columnModelPostres.getColumn(2).setHeaderValue(translationsObject.getString("gui_cuina_postres_temps"));
             columnModelPostres.getColumn(3).setHeaderValue(translationsObject.getString("gui_cuina_postres_estat"));
             tablePostres.repaint();
 
@@ -456,7 +460,11 @@ public class GuiCuiner extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GuiCuiner().setVisible(true);
+                try {
+                    new GuiCuiner().setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(GuiCuiner.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -504,10 +512,10 @@ public class GuiCuiner extends javax.swing.JFrame {
             DefaultTableModel defaultModel = (DefaultTableModel) tablePrimeros;
             // Se crea el objeto
             Object[] builder = {
-                    tableId,
-                    plato,
-                    "00:00",
-                    "En espera"
+                tableId,
+                plato,
+                "00:00",
+                "En espera"
             };
             // Se añade a la tabla
             defaultModel.addRow(builder);
@@ -520,10 +528,10 @@ public class GuiCuiner extends javax.swing.JFrame {
             DefaultTableModel defaultModel = (DefaultTableModel) tableSegundos;
             // Se crea el objeto
             Object[] builder = {
-                    tableId,
-                    plato,
-                    "00:00",
-                    "En espera"
+                tableId,
+                plato,
+                "00:00",
+                "En espera"
             };
             // Se añade a la tabla
             defaultModel.addRow(builder);
@@ -536,10 +544,10 @@ public class GuiCuiner extends javax.swing.JFrame {
             DefaultTableModel defaultModel = (DefaultTableModel) tablePostres;
             // Se crea el objeto
             Object[] builder = {
-                    tableId,
-                    plato,
-                    "00:00",
-                    "En espera"
+                tableId,
+                plato,
+                "00:00",
+                "En espera"
             };
             // Se añade a la tabla
             defaultModel.addRow(builder);

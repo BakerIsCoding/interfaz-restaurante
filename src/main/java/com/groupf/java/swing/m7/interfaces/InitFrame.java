@@ -26,6 +26,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.table.TableColumnModel;
 import org.json.JSONArray;
@@ -146,7 +148,7 @@ public class InitFrame extends javax.swing.JFrame {
         }
     }
 
-    private void registerClicked() {
+    private void registerClicked() throws Exception {
         MessageBox msg = new MessageBox();
         DatabaseController db = new DatabaseController();
         String username = textFieldUsuari.getText();
@@ -848,12 +850,17 @@ public class InitFrame extends javax.swing.JFrame {
 
     }// GEN-LAST:event_menuTableMouseClicked
 
-    private void buttonLogInMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonLogInMouseClicked
-        loginUser();
+    private void buttonLogInMouseClicked(java.awt.event.MouseEvent evt) {
+        try {
+            // GEN-FIRST:event_buttonLogInMouseClicked
+            loginUser();
+        } catch (Exception ex) {
+            Logger.getLogger(InitFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }// GEN-LAST:event_buttonLogInMouseClicked
 
-    private void loginUser() {
+    private void loginUser() throws Exception {
         DatabaseController db = new DatabaseController();
         MessageBox msg = new MessageBox();
 
@@ -922,10 +929,14 @@ public class InitFrame extends javax.swing.JFrame {
         }
     }
 
-    private void buttonRegisterMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonRegisterMouseClicked
-        registerClicked();
+    private void buttonRegisterMouseClicked(java.awt.event.MouseEvent evt) {
+        try {
+            // GEN-FIRST:event_buttonRegisterMouseClicked
+            registerClicked();
+        } catch (Exception ex) {
+            Logger.getLogger(InitFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }// GEN-LAST:event_buttonRegisterMouseClicked
-    
 
     private void buttonMenuMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonMenuMouseClicked
 
