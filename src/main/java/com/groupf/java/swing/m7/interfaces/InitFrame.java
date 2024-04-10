@@ -44,6 +44,7 @@ public class InitFrame extends javax.swing.JFrame {
     public static JSONObject langObject = new JSONObject();
     public static JSONObject translationsObject = new JSONObject();
     public static String uid = "0";
+    public static Integer menuValue = 0;
 
     public InitFrame() {
         DatabaseController db = new DatabaseController();
@@ -175,18 +176,19 @@ public class InitFrame extends javax.swing.JFrame {
         register.setDefaultCloseOperation(RegisterFrame.DISPOSE_ON_CLOSE);
     }
 
-    private void selectMenuClicked() {
-
+    private void selectMenuClicked(int selectedIndex) {
+        
         GuiCambrerFrame cambrer = new GuiCambrerFrame();
         cambrer.setDefaultCloseOperation(RegisterFrame.DISPOSE_ON_CLOSE);
+
     }
 
     private void textFieldUsuariActionPerformed(java.awt.event.ActionEvent evt) {
-        // FUNCIONA PLS
+
     }
 
     private void buttonRegisterActionPerformed(java.awt.event.ActionEvent evt) {
-        // FUNCIONA PLS
+
     }
 
     @SuppressWarnings("unchecked")
@@ -646,6 +648,7 @@ public class InitFrame extends javax.swing.JFrame {
 
     private void jComboBoxMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMenuActionPerformed
         int selectedIndex = jComboBoxMenu.getSelectedIndex();
+
         switch (selectedIndex) {
             case 0: // menu 1
                 loadMenu(1);
@@ -728,7 +731,7 @@ public class InitFrame extends javax.swing.JFrame {
     private Boolean procesarArchivoLicencia(File archivo) {
         DatabaseController dbController = new DatabaseController();
         MessageBox msg = new MessageBox();
-        try ( BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 try {
@@ -920,9 +923,21 @@ public class InitFrame extends javax.swing.JFrame {
     private void buttonRegisterMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonRegisterMouseClicked
         registerClicked();
     }// GEN-LAST:event_buttonRegisterMouseClicked
+    
 
     private void buttonMenuMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonMenuMouseClicked
-        selectMenuClicked();
+
+        int selectedIndex = jComboBoxMenu.getSelectedIndex();
+
+        selectMenuClicked(selectedIndex);
+        switch (selectedIndex) {
+            case 0: // menu 1
+                menuValue = 1;
+                break;
+            case 1: // menu 2
+                menuValue = 2;
+                break;
+        }
     }// GEN-LAST:event_buttonMenuMouseClicked
 
     public void setBlackTheme() {

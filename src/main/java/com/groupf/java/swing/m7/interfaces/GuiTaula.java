@@ -19,7 +19,10 @@ public class GuiTaula extends javax.swing.JFrame {
         initComponents();
         setupCategoryButtons();
         setupPlateButtons();
-
+        
+        Integer menuValue = InitFrame.menuValue;
+        System.out.println(menuValue);
+        
         // Menú de prueba
         List<String> primeros = Arrays.asList("Ensalada César", "Sopa de tomate", "Croquetas de jamón", "Gazpacho", "Patatas bravas", "Risotto de setas");
         List<String> segundos = Arrays.asList("Filete de ternera", "Bacalao al pil pil", "Pollo asado", "Lubina a la sal", "Carrilleras de cerdo", "Hamburguesa especial");
