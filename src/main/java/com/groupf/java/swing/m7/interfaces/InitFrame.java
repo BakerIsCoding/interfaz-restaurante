@@ -125,7 +125,8 @@ public class InitFrame extends javax.swing.JFrame {
 
             // Menú diari
             labelTitleMenu.setText(translationsObject.getString("menu"));
-            buttonMenu.setText(translationsObject.getString("menu_select"));
+            jLabelMenu.setText(translationsObject.getString("tria_menu"));
+            buttonMenu.setText(translationsObject.getString("menu_acceptar"));
             TableColumnModel columnModel = menuTable.getColumnModel();
             columnModel.getColumn(0).setHeaderValue(translationsObject.getString("menu_table_name"));
             columnModel.getColumn(1).setHeaderValue(translationsObject.getString("menu_table_price"));

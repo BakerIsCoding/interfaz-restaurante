@@ -1,10 +1,12 @@
-
 package com.groupf.java.swing.m7.interfaces;
 
 import com.groupf.java.swing.m7.messages.MessageBox;
 import com.groupf.java.swing.m7.database.DatabaseController;
+import static com.groupf.java.swing.m7.interfaces.InitFrame.translationsObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 
 /**
@@ -17,41 +19,49 @@ public class RegisterFrame extends javax.swing.JFrame {
      * Creates new form RegisterFrame
      */
     private List<String> listaUser;
-    
-    
-    public RegisterFrame(List<String> listaUser) {
+
+    public RegisterFrame(List<String> listaUser) throws Exception {
         this.listaUser = listaUser;
-        
+
         setSize(224, 190);
         initComponents();
         setVisible(true);
         setLocationRelativeTo(null);
-        
+
         ButtonGroup group = new ButtonGroup();
         group.add(radioCambrer);
         group.add(radioCuiner);
-        
-        
-        
-        
-        
+        doTraductions();
+
     }
-    
-    private void registerSubmit(){
+
+    private void doTraductions() throws Exception {
+        try {
+            frameTitle.setText(translationsObject.getString("gui_register_title"));
+            radioCambrer.setText(translationsObject.getString("gui_register_cambrer"));
+            radioCuiner.setText(translationsObject.getString("gui_register_cuiner"));
+            submitButton.setText(translationsObject.getString("gui_register_enviar"));
+
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    private void registerSubmit() {
         DatabaseController db = new DatabaseController();
         MessageBox msg = new MessageBox();
         Boolean isDone = false;
-        if(radioCambrer.isSelected()){
+        if (radioCambrer.isSelected()) {
             listaUser.add("cambrer");
             isDone = true;
-        } else if(radioCuiner.isSelected()){
+        } else if (radioCuiner.isSelected()) {
             listaUser.add("cuiner");
             isDone = true;
-        } else{
+        } else {
             msg.errorMessageBox("Error", "Selecciona el teu lloc de treball");
         }
-        
-        if (isDone){
+
+        if (isDone) {
             db.registerUser(listaUser.get(0), listaUser.get(1), listaUser.get(2));
             Integer uid = db.getUserId(listaUser.get(0), listaUser.get(1));
             db.insertSettings(uid, 0, "es");
@@ -153,18 +163,22 @@ public class RegisterFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    /* Set the Nimbus look and feel */
-    // ... el código para configurar el Look and Feel ...
+        /* Set the Nimbus look and feel */
+        // ... el código para configurar el Look and Feel ...
 
-    /* Create and display the form */
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            // Crear una lista vacía de Strings para pasar al constructor
-            List<String> listaVacia = new ArrayList<>();
-            new RegisterFrame(listaVacia).setVisible(true); // Pasar la lista al constructor
-        }
-    });
-}
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                // Crear una lista vacía de Strings para pasar al constructor
+                List<String> listaVacia = new ArrayList<>();
+                try {
+                    new RegisterFrame(listaVacia).setVisible(true); // Pasar la lista al constructor
+                } catch (Exception ex) {
+                    Logger.getLogger(RegisterFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

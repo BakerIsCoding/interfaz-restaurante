@@ -3,7 +3,7 @@
     "translations": {
         "license": "Licencia",
         "license_button": "Seleccionar archivo",
-        "license_button_dialog_text": "Selecciona archivo de licencia",
+        "license_button_dialog_text": "Seleccionar archivo de licencia",
         "license_success_title": "Licencia válida",
         "license_success_text": "La licencia es válida",
         "license_error_title": "Licencia no válida",
@@ -15,7 +15,7 @@
         "user": "Usuario",
         "user_credentials": "Credenciales",
         "user_username": "Usuario:",
-        "user_password": "Clave:",
+        "user_password": "Contraseña:",
         "user_register_button": "Registrarse",
         "user_login_button": "Iniciar sesión",
         "user_login_successful_title": "Inicio de sesión",
@@ -24,17 +24,22 @@
         "user_login_error_text": "Usuario o contraseña incorrectos, o inexistentes.",
         "user_register_error_title": "Error",
         "user_register_error_length_text": "El nombre de usuario debe tener al menos 3 caracteres",
-        "user_register_error_password_text": "La clave debe tener al menos 6 caracteres",
+        "user_register_error_password_text": "La contraseña debe tener al menos 6 caracteres",
         "user_register_error_taken_text": "El nombre de usuario ya está en uso",
 
+        "gui_register_title": "Lugar de trabajo",
+        "gui_register_cambrer": "Camarero",
+        "gui_register_cuiner": "Cocinero",
+        "gui_register_enviar": "Enviar",
         
         "menu": "Menú del día",
-        "menu_select": "Seleccionar menú",
+        "menu_acceptar": "Aceptar",
+        "tria_menu": "Elige el menú",
         "menu_table_name": "Nombre",
         "menu_table_order": "Pedido",
         "menu_table_allergens": "Alérgenos",
         "menu_table_price": "Precio",
-
+        
         "config": "Configuración",
         "config_theme": "Tema",
         "config_theme_light": "Claro",
@@ -45,7 +50,7 @@
         "config_button_save_success_text": "La configuración se ha guardado correctamente",
         "config_button_save_error_title": "Error",
         "config_button_save_error_text": "Error guardando la configuración",
-
+        
         "gui_waiter_title": "Camarero",
         "gui_table_up_quantity": "Cantidad",
         "gui_table_up_dish": "Plato",
@@ -54,19 +59,42 @@
         "gui_table_down_iva": "10% IVA",
         "gui_table_down_total": "Total",
         "gui_table_in_service": "En servicio",
-        "gui_table_pending": "Pendiente",
+        "gui_table_titulo": "Mesa",
         "gui_table_sent": "Enviado",
-
+        
         "gui_button_go_back": "<-- Volver",
         "gui_button_send": "Enviar",
         "gui_button_pay": "Pagar",
-
+        
         "gui_button_first": "Primeros",
         "gui_button_second": "Segundos",
         "gui_button_dessert": "Postres",
-
+        
+        "gui_label_titulo": "Cocina",
+        "gui_cuina_primers_taula": "Mesa",
+        "gui_cuina_primers_plat": "Plato",
+        "gui_cuina_primers_temps": "Tiempo",
+        "gui_cuina_primers_estat": "Estado",
+        
+        "gui_cuina_segons_taula": "Mesa",
+        "gui_cuina_segons_plat": "Plato",
+        "gui_cuina_segons_temps": "Tiempo",
+        "gui_cuina_segons_estat": "Estado",
+        
+        "gui_cuina_postres_taula": "Mesa",
+        "gui_cuina_postres_plat": "Plato",
+        "gui_cuina_postres_temps": "Tiempo",
+        "gui_cuina_postres_estat": "Estado",
+        
+        "gui_button_preparando": "Preparando",
+        "gui_button_listo": "Servido",
+        "gui_button_espera": "En espera",
+        
+        "gui_label_primers": "Primeros",
+        "gui_label_segons": "Segundos",
+        "gui_label_postres": "Postres",
+        
         "gui_error_update_dishes_names_1": "Error: No hay suficientes platos en la categoría seleccionada para actualizar todos los botones.",
         "gui_error_update_dishes_names_2": "Error: Categoría seleccionada no válida o menú completo no establecido."
-
     }
 }

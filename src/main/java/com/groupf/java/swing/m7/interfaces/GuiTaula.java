@@ -21,7 +21,6 @@ public class GuiTaula extends javax.swing.JFrame {
         setupPlateButtons();
         
         Integer menuValue = InitFrame.menuValue;
-        System.out.println(menuValue);
         
         // Menú de prueba
         List<String> primeros = Arrays.asList("Ensalada César", "Sopa de tomate", "Croquetas de jamón", "Gazpacho", "Patatas bravas", "Risotto de setas");
@@ -129,7 +128,7 @@ public class GuiTaula extends javax.swing.JFrame {
 
     public void setNumTaula(String numeroMesa) {
         this.numTaula = numeroMesa; //Asigna el valor de numeroMesa a la variable numMesa de la clase.
-        jLabel1.setText(translationsObject.getString("gui_table_pending") + numTaula);
+        jLabel1.setText(translationsObject.getString("gui_table_titulo") + numTaula);
     }
 
     public void setMenuCompleto(List<List<String>> menuCompleto) {

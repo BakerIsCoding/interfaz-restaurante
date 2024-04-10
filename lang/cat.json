@@ -27,9 +27,14 @@
         "user_register_error_password_text": "La clau ha de tenir com a mínim 6 caràcters",
         "user_register_error_taken_text": "El nom d'usuari ja està en ús",
         
+        "gui_register_title": "Lloc de treball",
+        "gui_register_cambrer": "Cambrer",
+        "gui_register_cuiner": "Cuiner",
+        "gui_register_enviar": "Enviar",
 
         "menu": "Menú del dia",
-        "menu_select": "Seleccionar menú",
+        "menu_acceptar": "Acceptar",
+        "tria_menu": "Tria el teu menú",
         "menu_table_name": "Nom",
         "menu_table_order": "Comanda",
         "menu_table_allergens": "Al·lèrgens",
@@ -54,7 +59,7 @@
         "gui_table_down_iva": "10% IVA",
         "gui_table_down_total": "Total",
         "gui_table_in_service": "En servei",
-        "gui_table_pending": "Pendent",
+        "gui_table_titulo": "Taula",
         "gui_table_sent": "Enviat",
 
         "gui_button_go_back": "<-- Tornar",
@@ -64,6 +69,31 @@
         "gui_button_first": "Primers",
         "gui_button_second": "Segons",
         "gui_button_dessert": "Postres",
+
+        "gui_label_titulo": "Cuina",
+        "gui_cuina_primers_taula": "Taula",
+        "gui_cuina_primers_plat": "Plat",
+        "gui_cuina_primers_temps": "Temps",
+        "gui_cuina_primers_estat": "Estat",
+
+        "gui_cuina_segons_taula": "Taula",
+        "gui_cuina_segons_plat": "Plat",
+        "gui_cuina_segons_temps": "Temps",
+        "gui_cuina_segons_estat": "Estat",
+
+        "gui_cuina_postres_taula": "Taula",
+        "gui_cuina_postres_plat": "Plat",
+        "gui_cuina_postres_temps": "Temps",
+        "gui_cuina_postres_estat": "Estat",
+
+        "gui_button_preparando": "Preparant",
+        "gui_button_listo": "Servit",
+        "gui_button_espera": "En Espera",
+
+        "gui_label_primers": "Primers",
+        "gui_label_segons": "Segons",
+        "gui_label_postres": "Postres",
+
 
         "gui_error_update_dishes_names_1": "Error: No hi ha prou plats a la categoria seleccionada per actualitzar tots els botons.",
         "gui_error_update_dishes_names_2": "Error: Categoria seleccionada no vàlida o menú complet no establert."

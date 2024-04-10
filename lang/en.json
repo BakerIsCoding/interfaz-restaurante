@@ -17,35 +17,40 @@
         "user_username": "Username:",
         "user_password": "Password:",
         "user_register_button": "Register",
-        "user_login_button": "Login",
+        "user_login_button": "Log in",
         "user_login_successful_title": "Login",
         "user_login_successful_text": "You have logged in successfully.",
-        "user_login_error_title": "Login Error",
-        "user_login_error_text": "Incorrect username or password, or they do not exist.",
+        "user_login_error_title": "Error logging in",
+        "user_login_error_text": "Incorrect or non-existent username or password.",
         "user_register_error_title": "Error",
-        "user_register_error_length_text": "The username must be at least 3 characters long",
-        "user_register_error_password_text": "The password must be at least 6 characters long",
-        "user_register_error_taken_text": "The username is already in use",
+        "user_register_error_length_text": "Username must be at least 3 characters long",
+        "user_register_error_password_text": "Password must be at least 6 characters long",
+        "user_register_error_taken_text": "Username is already in use",
+        
+        "gui_register_title": "Workplace",
+        "gui_register_cambrer": "Waiter",
+        "gui_register_cuiner": "Cook",
+        "gui_register_enviar": "Send",
 
-
-        "menu": "Daily Menu",
-        "menu_select": "Select Menu",
+        "menu": "Menu of the day",
+        "menu_acceptar": "Accept",
+        "tria_menu": "Choose menu",
         "menu_table_name": "Name",
         "menu_table_order": "Order",
         "menu_table_allergens": "Allergens",
         "menu_table_price": "Price",
-
-        "config": "Configuration",
+        
+        "config": "Settings",
         "config_theme": "Theme",
         "config_theme_light": "Light",
         "config_theme_dark": "Dark",
         "config_language": "Language",
         "config_button_save": "Save",
-        "config_button_save_success_title": "Configuration Saved",
-        "config_button_save_success_text": "The configuration has been saved successfully",
+        "config_button_save_success_title": "Settings saved",
+        "config_button_save_success_text": "Settings have been saved successfully",
         "config_button_save_error_title": "Error",
-        "config_button_save_error_text": "Error saving the configuration",
-
+        "config_button_save_error_text": "Error saving settings",
+        
         "gui_waiter_title": "Waiter",
         "gui_table_up_quantity": "Quantity",
         "gui_table_up_dish": "Dish",
@@ -53,20 +58,44 @@
         "gui_table_down_state": "State",
         "gui_table_down_iva": "10% VAT",
         "gui_table_down_total": "Total",
-        "gui_table_in_service": "In Service",
-        "gui_table_pending": "Pending",
+        "gui_table_in_service": "In service",
+        "gui_table_titulo": "Table",
         "gui_table_sent": "Sent",
-
-        "gui_button_go_back": "<-- Go Back",
+        
+        "gui_button_go_back": "<-- Back",
         "gui_button_send": "Send",
         "gui_button_pay": "Pay",
-
-        "gui_button_first": "Starters",
-        "gui_button_second": "Mains",
+        
+        "gui_button_first": "First",
+        "gui_button_second": "Second",
         "gui_button_dessert": "Desserts",
-
-        "gui_error_update_dishes_names_1": "Error: Not enough dishes in the selected category to update all buttons.",
-        "gui_error_update_dishes_names_2": "Error: Selected category invalid or full menu not set."
-
+        
+        "gui_label_titulo": "Kitchen",
+        "gui_cuina_primers_taula": "Table",
+        "gui_cuina_primers_plat": "Dish",
+        "gui_cuina_primers_temps": "Time",
+        "gui_cuina_primers_estat": "State",
+        
+        "gui_cuina_segons_taula": "Table",
+        "gui_cuina_segons_plat": "Dish",
+        "gui_cuina_segons_temps": "Time",
+        "gui_cuina_segons_estat": "State",
+        
+        "gui_cuina_postres_taula": "Table",
+        "gui_cuina_postres_plat": "Dish",
+        "gui_cuina_postres_temps": "Time",
+        "gui_cuina_postres_estat": "State",
+        
+        "gui_button_preparando": "Preparing",
+        "gui_button_listo": "Served",
+        "gui_button_espera": "Waiting",
+        
+        "gui_label_primers": "First",
+        "gui_label_segons": "Second",
+        "gui_label_postres": "Desserts",
+        
+        "gui_error_update_dishes_names_1": "Error: There are not enough dishes in the selected category to update all buttons.",
+        "gui_error_update_dishes_names_2": "Error: Invalid selected category or full menu not set."
     }
+    
 }
