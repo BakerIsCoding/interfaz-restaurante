@@ -1,10 +1,13 @@
 package com.groupf.java.swing.m7.database;
 
+import com.groupf.java.swing.m7.entity.Pedido;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import org.json.JSONObject;
 
 /**
  *
@@ -40,7 +43,61 @@ public class DatabaseController {
         }
     }
 
-   
+    public void updateIsServido(int tableid, boolean isServido) {
+        String updateSQL = "UPDATE pedidos SET isServido = ? WHERE tableid = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(updateSQL)) {
+            ps.setBoolean(1, isServido);
+            ps.setInt(2, tableid);
+
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("El estado de servido ha sido actualizado correctamente.");
+            } else {
+                System.out.println("No se encontró la mesa con id: " + tableid);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al actualizar el estado de servido: " + ex.getMessage());
+        }
+    }
+
+    public Pedido obtainPedidos(List<Integer> tableidsExcluidos) {
+        String consultaSQL;
+        // Verifica si tableidsExcluidos está vacío
+        if (tableidsExcluidos.isEmpty()) {
+            // Construye una consulta SQL sin la condición 'NOT IN'
+            consultaSQL = "SELECT tableid, pedidojson, isServido, isPagado FROM pedidos LIMIT 1";
+        } else {
+            // Construyendo la parte de la consulta SQL para 'NOT IN'
+            String inSql = String.join(",", tableidsExcluidos.stream().map(id -> "?").toArray(String[]::new));
+            consultaSQL = "SELECT tableid, pedidojson, isServido, isPagado FROM pedidos WHERE tableid NOT IN (" + inSql + ") LIMIT 1";
+        }
+
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            // Si tableidsExcluidos no está vacío, asignar cada tableid al PreparedStatement
+            if (!tableidsExcluidos.isEmpty()) {
+                int index = 1;
+                for (Integer tableid : tableidsExcluidos) {
+                    ps.setInt(index++, tableid);
+                }
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Pedido pedido = new Pedido();
+                pedido.setTableid(rs.getInt("tableid"));
+                String jsonStr = rs.getString("pedidojson");
+                JSONObject pedidoJson = new JSONObject(jsonStr); // Asegúrate de tener el import correcto para JSONObject
+                pedido.setPedidoJson(pedidoJson);
+                pedido.setIsServido(rs.getBoolean("isServido"));
+                pedido.setIsPagado(rs.getBoolean("isPagado"));
+                return pedido;
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al obtener el pedido excluyendo tableids: " + ex.getMessage());
+        }
+        return null;
+    }
 
     public boolean existeLicencia(String licencia) {
         String consultaSQL = "SELECT COUNT(*) FROM llicencia WHERE llicencia = ?";

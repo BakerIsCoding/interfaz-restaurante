@@ -1,10 +1,12 @@
 package com.groupf.java.swing.m7.interfaces;
 
-import static com.groupf.java.swing.m7.interfaces.InitFrame.translationsObject;
+import com.groupf.java.swing.m7.database.DatabaseController;
+import com.groupf.java.swing.m7.entity.Pedido;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimerTask;
 import javax.swing.AbstractAction;
 import javax.swing.JTable;
 import javax.swing.Timer;
@@ -26,12 +28,31 @@ public class GuiCuiner extends javax.swing.JFrame {
     private JSONObject menu = new JSONObject(
             "{\"items\": [{\"Quantitat\": 1, \"Plat\": \"Gazpacho\", \"Tipo\": \"primero\"}, {\"Quantitat\": 1, \"Plat\": \"Patatas bravas\", \"Tipo\": \"primero\"}, {\"Quantitat\": 1, \"Plat\": \"Ensalada César\", \"Tipo\": \"segundo\"}, {\"Quantitat\": 1, \"Plat\": \"Sopa de tomate\", \"Tipo\": \"primero\"}]}");
     private Timer timer;
+    private Timer timerDb;
+    private List<Integer> tableIdsExcluidos = new ArrayList<Integer>();
 
-    public GuiCuiner() throws Exception {
+    ;
+
+    public GuiCuiner() {
+        DatabaseController db = new DatabaseController();
         initComponents();
         startTimer();
-        printTableByType(menu);
-        doTraductions();
+        //printTableByType(menu);
+
+        timerDb = new Timer(1000, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Pedido pedido = db.obtainPedidos(tableIdsExcluidos);
+                if (pedido != null) {
+                    Integer tableId = pedido.getTableid();
+                    JSONObject pedidoJson = pedido.getPedidojson();
+                    tableIdsExcluidos.add(tableId);
+                    printTableByType(pedidoJson, tableId);
+                    System.out.println("HOLA");
+                }
+            }
+        });
+        timerDb.start();
 
         // Action Listener para escuchar el click del botón
         buttonEspera.addActionListener(new ActionListener() {
@@ -75,8 +96,7 @@ public class GuiCuiner extends javax.swing.JFrame {
         updateStateForSelectedRow(tablePostres, "En preparación");
     }
 
-    // Según la fila que se haya seleccionado, se busca, y se cambia el estado a
-    // LISTO
+    //Según la fila que se haya seleccionado, se busca, y se cambia el estado a LISTO
     private void changeStateToReady() {
         updateStateForSelectedRowAndCheckOrders(tablePrimeros, "Listo");
         updateStateForSelectedRowAndCheckOrders(tableSegundos, "Listo");
@@ -94,6 +114,7 @@ public class GuiCuiner extends javax.swing.JFrame {
     }
 
     private void checkOrdersReadyByTable(int tableId) {
+        DatabaseController db = new DatabaseController();
         boolean allReady = true;
         // Verifica en las tablas de Primeros
         allReady &= checkTableOrdersReady(tablePrimeros, tableId);
@@ -103,7 +124,9 @@ public class GuiCuiner extends javax.swing.JFrame {
         allReady &= checkTableOrdersReady(tablePostres, tableId);
 
         if (allReady) {
+            db.updateIsServido(tableId, true);
             System.out.println("Todos los pedidos de la mesa " + tableId + " se han entregado.");
+            
         }
     }
 
@@ -470,7 +493,7 @@ public class GuiCuiner extends javax.swing.JFrame {
 
     }
 
-    private void printTableByType(JSONObject menu) {
+    private void printTableByType(JSONObject menu, Integer tableid) {
         // Se obtienen todos los items
         JSONArray items = menu.getJSONArray("items");
 
@@ -488,16 +511,16 @@ public class GuiCuiner extends javax.swing.JFrame {
             TableModel tableSegundos = this.tableSegundos.getModel();
             TableModel tablePostres = this.tablePostres.getModel();
 
-            // Se verifica el tipo de plato
+            //Se verifica el tipo de plato
             switch (tipo) {
                 case "primero":
-                    addPrimero(tablePrimeros, 1, plat);
+                    addPrimero(tablePrimeros, tableid, plat);
                     break;
                 case "segundo":
-                    addSegundo(tableSegundos, 1, plat);
+                    addSegundo(tableSegundos, tableid, plat);
                     break;
                 case "postre":
-                    addPostre(tablePostres, 1, plat);
+                    addPostre(tablePostres, tableid, plat);
                     break;
                 default:
                     throw new AssertionError();
@@ -554,7 +577,7 @@ public class GuiCuiner extends javax.swing.JFrame {
         }
     }
 
-    // Función para iniciar el timer
+    //Función para iniciar el timer
     private void startTimer() {
         timer = new Timer(1000, new AbstractAction() {
             @Override
