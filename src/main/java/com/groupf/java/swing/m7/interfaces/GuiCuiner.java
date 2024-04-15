@@ -2,11 +2,14 @@ package com.groupf.java.swing.m7.interfaces;
 
 import com.groupf.java.swing.m7.database.DatabaseController;
 import com.groupf.java.swing.m7.entity.Pedido;
+import static com.groupf.java.swing.m7.interfaces.InitFrame.translationsObject;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JTable;
 import javax.swing.Timer;

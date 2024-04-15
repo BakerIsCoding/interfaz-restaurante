@@ -1,10 +1,19 @@
 package com.groupf.java.swing.m7.interfaces;
 
+import com.groupf.java.swing.m7.database.DatabaseController;
 import static com.groupf.java.swing.m7.interfaces.InitFrame.translationsObject;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -13,27 +22,131 @@ import javax.swing.table.TableColumnModel;
 public class GuiTaula extends javax.swing.JFrame {
 
     private String numTaula;
+    private Integer menuValue;
     private List<List<String>> menuCompleto; //Lista de listas para manejar el menú completo dividido por categorías.
+    private HashMap<String, Double> precioPlatos = new HashMap<String, Double>();
+    private HashMap<String, String> tipoPlatos = new HashMap<String, String>();
 
     public GuiTaula() {
+        this.menuValue = InitFrame.menuValue;
         initComponents();
         setupCategoryButtons();
         setupPlateButtons();
-        
-        Integer menuValue = InitFrame.menuValue;
 
-        
-        // Menú de prueba
-        List<String> primeros = Arrays.asList("Ensalada César", "Sopa de tomate", "Croquetas de jamón", "Gazpacho", "Patatas bravas", "Risotto de setas");
-        List<String> segundos = Arrays.asList("Filete de ternera", "Bacalao al pil pil", "Pollo asado", "Lubina a la sal", "Carrilleras de cerdo", "Hamburguesa especial");
-        List<String> postres = Arrays.asList("Tarta de queso", "Brownie de chocolate", "Helado de vainilla", "Crema catalana", "Fruta del tiempo", "Flan de huevo");
-
-        // Agrupamos las listas en una lista de listas para el menú completo
-        List<List<String>> menuCompleto = Arrays.asList(primeros, segundos, postres);
-
-        // Establecemos el menú completo en nuestra interfaz
+        //Establecemos el menú completo en nuestra interfaz.
         setMenuCompleto(menuCompleto);
         doTraductions();
+    }
+
+    private void loadMenu() {
+        DatabaseController db = new DatabaseController();
+
+        String consulta = "SELECT json FROM menu WHERE nombre = '" + this.menuValue + "'";
+        ResultSet rs = db.ejecutarConsulta(consulta);
+
+        if (rs == null) {
+            System.err.println("ResultSet es null, revisar ejecutarConsulta.");
+            return;
+        }
+
+        List<String> primeros = new ArrayList<>();
+        List<String> segundos = new ArrayList<>();
+        List<String> postres = new ArrayList<>();
+
+        try {
+            if (rs.next()) {
+                String jsonString = rs.getString("json");
+                JSONArray jsonArray = new JSONArray(jsonString);
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String tipo = jsonObject.getString("Tipo");
+
+                    switch (tipo) {
+                        case "primer":
+                            primeros.add(jsonObject.getString("Plato"));
+                            precioPlatos.put(jsonObject.getString("Plato"), jsonObject.getDouble("Precio"));
+                            tipoPlatos.put(jsonObject.getString("Plato"), tipo);
+                            break;
+                        case "segon":
+                            segundos.add(jsonObject.getString("Plato"));
+                            precioPlatos.put(jsonObject.getString("Plato"), jsonObject.getDouble("Precio"));
+                            tipoPlatos.put(jsonObject.getString("Plato"), tipo);
+                            break;
+                        case "postre":
+                            postres.add(jsonObject.getString("Plato"));
+                            precioPlatos.put(jsonObject.getString("Plato"), jsonObject.getDouble("Precio"));
+                            tipoPlatos.put(jsonObject.getString("Plato"), tipo);
+                            break;
+                    }
+                }
+            }
+            rs.close();
+        } catch (SQLException | JSONException e) {
+            e.printStackTrace();
+        }
+        //Finalmente, actualiza las listas en la GUI.
+        List<List<String>> menuCompleto = Arrays.asList(primeros, segundos, postres);
+        setMenuCompleto(menuCompleto);
+    }
+
+    //CARGA EL PEDIDO!!!!!!!!! EN PROCESO
+    private void loadPedido() {
+        System.out.println("Carga loadPedido.");
+        DatabaseController db = new DatabaseController();
+
+        String consulta = "SELECT pedidojson FROM pedidos WHERE tableid = '" + this.numTaula + "'";
+        ResultSet rs = db.ejecutarConsulta(consulta);
+        
+        
+        try {
+            if (rs != null && rs.next()) {
+                String jsonString = rs.getString("pedidojson");
+                JSONArray jsonArray = new JSONArray(jsonString);
+                System.out.println("Añadiendo comanda: " + jsonArray);
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    int quantitat = jsonObject.getInt("Quantitat");
+                    String plat = jsonObject.getString("Plat");
+                    System.out.println("Añadiendo plato: " + plat);
+                    for (int j = 0; j < quantitat; j++) {
+                        agregarPlatoATabla(plat);
+                    }
+                }
+                disableButtons();
+                jButtonEnviar.setEnabled(false);
+                DefaultTableModel modelTotal = (DefaultTableModel) jTableTotal.getModel();
+                if (modelTotal.getRowCount() > 0) {
+                    modelTotal.setValueAt(translationsObject.getString("gui_table_sent"), 0, 0);
+                } else {
+                    modelTotal.addRow(new Object[]{translationsObject.getString("gui_table_sent"), "", ""});
+                    actualizarTotal();
+                }
+                rs.close(); // Cerrar ResultSet aquí
+            } else {
+                System.out.println("No hay pedidos para la mesa " + this.numTaula);
+            }
+        } catch (SQLException | JSONException e) {
+            e.printStackTrace();
+            try {
+                if (rs != null) rs.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+    
+    private void disableButtons() {
+        jButtonPlat1.setEnabled(false);
+        jButtonPlat2.setEnabled(false);
+        jButtonPlat3.setEnabled(false);
+        jButtonPlat4.setEnabled(false);
+        jButtonPlat5.setEnabled(false);
+        jButtonPlat6.setEnabled(false);
+        jButtonPrimers.setEnabled(false);
+        jButtonSegons.setEnabled(false);
+        jButtonPostres.setEnabled(false);
     }
 
     private void doTraductions() {
@@ -51,21 +164,20 @@ public class GuiTaula extends javax.swing.JFrame {
         columnModelDown.getColumn(1).setHeaderValue(translationsObject.getString("gui_table_down_iva"));
         columnModelDown.getColumn(2).setHeaderValue(translationsObject.getString("gui_table_down_total"));
         jTableComanda.repaint();
-        
-        
+
         jButtonTornar.setText(translationsObject.getString("gui_button_go_back"));
         jButtonEnviar.setText(translationsObject.getString("gui_button_send"));
         jButtonPagar.setText(translationsObject.getString("gui_button_pay"));
-        
+
         jButtonPrimers.setText(translationsObject.getString("gui_button_first"));
         jButtonSegons.setText(translationsObject.getString("gui_button_second"));
         jButtonPostres.setText(translationsObject.getString("gui_button_dessert"));
     }
 
     private void setupCategoryButtons() {
-        jButtonPrimers.addActionListener(evt -> actualizarNombresDePlatos(0)); // Primeros platos
-        jButtonSegons.addActionListener(evt -> actualizarNombresDePlatos(1));  // Segundos platos
-        jButtonPostres.addActionListener(evt -> actualizarNombresDePlatos(2)); // Postres
+        jButtonPrimers.addActionListener(evt -> actualizarPlatos(0)); // Primeros platos
+        jButtonSegons.addActionListener(evt -> actualizarPlatos(1));  // Segundos platos
+        jButtonPostres.addActionListener(evt -> actualizarPlatos(2)); // Postres
     }
 
     private void setupPlateButtons() {
@@ -81,28 +193,28 @@ public class GuiTaula extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTableComanda.getModel();
         boolean platoEncontrado = false;
 
-        // Busca si el plato ya existe en la tabla
+        //Busca si el plato ya existe en la tabla.
         for (int i = 0; i < model.getRowCount(); i++) {
-            String plato = model.getValueAt(i, 1).toString(); // Asume que la columna 1 es donde se almacenan los nombres de los platos
+            String plato = model.getValueAt(i, 1).toString();
             if (plato.equals(nombrePlato)) {
-                int cantidad = (Integer) model.getValueAt(i, 0); // Asume que la columna 0 es donde se almacenan las cantidades
-                model.setValueAt(cantidad + 1, i, 0); // Incrementa la cantidad
+                int cantidad = (Integer) model.getValueAt(i, 0);
+                model.setValueAt(cantidad + 1, i, 0); //Incrementa la cantidad.
                 platoEncontrado = true;
                 break;
             }
         }
 
-        // Si el plato no está en la tabla, añádelo
+        //Si el plato no está en la tabla, lo añade.
         if (!platoEncontrado) {
-            double precio = calcularPrecioDelPlato(nombrePlato); // Este método debería obtener el precio real del plato
-            model.addRow(new Object[]{1, nombrePlato, precio}); // Añade el plato con cantidad 1
+            double precio = calcularPrecioDelPlato(nombrePlato);
+            model.addRow(new Object[]{1, nombrePlato, precio}); //Añade el plato con cantidad 1.
         }
         actualizarTotal();
     }
 
     private double calcularPrecioDelPlato(String nombrePlato) {
-        //Este es un método de ejemplo, debe ser implementado según los precios de los platos
-        return 10.0; // Precio de ejemplo, ajustar según sea necesario
+        Double precio = precioPlatos.get(nombrePlato);
+        return precio;
     }
 
     private void actualizarTotal() {
@@ -111,8 +223,8 @@ public class GuiTaula extends javax.swing.JFrame {
 
         double total = 0.0;
         for (int i = 0; i < modelComanda.getRowCount(); i++) {
-            int cantidad = (Integer) modelComanda.getValueAt(i, 0); // Columna de cantidad
-            double precio = (Double) modelComanda.getValueAt(i, 2); // Columna de precio
+            int cantidad = (Integer) modelComanda.getValueAt(i, 0); //Columna de cantidad.
+            double precio = (Double) modelComanda.getValueAt(i, 2); //Columna de precio.
             total += cantidad * precio;
         }
 
@@ -127,9 +239,15 @@ public class GuiTaula extends javax.swing.JFrame {
         }
     }
 
+    private String numMesa = "-1";
+
     public void setNumTaula(String numeroMesa) {
-        this.numTaula = numeroMesa; //Asigna el valor de numeroMesa a la variable numMesa de la clase.
-        jLabel1.setText(translationsObject.getString("gui_table_titulo") +" "+ numTaula);
+        numMesa = numeroMesa;
+        this.numTaula = numMesa; //Asigna el valor de numeroMesa a la variable numMesa de la clase.
+        loadMenu();
+        loadPedido();
+        actualizarPlatos(0);
+        jLabel1.setText(translationsObject.getString("gui_table_titulo") + " " + numMesa);
     }
 
     public void setMenuCompleto(List<List<String>> menuCompleto) {
@@ -137,10 +255,23 @@ public class GuiTaula extends javax.swing.JFrame {
     }
 
     //Método para actualizar nombres de botones según la categoría seleccionada.
-    public void actualizarNombresDePlatos(int categoria) {
+    public void actualizarPlatos(int categoria) {
         if (menuCompleto != null && menuCompleto.size() > categoria) {
             List<String> platos = menuCompleto.get(categoria);
-            if (platos.size() >= 6) {
+            List<JButton> botonesPlatos = Arrays.asList(jButtonPlat1, jButtonPlat2, jButtonPlat3, jButtonPlat4, jButtonPlat5, jButtonPlat6);
+            //Recorre todos los botones de platos.
+            for (int i = 0; i < botonesPlatos.size(); i++) {
+                if (i < platos.size()) {
+                    //Si hay un plato correspondiente, establece el nombre y hace el botón visible.
+                    botonesPlatos.get(i).setText(platos.get(i));
+                    botonesPlatos.get(i).setVisible(true);
+                } else {
+                    //Si no hay más platos, deja el botón en blanco y lo oculta.
+                    botonesPlatos.get(i).setText("");
+                    botonesPlatos.get(i).setVisible(false); // O opcionalmente podrías elegir mantenerlos visibles pero deshabilitados con botonesPlatos.get(i).setEnabled(false);
+                }
+            }
+            /*if (platos.size() >= 6) {
                 jButtonPlat1.setText(platos.get(0));
                 jButtonPlat2.setText(platos.get(1));
                 jButtonPlat3.setText(platos.get(2));
@@ -149,10 +280,31 @@ public class GuiTaula extends javax.swing.JFrame {
                 jButtonPlat6.setText(platos.get(5));
             } else {
                 System.out.println(translationsObject.getString("gui_error_update_dishes_names_1"));
-            }
+            }*/
         } else {
             System.out.println(translationsObject.getString("gui_error_update_dishes_names_2"));
         }
+    }
+
+    private JSONArray obtenerComanda() {
+        DefaultTableModel model = (DefaultTableModel) jTableComanda.getModel();
+        JSONArray jsonArray = new JSONArray();
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            JSONObject jsonObject = new JSONObject();
+            try {
+                Integer quantitat = (Integer) model.getValueAt(i, 0);
+                String plat = (String) model.getValueAt(i, 1);
+                String tipo = tipoPlatos.get(plat);
+                jsonObject.put("Quantitat", quantitat);
+                jsonObject.put("Plat", plat);
+                jsonObject.put("Tipo", tipo);
+                jsonArray.put(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonArray;
     }
 
     @SuppressWarnings("unchecked")
@@ -334,53 +486,48 @@ public class GuiTaula extends javax.swing.JFrame {
         jPanelPlats.setLayout(jPanelPlatsLayout);
         jPanelPlatsLayout.setHorizontalGroup(
             jPanelPlatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPlatsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelPlatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonPlat1, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                    .addComponent(jButtonPlat3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonPlat2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelPlatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonPlat6, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                    .addComponent(jButtonPlat5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonPlat4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPlatsLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(jPanelPlatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelPlatsLayout.createSequentialGroup()
-                        .addComponent(jButtonPlat4, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonPlat5, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(jButtonPlat6, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelPlatsLayout.createSequentialGroup()
-                        .addGroup(jPanelPlatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPlatsLayout.createSequentialGroup()
-                                .addComponent(jButtonPrimers, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28))
-                            .addGroup(jPanelPlatsLayout.createSequentialGroup()
-                                .addComponent(jButtonPlat1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(jPanelPlatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanelPlatsLayout.createSequentialGroup()
-                                .addComponent(jButtonSegons, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(jButtonPostres, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelPlatsLayout.createSequentialGroup()
-                                .addComponent(jButtonPlat2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(jButtonPlat3, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(14, 14, 14))
+                .addGap(0, 36, Short.MAX_VALUE)
+                .addComponent(jButtonPrimers, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jButtonSegons, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(jButtonPostres, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
         jPanelPlatsLayout.setVerticalGroup(
             jPanelPlatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPlatsLayout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addGroup(jPanelPlatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonPlat2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonPlat3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonPlat1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButtonPlat1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonPlat4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(46, 46, 46)
                 .addGroup(jPanelPlatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonPlat5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonPlat6, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonPlat4, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonPlat2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(jPanelPlatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonPlat3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonPlat6, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
                 .addGroup(jPanelPlatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonPostres, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonPrimers, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonSegons, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18))
+                .addGap(16, 16, 16))
         );
 
         javax.swing.GroupLayout jPanelTaulaLayout = new javax.swing.GroupLayout(jPanelTaula);
@@ -399,7 +546,7 @@ public class GuiTaula extends javax.swing.JFrame {
                         .addComponent(jButtonPagar))
                     .addComponent(jScrollPaneComanda, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jScrollPaneTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jPanelPlats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -448,13 +595,26 @@ public class GuiTaula extends javax.swing.JFrame {
     private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarActionPerformed
         DefaultTableModel modelTotal = (DefaultTableModel) jTableTotal.getModel();
         if (modelTotal.getRowCount() > 0) {
-            // Asume que el estado está en la primera columna de la primera fila
             modelTotal.setValueAt(translationsObject.getString("gui_table_sent"), 0, 0);
+            DatabaseController db = new DatabaseController();
+            JSONArray pedido = obtenerComanda();
+            String pedidoJson = pedido.toString();
+
+            int tableid = Integer.parseInt(numTaula);
+            jButtonEnviar.setEnabled(false);
+            disableButtons();
+
+            if (db.insertarPedido(tableid, pedidoJson)) {
+                System.out.println("Pedido insertado correctamente en la base de datos.");
+            } else {
+                System.out.println("Error al insertar el pedido en la base de datos.");
+            }
+
         }
     }//GEN-LAST:event_jButtonEnviarActionPerformed
     //Método de acción para el botón de segundos.
     private void jButtonSegonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSegonsActionPerformed
-        actualizarNombresDePlatos(1);
+        actualizarPlatos(1);
     }//GEN-LAST:event_jButtonSegonsActionPerformed
 
     private void jButtonPlat2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlat2ActionPerformed
@@ -462,11 +622,11 @@ public class GuiTaula extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonPlat2ActionPerformed
     //Método de acción para el botón de primeros.
     private void jButtonPrimersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrimersActionPerformed
-        actualizarNombresDePlatos(0);
+        actualizarPlatos(0);
     }//GEN-LAST:event_jButtonPrimersActionPerformed
     //Método de acción para el botón de postres.
     private void jButtonPostresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPostresActionPerformed
-        actualizarNombresDePlatos(2);
+        actualizarPlatos(2);
     }//GEN-LAST:event_jButtonPostresActionPerformed
 
     public static void main(String args[]) {

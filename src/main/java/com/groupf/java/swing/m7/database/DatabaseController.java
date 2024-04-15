@@ -313,4 +313,19 @@ public class DatabaseController {
             System.out.println("Error al cerrar la conexión: " + ex.getMessage());
         }
     }
+    
+    // Método para insertar pedidos
+    public boolean insertarPedido(int tableid, String pedidoJson) {
+        String sql = "INSERT INTO pedidos (tableid, pedidojson, isServido, isPagado) VALUES (?, ?, false, false);";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, tableid);
+            ps.setString(2, pedidoJson);
+
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException ex) {
+            System.err.println("Error al insertar el pedido: " + ex.getMessage());
+            return false;
+        }
+    }
 }

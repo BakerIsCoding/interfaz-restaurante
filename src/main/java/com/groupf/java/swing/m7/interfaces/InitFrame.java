@@ -181,7 +181,7 @@ public class InitFrame extends javax.swing.JFrame {
 
     private void selectMenuClicked(int selectedIndex) {
         
-        GuiCambrerFrame cambrer = new GuiCambrerFrame(1);
+        GuiCambrerFrame cambrer = new GuiCambrerFrame();
         cambrer.setDefaultCloseOperation(RegisterFrame.DISPOSE_ON_CLOSE);
 
     }
