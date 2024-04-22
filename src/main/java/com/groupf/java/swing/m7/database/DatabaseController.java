@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
 
@@ -88,6 +89,7 @@ public class DatabaseController {
                 pedido.setTableid(rs.getInt("tableid"));
                 String jsonStr = rs.getString("pedidojson");
                 JSONObject pedidoJson = new JSONObject(jsonStr); // Asegúrate de tener el import correcto para JSONObject
+                System.out.println(jsonStr);
                 pedido.setPedidoJson(pedidoJson);
                 pedido.setIsServido(rs.getBoolean("isServido"));
                 pedido.setIsPagado(rs.getBoolean("isPagado"));
@@ -97,6 +99,26 @@ public class DatabaseController {
             System.err.println("Error al obtener el pedido excluyendo tableids: " + ex.getMessage());
         }
         return null;
+    }
+    
+    public List<Pedido> getPedidos() {
+        String consultaSQL = "SELECT tableid, isServido, isPagado FROM pedidos";
+        List<Pedido> pedidos = new ArrayList<>();
+
+        try (PreparedStatement ps = conn.prepareStatement(consultaSQL)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Pedido pedido = new Pedido();
+                pedido.setTableid(rs.getInt("tableid"));
+                pedido.setIsServido(rs.getBoolean("isServido"));
+                pedido.setIsPagado(rs.getBoolean("isPagado"));
+                // Dejamos pedidojson como null ya que no lo estamos manejando aquí
+                pedidos.add(pedido);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Error al obtener la información de los pedidos: " + ex.getMessage());
+        }
+        return pedidos;
     }
 
     public boolean existeLicencia(String licencia) {
@@ -113,6 +135,8 @@ public class DatabaseController {
         }
         return false;
     }
+    
+    
 
     public Integer getUserId(String user, String pass) {
         String consultaSQL = "SELECT id FROM usuario WHERE usuario = ? AND password = ?";

@@ -1,17 +1,21 @@
-
 package com.groupf.java.swing.m7.interfaces;
 
+import com.groupf.java.swing.m7.database.DatabaseController;
+import com.groupf.java.swing.m7.entity.Pedido;
 import static com.groupf.java.swing.m7.interfaces.InitFrame.translationsObject;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.Timer;
 
 /**
  *
@@ -19,11 +23,35 @@ import javax.swing.JLayeredPane;
  */
 public class GuiCambrerFrame extends javax.swing.JFrame {
 
+    private Timer dbTimer;
+    private Integer stateButton1 = 0;
+    private Integer stateButton2 = 0;
+    private Integer stateButton3 = 0;
+    private Integer stateButton4 = 0;
+    private Integer stateButton5 = 0;
+    private Integer stateButton6 = 0;
+    private Integer stateButton7 = 0;
+    private Integer stateButton8 = 0;
+    private Integer stateButton9 = 0;
+    private Integer stateButton10 = 0;
+    private Integer stateButton11 = 0;
+    private Integer stateButton12 = 0;
+
     /**
      * Creates new form GuiCambrerFrame
      */
     public GuiCambrerFrame() {
+        DatabaseController db = new DatabaseController();
+
         initComponents();
+
+        JButton[] buttons = {jButton1, jButton2, jButton3};
+        for (JButton button : buttons) {
+            button.setOpaque(false);
+            button.setContentAreaFilled(false);
+            button.setBorderPainted(false);
+        }
+
         setTitle("Can Pedro");
         setVisible(true);
         setResizable(false);
@@ -35,44 +63,24 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
         JLabel labelConImagen = new JLabel(new ImageIcon("./images/restaurante800.png"));
         labelConImagen.setBounds(0, 0, 800, 800);
         layeredPane.add(labelConImagen, Integer.valueOf(1));
-        
-        labelTitle.setText(translationsObject.getString("gui_waiter_title"));
-        
-        //MouseAdapter personalizado para cambiar el color de fondo al pasar el cursor.
-        MouseAdapter hoverEffect = new MouseAdapter() {
-            Color originalColor = null; //Almacena el color original del botón.
 
+        dbTimer = new Timer(1000, new AbstractAction() {
             @Override
-            public void mouseEntered(MouseEvent e) {
-                JButton button = (JButton) e.getSource();
-                originalColor = button.getBackground(); //Guarda el color original.
-                if (true) {
-                    button.setBackground(new Color(100, 255, 100)); //Establece el color en verde.
-                } else {
-                    button.setBackground(new Color(255, 100, 100)); //Establece el color en rojo.
+            public void actionPerformed(ActionEvent e) {
+                // Obtener la lista de pedidos desde la base de datos
+                List<Pedido> pedidos = db.getPedidos();
+
+                // Iterar sobre cada pedido y procesarlos
+                for (Pedido pedido : pedidos) {
+                    addMouseListeners();
+                    processPedido(pedido);
                 }
             }
+        });
+        dbTimer.start();
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                JButton button = (JButton) e.getSource();
-                button.setBackground(originalColor); //Restablece el color original cuando el cursor sale.
-            }
-        };
-        //Añade el MouseAdapter a cada botón.
-        jButton1.addMouseListener(hoverEffect);
-        jButton2.addMouseListener(hoverEffect);
-        jButton3.addMouseListener(hoverEffect);
-        jButton4.addMouseListener(hoverEffect);
-        jButton5.addMouseListener(hoverEffect);
-        jButton6.addMouseListener(hoverEffect);
-        jButton7.addMouseListener(hoverEffect);
-        jButton8.addMouseListener(hoverEffect);
-        jButton9.addMouseListener(hoverEffect);
-        jButton10.addMouseListener(hoverEffect);
-        jButton11.addMouseListener(hoverEffect);
-        jButton12.addMouseListener(hoverEffect);
-        
+        labelTitle.setText(translationsObject.getString("gui_waiter_title"));
+
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JButton button = (JButton) e.getSource();
@@ -93,14 +101,91 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
         jButton10.addActionListener(actionListener);
         jButton11.addActionListener(actionListener);
         jButton12.addActionListener(actionListener);
+
+        //MouseAdapter personalizado para cambiar el color de fondo al pasar el cursor.
     }
-    
+
+    private void addMouseListeners() {
+        JButton[] buttons = {jButton1, jButton2, jButton3, jButton4, jButton5, jButton6, jButton7, jButton8, jButton9, jButton10, jButton11, jButton12}; // Asegúrate de incluir todos tus botones
+        int[] buttonStates = {stateButton1, stateButton2, stateButton3, stateButton4, stateButton5, stateButton6, stateButton7, stateButton8, stateButton9, stateButton10, stateButton11, stateButton12}; // Los estados de cada botón
+
+        for (int i = 0; i < buttons.length; i++) {
+            JButton button = buttons[i];
+            int index = i;
+            button.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (buttonStates[index] == 1) { // Cambia a rojo si el estado es 1
+                        button.setBackground(Color.RED);
+                        button.setOpaque(true);
+                        button.setContentAreaFilled(true);
+                    } else {
+                        button.setBackground(Color.BLUE);
+                        button.setOpaque(true);
+                        button.setContentAreaFilled(true);
+                    }
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    button.setBackground(null); // Vuelve a transparente
+                    button.setOpaque(false);
+                    button.setContentAreaFilled(false);
+                }
+            });
+        }
+    }
+
     private void selectTable(String numeroMesa) {
-                GuiTaula taula = new GuiTaula();
-                taula.setNumTaula(numeroMesa); //Establece el número de la mesa aquí.
-                taula.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                taula.setVisible(true);
-            }
+        GuiTaula taula = new GuiTaula();
+        taula.setNumTaula(numeroMesa); //Establece el número de la mesa aquí.
+        taula.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        taula.setVisible(true);
+    }
+
+    private void processPedido(Pedido pedido) {
+        int tableId = pedido.getTableid();
+
+        switch (tableId) {
+            case 1:
+                stateButton1 = 1;
+                break;
+            case 2:
+                stateButton2 = 1;
+                break;
+            case 3:
+                stateButton3 = 1;
+                break;
+            case 4:
+                stateButton4 = 1;
+                break;
+            case 5:
+                stateButton5 = 1;
+                break;
+            case 6:
+                stateButton6 = 1;
+                break;
+            case 7:
+                stateButton7 = 1;
+                break;
+            case 8:
+                stateButton8 = 1;
+                break;
+            case 9:
+                stateButton9 = 1;
+                break;
+            case 10:
+                stateButton10 = 1;
+                break;
+            case 11:
+                stateButton11 = 1;
+                break;
+            case 12:
+                stateButton12 = 1;
+                break;
+
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
