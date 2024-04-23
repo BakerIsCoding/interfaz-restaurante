@@ -2,6 +2,8 @@ package com.groupf.java.swing.m7.interfaces;
 
 import com.groupf.java.swing.m7.database.DatabaseController;
 import static com.groupf.java.swing.m7.interfaces.InitFrame.translationsObject;
+import com.groupf.java.swing.m7.messages.MessageBox;
+import com.groupf.java.swing.m7.entity.Pedido;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.Popup;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import org.json.JSONArray;
@@ -26,8 +29,10 @@ public class GuiTaula extends javax.swing.JFrame {
     private List<List<String>> menuCompleto; //Lista de listas para manejar el menú completo dividido por categorías.
     private HashMap<String, Double> precioPlatos = new HashMap<String, Double>();
     private HashMap<String, String> tipoPlatos = new HashMap<String, String>();
+    private GuiCambrerFrame finstance;
 
-    public GuiTaula() {
+    public GuiTaula(GuiCambrerFrame cambrerInstance) {
+        finstance = cambrerInstance;
         this.menuValue = InitFrame.menuValue;
         initComponents();
         setupCategoryButtons();
@@ -36,10 +41,11 @@ public class GuiTaula extends javax.swing.JFrame {
         //Establecemos el menú completo en nuestra interfaz.
         setMenuCompleto(menuCompleto);
         doTraductions();
+        
     }
 
     private void loadMenu() {
-        DatabaseController db = new DatabaseController();
+        DatabaseController db = DatabaseController.getInstance();
 
         String consulta = "SELECT json FROM menu WHERE nombre = '" + this.menuValue + "'";
         ResultSet rs = db.ejecutarConsulta(consulta);
@@ -66,17 +72,17 @@ public class GuiTaula extends javax.swing.JFrame {
                         case "primer":
                             primeros.add(jsonObject.getString("Plato"));
                             precioPlatos.put(jsonObject.getString("Plato"), jsonObject.getDouble("Precio"));
-                            tipoPlatos.put(jsonObject.getString("Plato"), tipo);
+                            tipoPlatos.put(jsonObject.getString("Plato"), "primero");
                             break;
                         case "segon":
                             segundos.add(jsonObject.getString("Plato"));
                             precioPlatos.put(jsonObject.getString("Plato"), jsonObject.getDouble("Precio"));
-                            tipoPlatos.put(jsonObject.getString("Plato"), tipo);
+                            tipoPlatos.put(jsonObject.getString("Plato"), "segundo");
                             break;
                         case "postre":
                             postres.add(jsonObject.getString("Plato"));
                             precioPlatos.put(jsonObject.getString("Plato"), jsonObject.getDouble("Precio"));
-                            tipoPlatos.put(jsonObject.getString("Plato"), tipo);
+                            tipoPlatos.put(jsonObject.getString("Plato"), "postre");
                             break;
                     }
                 }
@@ -92,17 +98,17 @@ public class GuiTaula extends javax.swing.JFrame {
 
     //CARGA EL PEDIDO!!!!!!!!! EN PROCESO
     private void loadPedido() {
-        System.out.println("Carga loadPedido.");
-        DatabaseController db = new DatabaseController();
+       DatabaseController db = DatabaseController.getInstance();
 
         String consulta = "SELECT pedidojson FROM pedidos WHERE tableid = '" + this.numTaula + "'";
         ResultSet rs = db.ejecutarConsulta(consulta);
-        
-        
+
         try {
             if (rs != null && rs.next()) {
                 String jsonString = rs.getString("pedidojson");
-                JSONArray jsonArray = new JSONArray(jsonString);
+                JSONObject pedidoJson = new JSONObject(jsonString);
+                JSONArray jsonArray = pedidoJson.getJSONArray("items");
+                //JSONArray jsonArray = new JSONArray(jsonString);
                 System.out.println("Añadiendo comanda: " + jsonArray);
 
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -116,6 +122,10 @@ public class GuiTaula extends javax.swing.JFrame {
                 }
                 disableButtons();
                 jButtonEnviar.setEnabled(false);
+                int tableid = Integer.parseInt(numTaula);
+                if (db.isPagado(tableid)) {
+                    jButtonPagar.setEnabled(false);
+                }
                 DefaultTableModel modelTotal = (DefaultTableModel) jTableTotal.getModel();
                 if (modelTotal.getRowCount() > 0) {
                     modelTotal.setValueAt(translationsObject.getString("gui_table_sent"), 0, 0);
@@ -130,13 +140,15 @@ public class GuiTaula extends javax.swing.JFrame {
         } catch (SQLException | JSONException e) {
             e.printStackTrace();
             try {
-                if (rs != null) rs.close();
+                if (rs != null) {
+                    rs.close();
+                }
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
         }
     }
-    
+
     private void disableButtons() {
         jButtonPlat1.setEnabled(false);
         jButtonPlat2.setEnabled(false);
@@ -239,15 +251,12 @@ public class GuiTaula extends javax.swing.JFrame {
         }
     }
 
-    private String numMesa = "-1";
-
     public void setNumTaula(String numeroMesa) {
-        numMesa = numeroMesa;
-        this.numTaula = numMesa; //Asigna el valor de numeroMesa a la variable numMesa de la clase.
+        this.numTaula = numeroMesa; //Asigna el valor de numeroMesa a la variable numMesa de la clase.
         loadMenu();
         loadPedido();
         actualizarPlatos(0);
-        jLabel1.setText(translationsObject.getString("gui_table_titulo") + " " + numMesa);
+        jLabel1.setText(translationsObject.getString("gui_table_titulo") + " " + numTaula);
     }
 
     public void setMenuCompleto(List<List<String>> menuCompleto) {
@@ -286,9 +295,10 @@ public class GuiTaula extends javax.swing.JFrame {
         }
     }
 
-    private JSONArray obtenerComanda() {
+    private JSONObject obtenerComanda() {
         DefaultTableModel model = (DefaultTableModel) jTableComanda.getModel();
         JSONArray jsonArray = new JSONArray();
+        JSONObject finalObject = new JSONObject();
 
         for (int i = 0; i < model.getRowCount(); i++) {
             JSONObject jsonObject = new JSONObject();
@@ -296,15 +306,24 @@ public class GuiTaula extends javax.swing.JFrame {
                 Integer quantitat = (Integer) model.getValueAt(i, 0);
                 String plat = (String) model.getValueAt(i, 1);
                 String tipo = tipoPlatos.get(plat);
+
                 jsonObject.put("Quantitat", quantitat);
                 jsonObject.put("Plat", plat);
                 jsonObject.put("Tipo", tipo);
-                jsonArray.put(jsonObject);
+
+                jsonArray.put(jsonObject);  //Añadir el objeto JSON al array.
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        return jsonArray;
+
+        try {
+            finalObject.put("items", jsonArray);  //Añadir el array al objeto JSON bajo la clave "items".
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return finalObject;
     }
 
     @SuppressWarnings("unchecked")
@@ -585,19 +604,38 @@ public class GuiTaula extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonTornarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTornarActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_jButtonTornarActionPerformed
-
+    
     private void jButtonPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPagarActionPerformed
-        // TODO add your handling code here:
+        DatabaseController db = DatabaseController.getInstance();
+        MessageBox msg = new MessageBox();
+        int tableid = Integer.parseInt(numTaula);
+
+        if (!db.isServido(tableid)) {
+            msg.errorMessageBox("Error al Pagar", "No se han servido todos los platos.");
+        } else {
+            
+            if (db.markAsPaid(tableid)) {
+                Pedido pedido = new Pedido();
+                pedido.setTableid(tableid);
+                msg.successMessageBox("Pago Realizado", "Se ha pagado correctamente.");
+                jButtonPagar.setEnabled(false);
+                db.deletePedidoFromTableId(pedido.getTableid());
+                GuiCambrerFrame.helper(pedido, 0, finstance);
+                GuiCambrerFrame.stateButton2 = 0;
+            } else {
+                msg.errorMessageBox("Error al Pagar", "Error al realizar el pago.");
+            }
+        }
     }//GEN-LAST:event_jButtonPagarActionPerformed
 
     private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarActionPerformed
         DefaultTableModel modelTotal = (DefaultTableModel) jTableTotal.getModel();
         if (modelTotal.getRowCount() > 0) {
             modelTotal.setValueAt(translationsObject.getString("gui_table_sent"), 0, 0);
-            DatabaseController db = new DatabaseController();
-            JSONArray pedido = obtenerComanda();
+            DatabaseController db = DatabaseController.getInstance();
+            JSONObject pedido = obtenerComanda();
             String pedidoJson = pedido.toString();
 
             int tableid = Integer.parseInt(numTaula);
@@ -634,7 +672,8 @@ public class GuiTaula extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GuiTaula().setVisible(true);
+                GuiCambrerFrame cambrerInstance = new GuiCambrerFrame();
+                new GuiTaula(cambrerInstance).setVisible(true);
             }
         });
     }

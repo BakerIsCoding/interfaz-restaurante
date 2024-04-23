@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.AbstractAction;
 import javax.swing.JTable;
 import javax.swing.Timer;
@@ -28,21 +29,17 @@ public class GuiCuiner extends javax.swing.JFrame {
     /**
      * Creates new form GuiCuiner
      */
-    private JSONObject menu = new JSONObject(
-            "{\"items\": [{\"Quantitat\": 1, \"Plat\": \"Gazpacho\", \"Tipo\": \"primero\"}, {\"Quantitat\": 1, \"Plat\": \"Patatas bravas\", \"Tipo\": \"primero\"}, {\"Quantitat\": 1, \"Plat\": \"Ensalada César\", \"Tipo\": \"segundo\"}, {\"Quantitat\": 1, \"Plat\": \"Sopa de tomate\", \"Tipo\": \"primero\"}]}");
     private Timer timer;
     private Timer timerDb;
     private List<Integer> tableIdsExcluidos = new ArrayList<Integer>();
 
-    ;
-
     public GuiCuiner() {
-        DatabaseController db = new DatabaseController();
+        DatabaseController db = DatabaseController.getInstance();
         initComponents();
         startTimer();
         //printTableByType(menu);
 
-        timerDb = new Timer(1000, new AbstractAction() {
+        timerDb = new Timer(200, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Pedido pedido = db.obtainPedidos(tableIdsExcluidos);
@@ -51,8 +48,8 @@ public class GuiCuiner extends javax.swing.JFrame {
                     JSONObject pedidoJson = pedido.getPedidojson();
                     tableIdsExcluidos.add(tableId);
                     printTableByType(pedidoJson, tableId);
-                    System.out.println("HOLA");
                 }
+                syncTableIdsWithDatabase();
             }
         });
         timerDb.start();
@@ -81,6 +78,42 @@ public class GuiCuiner extends javax.swing.JFrame {
             }
         });
 
+    }
+
+    private void syncTableIdsWithDatabase() {
+        DatabaseController db = DatabaseController.getInstance();
+        // Obtén los tableId que existen en la base de datos pasando la lista local
+        List<Integer> existingTableIds = db.getExistingTableIds(new ArrayList<>(tableIdsExcluidos));
+
+        // Identifica los IDs que no están en la base de datos y procede a eliminar sus filas correspondientes
+        List<Integer> idsToRemove = tableIdsExcluidos.stream()
+                .filter(id -> !existingTableIds.contains(id))
+                .collect(Collectors.toList());
+
+        for (Integer idToRemove : idsToRemove) {
+            removeAllRowsForTableId(idToRemove);  // Elimina las filas en las tablas de la interfaz de usuario
+            tableIdsExcluidos.remove(idToRemove); // Elimina el ID de la lista de excluidos
+
+        }
+    }
+
+    private void removeAllRowsForTableId(int tableId) {
+        // Eliminar filas en tablePrimeros donde taula = tableId
+        removeRowsForTableId((DefaultTableModel) this.tablePrimeros.getModel(), tableId);
+
+        // Eliminar filas en tableSegundos donde taula = tableId
+        removeRowsForTableId((DefaultTableModel) this.tableSegundos.getModel(), tableId);
+
+        // Eliminar filas en tablePostres donde taula = tableId
+        removeRowsForTableId((DefaultTableModel) this.tablePostres.getModel(), tableId);
+    }
+
+    private void removeRowsForTableId(DefaultTableModel model, int tableId) {
+        for (int i = model.getRowCount() - 1; i >= 0; i--) {
+            if (model.getValueAt(i, 0).equals(tableId)) {
+                model.removeRow(i);
+            }
+        }
     }
 
     // Según la fila que se haya seleccionado, se busca, y se cambia el estado a EN
@@ -117,7 +150,7 @@ public class GuiCuiner extends javax.swing.JFrame {
     }
 
     private void checkOrdersReadyByTable(int tableId) {
-        DatabaseController db = new DatabaseController();
+        DatabaseController db = DatabaseController.getInstance();
         boolean allReady = true;
         // Verifica en las tablas de Primeros
         allReady &= checkTableOrdersReady(tablePrimeros, tableId);
@@ -129,7 +162,7 @@ public class GuiCuiner extends javax.swing.JFrame {
         if (allReady) {
             db.updateIsServido(tableId, true);
             System.out.println("Todos los pedidos de la mesa " + tableId + " se han entregado.");
-            
+
         }
     }
 
@@ -505,6 +538,7 @@ public class GuiCuiner extends javax.swing.JFrame {
             JSONObject item = items.getJSONObject(i);
             String tipo = item.getString("Tipo");
             String plat = item.getString("Plat");
+            Integer cantidad = item.getInt("Quantitat");
 
             // DEBUG ONLY, ELIMINAR
             System.out.println(tipo + ": " + plat);
@@ -517,13 +551,13 @@ public class GuiCuiner extends javax.swing.JFrame {
             //Se verifica el tipo de plato
             switch (tipo) {
                 case "primero":
-                    addPrimero(tablePrimeros, tableid, plat);
+                    addPrimero(tablePrimeros, tableid, plat, cantidad);
                     break;
                 case "segundo":
-                    addSegundo(tableSegundos, tableid, plat);
+                    addSegundo(tableSegundos, tableid, plat, cantidad);
                     break;
                 case "postre":
-                    addPostre(tablePostres, tableid, plat);
+                    addPostre(tablePostres, tableid, plat, cantidad);
                     break;
                 default:
                     throw new AssertionError();
@@ -532,51 +566,33 @@ public class GuiCuiner extends javax.swing.JFrame {
         }
     }
 
-    private void addPrimero(TableModel tablePrimeros, Integer tableId, String plato) {
-        // Se hace un cast
+    private void addPrimero(TableModel tablePrimeros, Integer tableId, String plato, int cantidad) {
         if (tablePrimeros instanceof DefaultTableModel) {
             DefaultTableModel defaultModel = (DefaultTableModel) tablePrimeros;
-            // Se crea el objeto
-            Object[] builder = {
-                tableId,
-                plato,
-                "00:00",
-                "En espera"
-            };
-            // Se añade a la tabla
-            defaultModel.addRow(builder);
+            Object[] row = {tableId, plato, "00:00", "En espera"};
+            for (int i = 0; i < cantidad; i++) {
+                defaultModel.addRow(row);
+            }
         }
     }
 
-    private void addSegundo(TableModel tableSegundos, Integer tableId, String plato) {
-        // Se hace un cast
+    private void addSegundo(TableModel tableSegundos, Integer tableId, String plato, int cantidad) {
         if (tableSegundos instanceof DefaultTableModel) {
             DefaultTableModel defaultModel = (DefaultTableModel) tableSegundos;
-            // Se crea el objeto
-            Object[] builder = {
-                tableId,
-                plato,
-                "00:00",
-                "En espera"
-            };
-            // Se añade a la tabla
-            defaultModel.addRow(builder);
+            Object[] row = {tableId, plato, "00:00", "En espera"};
+            for (int i = 0; i < cantidad; i++) {
+                defaultModel.addRow(row);
+            }
         }
     }
 
-    private void addPostre(TableModel tablePostres, Integer tableId, String plato) {
-        // Se hace un cast
+    private void addPostre(TableModel tablePostres, Integer tableId, String plato, int cantidad) {
         if (tablePostres instanceof DefaultTableModel) {
             DefaultTableModel defaultModel = (DefaultTableModel) tablePostres;
-            // Se crea el objeto
-            Object[] builder = {
-                tableId,
-                plato,
-                "00:00",
-                "En espera"
-            };
-            // Se añade a la tabla
-            defaultModel.addRow(builder);
+            Object[] row = {tableId, plato, "00:00", "En espera"};
+            for (int i = 0; i < cantidad; i++) {
+                defaultModel.addRow(row);
+            }
         }
     }
 

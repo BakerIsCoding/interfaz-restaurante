@@ -49,7 +49,7 @@ public class InitFrame extends javax.swing.JFrame {
     public static Integer menuValue = 0;
 
     public InitFrame() {
-        DatabaseController db = new DatabaseController();
+        DatabaseController db = DatabaseController.getInstance();
         LangController langController = new LangController();
         MessageBox msg = new MessageBox();
         initComponents();
@@ -150,7 +150,7 @@ public class InitFrame extends javax.swing.JFrame {
 
     private void registerClicked() throws Exception {
         MessageBox msg = new MessageBox();
-        DatabaseController db = new DatabaseController();
+        DatabaseController db = DatabaseController.getInstance();
         String username = textFieldUsuari.getText();
         String password = jPasswordFieldPass.getText();
 
@@ -181,8 +181,8 @@ public class InitFrame extends javax.swing.JFrame {
 
     private void selectMenuClicked(int selectedIndex) {
         
-        GuiCambrerFrame cambrer = new GuiCambrerFrame();
-        cambrer.setDefaultCloseOperation(RegisterFrame.DISPOSE_ON_CLOSE);
+        GuiCambrerFrame cambrerInstance = GuiCambrerFrame.getInstance();
+        cambrerInstance.setDefaultCloseOperation(RegisterFrame.DISPOSE_ON_CLOSE);
 
     }
 
@@ -663,7 +663,7 @@ public class InitFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBoxMenuActionPerformed
     private void loadMenu(int menuNumber) {
-        DatabaseController db = new DatabaseController();
+        DatabaseController db = DatabaseController.getInstance();
         TableModel tableModel = menuTable.getModel();
         // Realiza la consulta para obtener el menú desde la base de datos
         String consulta = "SELECT json FROM menu WHERE nombre = '" + menuNumber + "'";
@@ -733,7 +733,7 @@ public class InitFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_buttonSelectFileMouseClicked
 
     private Boolean procesarArchivoLicencia(File archivo) {
-        DatabaseController dbController = new DatabaseController();
+        DatabaseController dbController = DatabaseController.getInstance();
         MessageBox msg = new MessageBox();
         try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
             String linea;
@@ -861,7 +861,7 @@ public class InitFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_buttonLogInMouseClicked
 
     private void loginUser() throws Exception {
-        DatabaseController db = new DatabaseController();
+        DatabaseController db = DatabaseController.getInstance();
         MessageBox msg = new MessageBox();
 
         String username = textFieldUsuari.getText();
@@ -905,7 +905,7 @@ public class InitFrame extends javax.swing.JFrame {
     }
 
     private void applyConfig() {
-        DatabaseController db = new DatabaseController();
+        DatabaseController db = DatabaseController.getInstance();
         Integer theme = db.getThemeById(uid);
         String lang = db.getLangById(uid);
 
@@ -972,7 +972,7 @@ public class InitFrame extends javax.swing.JFrame {
     }// GEN-LAST:event_saveConfigButtonKeyPressed
 
     private void saveConfigButtonMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_saveConfigButtonMouseClicked
-        DatabaseController db = new DatabaseController();
+        DatabaseController db = DatabaseController.getInstance();
         MessageBox msg = new MessageBox();
         Boolean configExisting = db.existsConfig("1");
         Integer theme = 0;

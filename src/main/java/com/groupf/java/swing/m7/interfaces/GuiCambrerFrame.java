@@ -22,35 +22,38 @@ import javax.swing.Timer;
  * @author Baker
  */
 public class GuiCambrerFrame extends javax.swing.JFrame {
+    private static GuiCambrerFrame instance;
 
     private Timer dbTimer;
-    private Integer stateButton1 = 0;
-    private Integer stateButton2 = 0;
-    private Integer stateButton3 = 0;
-    private Integer stateButton4 = 0;
-    private Integer stateButton5 = 0;
-    private Integer stateButton6 = 0;
-    private Integer stateButton7 = 0;
-    private Integer stateButton8 = 0;
-    private Integer stateButton9 = 0;
-    private Integer stateButton10 = 0;
-    private Integer stateButton11 = 0;
-    private Integer stateButton12 = 0;
+    private static Integer stateButton1 = 0;
+    public static Integer stateButton2 = 0;
+    private static Integer stateButton3 = 0;
+    private static Integer stateButton4 = 0;
+    private static Integer stateButton5 = 0;
+    private static Integer stateButton6 = 0;
+    private static Integer stateButton7 = 0;
+    private static Integer stateButton8 = 0;
+    private static Integer stateButton9 = 0;
+    private static Integer stateButton10 = 0;
+    private static Integer stateButton11 = 0;
+    private static Integer stateButton12 = 0;
 
     /**
      * Creates new form GuiCambrerFrame
      */
     public GuiCambrerFrame() {
-        DatabaseController db = new DatabaseController();
+        DatabaseController db = DatabaseController.getInstance();
 
         initComponents();
 
-        JButton[] buttons = {jButton1, jButton2, jButton3};
+        JButton[] buttons = {jButton1, jButton2, jButton3, jButton4, jButton5, jButton6, jButton7, jButton8, jButton9, jButton10, jButton11, jButton12};
         for (JButton button : buttons) {
             button.setOpaque(false);
             button.setContentAreaFilled(false);
             button.setBorderPainted(false);
         }
+        
+        addMouseListeners();
 
         setTitle("Can Pedro");
         setVisible(true);
@@ -64,7 +67,7 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
         labelConImagen.setBounds(0, 0, 800, 800);
         layeredPane.add(labelConImagen, Integer.valueOf(1));
 
-        dbTimer = new Timer(1000, new AbstractAction() {
+        dbTimer = new Timer(200, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Obtener la lista de pedidos desde la base de datos
@@ -73,7 +76,7 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
                 // Iterar sobre cada pedido y procesarlos
                 for (Pedido pedido : pedidos) {
                     addMouseListeners();
-                    processPedido(pedido);
+                    processPedido(pedido, 1);
                 }
             }
         });
@@ -104,6 +107,13 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
 
         //MouseAdapter personalizado para cambiar el color de fondo al pasar el cursor.
     }
+    
+    public static GuiCambrerFrame getInstance() {
+        if (instance == null) {
+            instance = new GuiCambrerFrame();
+        }
+        return instance;
+    }
 
     private void addMouseListeners() {
         JButton[] buttons = {jButton1, jButton2, jButton3, jButton4, jButton5, jButton6, jButton7, jButton8, jButton9, jButton10, jButton11, jButton12}; // Asegúrate de incluir todos tus botones
@@ -116,11 +126,11 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     if (buttonStates[index] == 1) { // Cambia a rojo si el estado es 1
-                        button.setBackground(Color.RED);
+                        button.setBackground(new Color(200, 0, 0));
                         button.setOpaque(true);
                         button.setContentAreaFilled(true);
                     } else {
-                        button.setBackground(Color.BLUE);
+                        button.setBackground(new Color(0, 200, 0));
                         button.setOpaque(true);
                         button.setContentAreaFilled(true);
                     }
@@ -137,54 +147,59 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
     }
 
     private void selectTable(String numeroMesa) {
-        GuiTaula taula = new GuiTaula();
+        GuiTaula taula = new GuiTaula(this);
         taula.setNumTaula(numeroMesa); //Establece el número de la mesa aquí.
         taula.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         taula.setVisible(true);
     }
+    
+    public static void helper(Pedido pedido, Integer buttonState, GuiCambrerFrame instance){
+        instance.processPedido(pedido, buttonState);
+    }
 
-    private void processPedido(Pedido pedido) {
+    public void processPedido(Pedido pedido, Integer buttonState) {
         int tableId = pedido.getTableid();
 
         switch (tableId) {
             case 1:
-                stateButton1 = 1;
+                stateButton1 = buttonState;
                 break;
             case 2:
-                stateButton2 = 1;
+                stateButton2 = buttonState;
                 break;
             case 3:
-                stateButton3 = 1;
+                stateButton3 = buttonState;
                 break;
             case 4:
-                stateButton4 = 1;
+                stateButton4 = buttonState;
                 break;
             case 5:
-                stateButton5 = 1;
+                stateButton5 = buttonState;
                 break;
             case 6:
-                stateButton6 = 1;
+                stateButton6 = buttonState;
                 break;
             case 7:
-                stateButton7 = 1;
+                stateButton7 = buttonState;
                 break;
             case 8:
-                stateButton8 = 1;
+                stateButton8 = buttonState;
                 break;
             case 9:
-                stateButton9 = 1;
+                stateButton9 = buttonState;
                 break;
             case 10:
-                stateButton10 = 1;
+                stateButton10 = buttonState;
                 break;
             case 11:
-                stateButton11 = 1;
+                stateButton11 = buttonState;
                 break;
             case 12:
-                stateButton12 = 1;
+                stateButton12 = buttonState;
                 break;
 
         }
+        addMouseListeners();
     }
 
     /**
@@ -214,7 +229,7 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(0, 0, 0, 0));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 0, 0));
+        jButton1.setForeground(new java.awt.Color(0, 0, 0));
         jButton1.setActionCommand("mesa");
         jButton1.setLabel("1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -225,61 +240,61 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
 
         jButton2.setBackground(new java.awt.Color(0, 0, 0, 0));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 0, 0));
+        jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setActionCommand("mesa");
         jButton2.setLabel("2");
 
         jButton4.setBackground(new java.awt.Color(0, 0, 0, 0));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 0, 0));
+        jButton4.setForeground(new java.awt.Color(0, 0, 0));
         jButton4.setText("4");
         jButton4.setActionCommand("mesa");
 
         jButton3.setBackground(new java.awt.Color(0, 0, 0, 0));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 0, 0));
+        jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("3");
         jButton3.setActionCommand("mesa");
 
         jButton6.setBackground(new java.awt.Color(0, 0, 0, 0));
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 0, 0));
+        jButton6.setForeground(new java.awt.Color(0, 0, 0));
         jButton6.setText("6");
         jButton6.setActionCommand("mesa");
 
         jButton5.setBackground(new java.awt.Color(0, 0, 0, 0));
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 0, 0));
+        jButton5.setForeground(new java.awt.Color(0, 0, 0));
         jButton5.setText("5");
         jButton5.setActionCommand("mesa");
 
         jButton7.setBackground(new java.awt.Color(0, 0, 0, 0));
         jButton7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 0, 0));
+        jButton7.setForeground(new java.awt.Color(0, 0, 0));
         jButton7.setText("7");
         jButton7.setActionCommand("mesa");
 
         jButton8.setBackground(new java.awt.Color(0, 0, 0, 0));
         jButton8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton8.setForeground(new java.awt.Color(255, 0, 0));
+        jButton8.setForeground(new java.awt.Color(0, 0, 0));
         jButton8.setText("8");
         jButton8.setActionCommand("mesa");
 
         jButton9.setBackground(new java.awt.Color(0, 0, 0, 0));
         jButton9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton9.setForeground(new java.awt.Color(255, 0, 0));
+        jButton9.setForeground(new java.awt.Color(0, 0, 0));
         jButton9.setText("9");
         jButton9.setActionCommand("mesa");
 
         jButton10.setBackground(new java.awt.Color(0, 0, 0, 0));
-        jButton10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton10.setForeground(new java.awt.Color(255, 0, 0));
+        jButton10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton10.setForeground(new java.awt.Color(0, 0, 0));
         jButton10.setText("10");
         jButton10.setActionCommand("mesa");
 
         jButton11.setBackground(new java.awt.Color(0, 0, 0, 0));
         jButton11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton11.setForeground(new java.awt.Color(255, 0, 0));
+        jButton11.setForeground(new java.awt.Color(0, 0, 0));
         jButton11.setText("11");
         jButton11.setActionCommand("mesa");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -290,7 +305,7 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
 
         jButton12.setBackground(new java.awt.Color(0, 0, 0, 0));
         jButton12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jButton12.setForeground(new java.awt.Color(255, 0, 0));
+        jButton12.setForeground(new java.awt.Color(0, 0, 0));
         jButton12.setText("12");
         jButton12.setActionCommand("mesa");
         jButton12.addActionListener(new java.awt.event.ActionListener() {

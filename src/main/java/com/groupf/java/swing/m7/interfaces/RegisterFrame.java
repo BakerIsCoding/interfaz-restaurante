@@ -48,7 +48,7 @@ public class RegisterFrame extends javax.swing.JFrame {
     }
 
     private void registerSubmit() {
-        DatabaseController db = new DatabaseController();
+        DatabaseController db = DatabaseController.getInstance();
         MessageBox msg = new MessageBox();
         Boolean isDone = false;
         if (radioCambrer.isSelected()) {
