@@ -4,6 +4,7 @@ import com.groupf.java.swing.m7.database.DatabaseController;
 import static com.groupf.java.swing.m7.interfaces.InitFrame.translationsObject;
 import com.groupf.java.swing.m7.messages.MessageBox;
 import com.groupf.java.swing.m7.entity.Pedido;
+import java.awt.Color;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,6 +18,12 @@ import javax.swing.table.TableColumnModel;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -41,7 +48,7 @@ public class GuiTaula extends javax.swing.JFrame {
         //Establecemos el menú completo en nuestra interfaz.
         setMenuCompleto(menuCompleto);
         doTraductions();
-        
+
     }
 
     private void loadMenu() {
@@ -96,9 +103,37 @@ public class GuiTaula extends javax.swing.JFrame {
         setMenuCompleto(menuCompleto);
     }
 
+    private void guardarLogComanda(JSONObject pedido) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        Date date = new Date();
+        String logDirectoryPath = "logs"; // Ruta del directorio de logs
+        File logDirectory = new File(logDirectoryPath);
+
+        // Verifica si el directorio existe, si no, intenta crearlo
+        if (!logDirectory.exists()) {
+            logDirectory.mkdirs();
+        }
+
+        String nombreArchivo = logDirectoryPath + File.separator + new SimpleDateFormat("yyyyMMdd").format(date) + "_Taula-" + this.numTaula + ".log";
+        File logFile = new File(nombreArchivo);
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile, true))) {
+            writer.write("Hora: " + formatter.format(date));
+            writer.newLine();
+            writer.write("Comanda: ");
+            writer.newLine();
+            writer.write(pedido.toString(4));
+            writer.newLine();
+            writer.newLine();
+            writer.flush();
+        } catch (IOException e) {
+            System.err.println("Error al escribir en el archivo log: " + e.getMessage());
+        }
+    }
+
     //CARGA EL PEDIDO!!!!!!!!! EN PROCESO
     private void loadPedido() {
-       DatabaseController db = DatabaseController.getInstance();
+        DatabaseController db = DatabaseController.getInstance();
 
         String consulta = "SELECT pedidojson FROM pedidos WHERE tableid = '" + this.numTaula + "'";
         ResultSet rs = db.ejecutarConsulta(consulta);
@@ -280,16 +315,6 @@ public class GuiTaula extends javax.swing.JFrame {
                     botonesPlatos.get(i).setVisible(false); // O opcionalmente podrías elegir mantenerlos visibles pero deshabilitados con botonesPlatos.get(i).setEnabled(false);
                 }
             }
-            /*if (platos.size() >= 6) {
-                jButtonPlat1.setText(platos.get(0));
-                jButtonPlat2.setText(platos.get(1));
-                jButtonPlat3.setText(platos.get(2));
-                jButtonPlat4.setText(platos.get(3));
-                jButtonPlat5.setText(platos.get(4));
-                jButtonPlat6.setText(platos.get(5));
-            } else {
-                System.out.println(translationsObject.getString("gui_error_update_dishes_names_1"));
-            }*/
         } else {
             System.out.println(translationsObject.getString("gui_error_update_dishes_names_2"));
         }
@@ -606,7 +631,7 @@ public class GuiTaula extends javax.swing.JFrame {
     private void jButtonTornarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTornarActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButtonTornarActionPerformed
-    
+
     private void jButtonPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPagarActionPerformed
         DatabaseController db = DatabaseController.getInstance();
         MessageBox msg = new MessageBox();
@@ -615,7 +640,7 @@ public class GuiTaula extends javax.swing.JFrame {
         if (!db.isServido(tableid)) {
             msg.errorMessageBox("Error al Pagar", "No se han servido todos los platos.");
         } else {
-            
+
             if (db.markAsPaid(tableid)) {
                 Pedido pedido = new Pedido();
                 pedido.setTableid(tableid);
@@ -644,6 +669,7 @@ public class GuiTaula extends javax.swing.JFrame {
 
             if (db.insertarPedido(tableid, pedidoJson)) {
                 System.out.println("Pedido insertado correctamente en la base de datos.");
+                guardarLogComanda(pedido);
             } else {
                 System.out.println("Error al insertar el pedido en la base de datos.");
             }
@@ -653,6 +679,13 @@ public class GuiTaula extends javax.swing.JFrame {
     //Método de acción para el botón de segundos.
     private void jButtonSegonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSegonsActionPerformed
         actualizarPlatos(1);
+        Color colorSegons = jButtonSegons.getBackground();
+        jButtonPlat1.setBackground(colorSegons);
+        jButtonPlat2.setBackground(colorSegons);
+        jButtonPlat3.setBackground(colorSegons);
+        jButtonPlat4.setBackground(colorSegons);
+        jButtonPlat5.setBackground(colorSegons);
+        jButtonPlat6.setBackground(colorSegons);
     }//GEN-LAST:event_jButtonSegonsActionPerformed
 
     private void jButtonPlat2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlat2ActionPerformed
@@ -661,10 +694,23 @@ public class GuiTaula extends javax.swing.JFrame {
     //Método de acción para el botón de primeros.
     private void jButtonPrimersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPrimersActionPerformed
         actualizarPlatos(0);
+        Color colorPrimers = jButtonPrimers.getBackground();
+        jButtonPlat1.setBackground(colorPrimers);
+        jButtonPlat2.setBackground(colorPrimers);
+        jButtonPlat3.setBackground(colorPrimers);
+        jButtonPlat4.setBackground(colorPrimers);
+        jButtonPlat5.setBackground(colorPrimers);
+        jButtonPlat6.setBackground(colorPrimers);
+
     }//GEN-LAST:event_jButtonPrimersActionPerformed
     //Método de acción para el botón de postres.
     private void jButtonPostresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPostresActionPerformed
         actualizarPlatos(2);
+        Color colorPostres = jButtonPostres.getBackground();
+        jButtonPlat1.setBackground(colorPostres);
+        jButtonPlat2.setBackground(colorPostres);
+        jButtonPlat3.setBackground(colorPostres);
+        jButtonPlat4.setBackground(colorPostres);
     }//GEN-LAST:event_jButtonPostresActionPerformed
 
     public static void main(String args[]) {

@@ -1,0 +1,49 @@
+Hora: 02:28:23
+Comanda: 
+{"items": [
+    {
+        "Tipo": "primero",
+        "Quantitat": 1,
+        "Plat": "Amanida amb formatge "
+    },
+    {
+        "Tipo": "primero",
+        "Quantitat": 1,
+        "Plat": "Truita de patates"
+    },
+    {
+        "Tipo": "segundo",
+        "Quantitat": 2,
+        "Plat": "Calamars Farcits"
+    },
+    {
+        "Tipo": "postre",
+        "Quantitat": 1,
+        "Plat": "Mousse de xocolata"
+    },
+    {
+        "Tipo": "postre",
+        "Quantitat": 1,
+        "Plat": "Pastís de formatge"
+    }
+]}
+
+Hora: 02:29:30
+Comanda: 
+{"items": [
+    {
+        "Tipo": "primero",
+        "Quantitat": 1,
+        "Plat": "Canelons"
+    },
+    {
+        "Tipo": "segundo",
+        "Quantitat": 1,
+        "Plat": "Entrecot al Roquefort"
+    },
+    {
+        "Tipo": "postre",
+        "Quantitat": 1,
+        "Plat": "Macedònia de fruita"
+    }
+]}
