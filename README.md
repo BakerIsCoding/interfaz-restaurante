@@ -12,7 +12,7 @@ La aplicación garantiza una experiencia de usuario fluida y una gestión eficaz
 
 ## Capturas
 - GUI menú inicial con pestañas para introducir la licencia, la credenciales, eleccion del menú del dia y configuración.
-<img src="https://i.postimg.cc/Y2RpFkpr/Initial-Frame.jpg" alt="perfil" width="700">
+<img src="https://i.postimg.cc/hvLMXpFv/Initial-Frame.jpg" alt="perfil" width="700">
 
 - GUI del camarero con el mapa de las mesas.
 <img src="https://i.postimg.cc/gkBmMDX1/GUICamarero.jpg" alt="perfil" width="700">
