@@ -10,6 +10,17 @@ Los camareros pueden gestionar el estado de las mesas y procesar pedidos y pagos
 
 La aplicación garantiza una experiencia de usuario fluida y una gestión eficaz del flujo de trabajo en restaurantes.
 
+## Capturas
+- GUI menú inicial con pestañas para introducir la licencia, la credenciales, eleccion del menú del dia y configuración.
+<img src="https://i.postimg.cc/Y2RpFkpr/Initial-Frame.jpg" alt="perfil" width="700">
+
+- GUI del camarero con el mapa de las mesas.
+<img src="https://i.postimg.cc/gkBmMDX1/GUICamarero.jpg" alt="perfil" width="700">
+
+- GUI TPV para introducir la comanda para mandarla a cocina y cobrar.
+<img src="https://i.postimg.cc/mkLBnpSW/GUITaula.jpg" alt="perfil" width="700">
+
+
 ## Características
 
 - **Validación de licencia**: Un sistema para validar las licencias en formato **csv**, las licencias se encuentran en  **```llicencies/llicenciaX.csv```**
