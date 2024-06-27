@@ -13,23 +13,71 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.json.JSONObject;
 
-/**
- *
- * @author Baker
- */
 public class DatabaseController {
 
     private static DatabaseController instance;
     private Connection conn = null;
-    private final String url = "jdbc:mysql://localhost:3306/canpedro";
-    private final String user = "admin";
-    private final String password = "f@VxoYbq(/0Qo2b]";
+
+    // URL para la base de datos SQLite
+    private final String url = "jdbc:sqlite:database.db";
 
     private DatabaseController() {
         try {
-            conn = DriverManager.getConnection(url, user, password);
+            conn = DriverManager.getConnection(url);
             if (conn != null) {
-                System.out.println("Conectado a la base de datos");
+                System.out.println("Conectado a la base de datos SQLite");
+
+                // Crear tabla llicencia
+                String sqlCrearTablaLlicencia = "CREATE TABLE IF NOT EXISTS llicencia (llicencia TEXT PRIMARY KEY)";
+                ejecutarSQL(sqlCrearTablaLlicencia);
+
+                // Crear tabla menu
+                String sqlCrearTablaMenu = "CREATE TABLE IF NOT EXISTS menu (nombre INTEGER PRIMARY KEY AUTOINCREMENT, json TEXT NOT NULL, data DATE NOT NULL)";
+                ejecutarSQL(sqlCrearTablaMenu);
+
+                // Crear tabla pedidos
+                String sqlCrearTablaPedidos = "CREATE TABLE IF NOT EXISTS pedidos (tableid INTEGER PRIMARY KEY, pedidojson TEXT NOT NULL, isServido INTEGER NOT NULL, isPagado INTEGER NOT NULL)";
+                ejecutarSQL(sqlCrearTablaPedidos);
+
+                // Crear tabla settings
+                String sqlCrearTablaSettings = "CREATE TABLE IF NOT EXISTS settings (id INTEGER PRIMARY KEY, tema INTEGER NOT NULL, lang TEXT NOT NULL, FOREIGN KEY (id) REFERENCES usuario (id))";
+                ejecutarSQL(sqlCrearTablaSettings);
+                
+                // Crear tabla usuario
+                String sqlCrearTablaUsuario = "CREATE TABLE IF NOT EXISTS usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, usuario TEXT NOT NULL, password TEXT NOT NULL, tipus TEXT NOT NULL)";
+                ejecutarSQL(sqlCrearTablaUsuario);
+                
+                // Insertar datos en llicencia
+                String[] insertsLlicencia = {
+                        "INSERT INTO llicencia (llicencia) VALUES ('05yOz6KvD'), ('3YOxE8yqJ'), ('fu3T551Vt'), ('g7msmZ7j8'), ('GAaz24egY'),\n" +
+                        "('i9roj7vyT'), ('iiKwUFI9i'), ('jitmkgeZP'), ('loZJgTeV0'), ('mxCk7FgGI'),\n" +
+                        "('mydsFBtO9'), ('npY933jhw'), ('pA1j10atW'), ('q5Zo0x4uM'), ('qFktp0Zeu'),\n" +
+                        "('rHB8gJsdW'), ('TwzV5XEmT'), ('uFf2xwZiN'), ('wOnOsN8He'), ('y1PIo5NMP');"
+                       
+                };
+                ejecutarInserts(insertsLlicencia);
+
+                // Insertar datos en menu
+                String[] insertsMenu = {
+                        "INSERT INTO menu (nombre, json, data) VALUES (1, '[{\"Plato\":\"Amanida amb formatge \",\"Precio\":5.5,\"Tipo\":\"primer\",\"Alérgenos\":\"lactics\"},{\"Plato\":\"Truita de patates\",\"Precio\":5.5,\"Tipo\":\"primer\",\"Alérgenos\":\"ou\"},{\"Plato\":\"Canelons\",\"Precio\":6.0,\"Tipo\":\"primer\",\"Alérgenos\":\"lactics, carn, gluten\"},{\"Plato\":\"Coca de recapte\",\"Precio\":6.0,\"Tipo\":\"primer\",\"Alérgenos\":\"peix, gluten\"},{\"Plato\":\"Parrillada de verdures\",\"Precio\":5.5,\"Tipo\":\"primer\",\"Alérgenos\":\"\"},{\"Plato\":\"Sopa de pollastre\",\"Precio\":5.5,\"Tipo\":\"primer\",\"Alérgenos\":\"carn\"},{\"Plato\":\"Croquetes de cigrons\",\"Precio\":6.0,\"Tipo\":\"segon\",\"Alérgenos\":\"gluten, lactics\"},{\"Plato\":\"Bacallà a la llauna\",\"Precio\":7.0,\"Tipo\":\"segon\",\"Alérgenos\":\"peix\"},{\"Plato\":\"Entrecot al Roquefort\",\"Precio\":7.0,\"Tipo\":\"segon\",\"Alérgenos\":\"carn, lactics\"},{\"Plato\":\"Costelles de xai\",\"Precio\":7.0,\"Tipo\":\"segon\",\"Alérgenos\":\"carn\"},{\"Plato\":\"Calamars Farcits\",\"Precio\":6.5,\"Tipo\":\"segon\",\"Alérgenos\":\"peix, carns\"},{\"Plato\":\"Milfulls de boniato i bolets\",\"Precio\":7.0,\"Tipo\":\"segon\",\"Alérgenos\":\"\"},{\"Plato\":\"Macedònia de fruita\",\"Precio\":1.0,\"Tipo\":\"postre\",\"Alérgenos\":\"\"},{\"Plato\":\"Pastís de formatge\",\"Precio\":1.5,\"Tipo\":\"postre\",\"Alérgenos\":\"lactics, gluten, ou\"},{\"Plato\":\"Mousse de xocolata\",\"Precio\":1.5,\"Tipo\":\"postre\",\"Alérgenos\":\"ou\"},{\"Plato\":\"Sorbet de llimona\",\"Precio\":1.0,\"Tipo\":\"postre\",\"Alérgenos\":\"\"}]', '2024-03-26'),\n" +
+                                                                                                        "(2, '[{\"Plato\":\"Amanida verda\",\"Precio\":5.0,\"Tipo\":\"primer\",\"Alérgenos\":\"\"},{\"Plato\":\"Escudella\",\"Precio\":5.5,\"Tipo\":\"primer\",\"Alérgenos\":\"carn, gluten\"},{\"Plato\":\"Macarrons a la catalana\",\"Precio\":6.0,\"Tipo\":\"primer\",\"Alérgenos\":\"lactics, carn, gluten, ou\"},{\"Plato\":\"Espinacs a la catalana\",\"Precio\":5.5,\"Tipo\":\"primer\",\"Alérgenos\":\"\"},{\"Plato\":\"Fabada asturiana\",\"Precio\":5.5,\"Tipo\":\"primer\",\"Alérgenos\":\"carn\"},{\"Plato\":\"Arrós a la cubana\",\"Precio\":5.5,\"Tipo\":\"primer\",\"Alérgenos\":\"ou\"},{\"Plato\":\"Canelons d’espinacs\",\"Precio\":7.0,\"Tipo\":\"segon\",\"Alérgenos\":\"gluten, lactics\"},{\"Plato\":\"Sardines al forn\",\"Precio\":6.5,\"Tipo\":\"segon\",\"Alérgenos\":\"peix\"},{\"Plato\":\"Llibrets de llom\",\"Precio\":6.5,\"Tipo\":\"segon\",\"Alérgenos\":\"carn, gluten\"},{\"Plato\":\"Bunyols de Bacallà\",\"Precio\":7.0,\"Tipo\":\"segon\",\"Alérgenos\":\"peix\"},{\"Plato\":\"Botifarra amb mongetes\",\"Precio\":6.5,\"Tipo\":\"segon\",\"Alérgenos\":\"carn\"},{\"Plato\":\"Hamburguesa de remolatxa \",\"Precio\":7.0,\"Tipo\":\"segon\",\"Alérgenos\":\"\"},{\"Plato\":\"Macedònia de fruita\",\"Precio\":1.0,\"Tipo\":\"postre\",\"Alérgenos\":\"\"},{\"Plato\":\"Iogurt amb maduixes\",\"Precio\":1.5,\"Tipo\":\"postre\",\"Alérgenos\":\"lactics\"},{\"Plato\":\"Pastís de xocolata\",\"Precio\":1.5,\"Tipo\":\"postre\",\"Alérgenos\":\"gluten, ou\"},{\"Plato\":\"Sorbet de mandarina\",\"Precio\":1.0,\"Tipo\":\"postre\",\"Alérgenos\":\"\"}]', '2024-04-03')"
+                        
+                };
+                ejecutarInserts(insertsMenu);
+
+                // Insertar datos en settings
+                String[] insertsSettings = {
+                        "INSERT INTO settings (id, tema, lang) VALUES (1, 0, 'cat'), (2, 0, 'es'), (3, 0, 'es');"
+                        // Insertar más datos según sea necesario
+                };
+                ejecutarInserts(insertsSettings);
+                
+                // Insertar datos en usuarios
+                String[] insertsUsers = {
+                    "INSERT INTO usuario (id, usuario, password, tipus) VALUES (1, 'test', 'test1234', 'cambrer'), (2, 'camarero', '123456', 'cambrer'), (3, 'cocinero', '123456', 'cuiner');"
+                
+                         };
+                ejecutarInserts(insertsUsers);
             }
         } catch (SQLException ex) {
             MessageBox msg = new MessageBox();
@@ -42,6 +90,20 @@ public class DatabaseController {
             instance = new DatabaseController();
         }
         return instance;
+    }
+
+    private void ejecutarSQL(String sql) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.err.println("Error al ejecutar SQL: " + ex.getMessage());
+        }
+    }
+
+    private void ejecutarInserts(String[] inserts) {
+        for (String insert : inserts) {
+            ejecutarSQL(insert);
+        }
     }
 
     // Método para ejecutar consultas SELECT

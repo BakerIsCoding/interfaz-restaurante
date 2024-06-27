@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
@@ -63,7 +64,10 @@ public class GuiCambrerFrame extends javax.swing.JFrame {
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setBounds(0, 0, 800, 800);
         getContentPane().add(layeredPane);
-        JLabel labelConImagen = new JLabel(new ImageIcon("./images/restaurante800.png"));
+        
+        URL ruta_imagen = GuiCambrerFrame.class.getResource("/com/groupf/java/swing/m7/images/restaurante800.png");
+        
+        JLabel labelConImagen = new JLabel(new ImageIcon(ruta_imagen));
         labelConImagen.setBounds(0, 0, 800, 800);
         layeredPane.add(labelConImagen, Integer.valueOf(1));
 
