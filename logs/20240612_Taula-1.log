@@ -1,0 +1,20 @@
+Hora: 21:19:09
+Comanda: 
+{"items": [
+    {
+        "Tipo": "primero",
+        "Quantitat": 1,
+        "Plat": "Canelons"
+    },
+    {
+        "Tipo": "segundo",
+        "Quantitat": 1,
+        "Plat": "Croquetes de cigrons"
+    },
+    {
+        "Tipo": "postre",
+        "Quantitat": 1,
+        "Plat": "Sorbet de llimona"
+    }
+]}
+
